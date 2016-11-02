@@ -60,47 +60,47 @@ export default class RichTextEditor extends Component {
   }
 
   blurEditor() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.blurEditor();`);
+    this._sendAction(actions.blurEditor);
   }
 
   setBold() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setBold();`);
+    this._sendAction(actions.setBold);
   }
 
   setItalic() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setItalic();`);
+    this._sendAction(actions.setItalic);
   }
 
   setUnderline() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setUnderline();`);
+    this._sendAction(actions.setUnderline);
   }
 
   heading1() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setHeading('h1');`);
+    this._sendAction(actions.heading1);
   }
 
   heading2() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setHeading('h2');`);
+    this._sendAction(actions.heading2);
   }
 
   heading3() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setHeading('h3');`);
+    this._sendAction(actions.heading3);
   }
 
   heading4() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setHeading('h4');`);
+    this._sendAction(actions.heading4);
   }
 
   heading5() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setHeading('h5');`);
+    this._sendAction(actions.heading5);
   }
 
   heading6() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setHeading('h6');`);
+    this._sendAction(actions.heading6);
   }
 
   setParagraph() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setParagraph();`);
+    this._sendAction(actions.setParagraph);
   }
 
   removeFormat() {
