@@ -48,13 +48,13 @@ export default class RichTextEditor extends Component {
     );
   }
 
-  //-------------------------------------------------------------------------------
-  //--------------- Public API
-
   _sendAction(action, data) {
     this.webviewBridge.sendToBridge(JSON.stringify({type: action, data}));
   }
 
+  //-------------------------------------------------------------------------------
+  //--------------- Public API
+  
   setHTML(html) {
     this._sendAction(actions.setHtml, html);
   }
@@ -104,49 +104,54 @@ export default class RichTextEditor extends Component {
   }
 
   removeFormat() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.removeFormating();`);
+    this._sendAction(actions.removeFormat);
   }
 
   alignLeft() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setJustifyLeft();`);
+    this._sendAction(actions.alignLeft);
   }
 
   alignCenter() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setJustifyCenter();`);
+    this._sendAction(actions.alignCenter);
   }
 
   alignRight() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setJustifyRight();`);
+    this._sendAction(actions.alignRight);
   }
 
   alignFull() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setJustifyFull();`);
+    this._sendAction(actions.alignFull);
   }
 
   insertBulletsList() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setUnorderedList();`);
+    this._sendAction(actions.insertBulletsList);
   }
 
   insertOrderedList() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setOrderedList();`);
+    this._sendAction(actions.insertOrderedList);
   }
 
   setSubscript() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setSubscript();`);
+    this._sendAction(actions.setSubscript);
   }
+
   setSuperscript() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setSuperscript();`);
+    this._sendAction(actions.setSuperscript);
   }
+
   setStrikethrough() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setStrikeThrough();`);
+    this._sendAction(actions.setStrikethrough);
   }
+
   setHR() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setHorizontalRule();`);
+    this._sendAction(actions.setHR);
   }
+
   setIndent() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setIndent();`);
+    this._sendAction(actions.setIndent);
   }
+
   setOutdent() {
-    this.refs.webviewbridge.sendToBridge(`zss_editor.setOutdent();`);
+    this._sendAction(actions.setOutdent);
   }
 }

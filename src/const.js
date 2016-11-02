@@ -10,5 +10,18 @@ export const actions = {
   heading4: 'HEADING4',
   heading5: 'HEADING5',
   heading6: 'HEADING6',
-  setParagraph: 'SET_PARAGRAPH'
-}
+  setParagraph: 'SET_PARAGRAPH',
+  removeFormat: 'REMOVE_FORMAT',
+  alignLeft: 'ALIGN_LEFT',
+  alignCenter: 'ALIGN_CENTER',
+  alignRight: 'ALIGN_RIGHT',
+  alignFull: 'ALIGN_FULL',
+  insertBulletsList: 'INST_BULLETS',
+  insertOrderedList: 'INST_ORDERED',
+  setSubscript: 'SET_SUB',
+  setSuperscript: 'SET_SUPER',
+  setStrikethrough: 'SET_STRIKETHRU',
+  setHR: 'SET_HR',
+  setIndent: 'SET_INDENT',
+  setOutdent: 'SET_OUTDENT'
+};

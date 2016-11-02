@@ -41,6 +41,45 @@ export const InjectedMessageHandler = `
         case '${actions.setParagraph}':
           zss_editor.setParagraph()
           break;
+        case '${actions.removeFormat}':
+          zss_editor.removeFormating();
+          break;
+        case '${actions.alignLeft}':
+          zss_editor.setJustifyLeft();
+          break;
+        case '${actions.alignCenter}':
+          zss_editor.setJustifyCenter();
+          break;
+        case '${actions.alignRight}':
+          zss_editor.setJustifyRight();
+          break;
+        case '${actions.alignFull}':
+          zss_editor.setJustifyFull();
+          break;
+        case '${actions.insertBulletsList}':
+          zss_editor.setUnorderedList();
+          break;
+        case '${actions.insertOrderedList}':
+          zss_editor.setOrderedList();
+          break;
+        case '${actions.setSubscript}':
+          zss_editor.setSubscript();
+          break;
+        case '${actions.setSuperscript}':
+          zss_editor.setSuperscript();
+          break;
+        case '${actions.setStrikethrough}':
+          zss_editor.setStrikethrough();
+          break;
+        case '${actions.setHR}':
+          zss_editor.setHorizontalRule();
+          break;
+        case '${actions.setIndent}':
+          zss_editor.setIndent();
+          break;
+        case '${actions.setOutdent}':
+          zss_editor.setOutdent();
+          break;
       }
     };
   }
