@@ -20,7 +20,8 @@ export default class RichTextExample extends Component {
           <RichTextEditor
               ref={(r)=>this.richtext = r}
               style={styles.richText}
-              initialHTML={'Hello <b>World</b> <p>this is a new paragraph</p> <p>this is another new paragraph</p>'}
+              initialTitleHTML={'Title!!'}
+              initialContentHTML={'Hello <b>World</b> <p>this is a new paragraph</p> <p>this is another new paragraph</p>'}
           />
           <RichTextToolbar
             getEditor={() => this.richtext}
@@ -31,7 +32,9 @@ export default class RichTextExample extends Component {
   }
 
   async getHTML() {
-    const html = await this.richtext.getHtml();
+    const titleHtml = await this.richtext.getTitleHtml();
+    const contentHtml = await this.richtext.getContentHtml();
+    //alert(titleHtml + ' ' + contentHtml)
   }
 
   componentDidMount() {

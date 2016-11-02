@@ -5,11 +5,17 @@ export const InjectedMessageHandler = `
     WebViewBridge.onMessage = function (message) {
       const action = JSON.parse(message);
       switch(action.type) {
-        case '${actions.setHtml}':
-          zss_editor.setHTML(action.data);
+        case '${actions.setTitleHtml}':
+          zss_editor.setTitleHTML(action.data);
           break;
-        case '${actions.blurEditor}':
-          zss_editor.blurEditor();
+        case '${actions.setContentHtml}':
+          zss_editor.setContentHTML(action.data);
+          break;
+        case '${actions.blurTitleEditor}':
+          zss_editor.blurTitleEditor();
+          break;
+        case '${actions.blurContentEditor}':
+          zss_editor.blurContentEditor();
           break;
         case '${actions.setBold}':
           zss_editor.setBold();
@@ -69,7 +75,7 @@ export const InjectedMessageHandler = `
           zss_editor.setSuperscript();
           break;
         case '${actions.setStrikethrough}':
-          zss_editor.setStrikethrough();
+          zss_editor.setStrikeThrough();
           break;
         case '${actions.setHR}':
           zss_editor.setHorizontalRule();
@@ -80,12 +86,19 @@ export const InjectedMessageHandler = `
         case '${actions.setOutdent}':
           zss_editor.setOutdent();
           break;
-        case '${actions.setPlaceholder}':
-          zss_editor.setPlaceholder();
+        case '${actions.setTitlePlaceholder}':
+          zss_editor.setTitlePlaceholder();
           break;
-        case '${actions.getHtml}':
-          const html = zss_editor.getHTML();
-          WebViewBridge.send(JSON.stringify({type: '${messages.HTML_RESPONSE}', data: html}));
+        case '${actions.setContentPlaceholder}':
+          zss_editor.setContentPlaceholder();
+          break;
+        case '${actions.getTitleHtml}':
+          var html = zss_editor.getTitleHTML();
+          WebViewBridge.send(JSON.stringify({type: '${messages.TITLE_HTML_RESPONSE}', data: html}));
+          break;
+        case '${actions.getContentHtml}':
+          var html = zss_editor.getContentHTML();
+          WebViewBridge.send(JSON.stringify({type: '${messages.CONTENT_HTML_RESPONSE}', data: html}));
           break;
       }
     };

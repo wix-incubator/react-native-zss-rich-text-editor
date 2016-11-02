@@ -1,7 +1,10 @@
 export const actions = {
-  setHtml: 'SET_HTML',
-  getHtml: 'GET_HTML',
-  blurEditor: 'BLUR_EDITOR',
+  setTitleHtml: 'SET_TITLE_HTML',
+  setContentHtml: 'SET_CONTENT_HTML',
+  getTitleHtml: 'GET_TITLE_HTML',
+  getContentHtml: 'GET_CONTENT_HTML',
+  blurTitleEditor: 'BLUR_TITLE_EDITOR',
+  blurContentEditor: 'BLUR_CONTENT_EDITOR',
   setBold: 'SET_BOLD',
   setItalic: 'SET_ITALIC',
   setUnderline: 'SET_UNDERLINE',
@@ -25,11 +28,13 @@ export const actions = {
   setHR: 'SET_HR',
   setIndent: 'SET_INDENT',
   setOutdent: 'SET_OUTDENT',
-  setPlaceholder: 'SET_PLACEHOLDER'
+  setTitlePlaceholder: 'SET_TITLE_PLACEHOLDER',
+  setContentPlaceholder: 'SET_TITLE_PLACEHOLDER'
 };
 
 export const messages = {
-  HTML_RESPONSE : 'HTML_RESPONSE',
+  TITLE_HTML_RESPONSE : 'TITLE_HTML_RESPONSE',
+  CONTENT_HTML_RESPONSE : 'CONTENT_HTML_RESPONSE',
   ZSS_INITIALIZED: 'ZSS_INITIALIZED',
   SCROLL: 'SCROLL',
   LOG: 'LOG'

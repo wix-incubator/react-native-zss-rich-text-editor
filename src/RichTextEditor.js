@@ -11,7 +11,8 @@ const injectScript = `
 
 export default class RichTextEditor extends Component {
   static propTypes = {
-    initialHTML: PropTypes.string
+    initialTitleHTML: PropTypes.string,
+    initialContentHTML: PropTypes.string,
   };
 
   constructor(props) {
@@ -24,19 +25,31 @@ export default class RichTextEditor extends Component {
       const message = JSON.parse(str);
 
       switch (message.type) {
-        case messages.HTML_RESPONSE:
-          if (this.resolve) {
-            this.resolve(message.data);
-            this.resolve = undefined;
-            this.reject = undefined;
-            if (this.pendingHtml) {
-              clearTimeout(this.pendingHtml);
-              this.pendingHtml = undefined;
+        case messages.TITLE_HTML_RESPONSE:
+          if (this.titleResolve) {
+            this.titleResolve(message.data);
+            this.titleResolve = undefined;
+            this.titleReject = undefined;
+            if (this.pendingTitleHtml) {
+              clearTimeout(this.pendingTitleHtml);
+              this.pendingTitleHtml = undefined;
+            }
+          }
+          break;
+        case messages.CONTENT_HTML_RESPONSE:
+          if (this.contentResolve) {
+            this.contentResolve(message.data);
+            this.contentResolve = undefined;
+            this.contentReject = undefined;
+            if (this.pendingContentHtml) {
+              clearTimeout(this.pendingContentHtml);
+              this.pendingContentHtml = undefined;
             }
           }
           break;
         case messages.ZSS_INITIALIZED:
-          this.setHTML(this.props.initialHTML);
+          this.setTitleHTML(this.props.initialTitleHTML);
+          this.setContentHTML(this.props.initialContentHTML);
           break;
         case messages.LOG:
           console.log('FROM ZSS', message.data);
@@ -71,12 +84,20 @@ export default class RichTextEditor extends Component {
   //-------------------------------------------------------------------------------
   //--------------- Public API
 
-  setHTML(html) {
-    this._sendAction(actions.setHtml, html);
+  setTitleHTML(html) {
+    this._sendAction(actions.setTitleHtml, html);
   }
 
-  blurEditor() {
-    this._sendAction(actions.blurEditor);
+  setContentHTML(html) {
+    this._sendAction(actions.setContentHtml, html);
+  }
+
+  blurTitleEditor() {
+    this._sendAction(actions.blurTitleEditor);
+  }
+
+  blurContentEditor() {
+    this._sendAction(actions.blurContentEditor);
   }
 
   setBold() {
@@ -171,22 +192,44 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.setOutdent);
   }
 
-  setPlaceholder() {
-    this._sendAction(actions.setPlaceholder);
+  setTitlePlaceholder() {
+    this._sendAction(actions.setTitlePlaceholder);
   }
 
-  async getHtml() {
-    return new Promise((resolve, reject) => {
-      this.resolve = resolve;
-      this.reject = reject;
-      this._sendAction(actions.getHtml);
+  setContentPlaceholder() {
+    this._sendAction(actions.setContentPlaceholder);
+  }
 
-      this.pendingHtml = setTimeout(() => {
-        if (this.reject) {
-          this.reject('timeout')
+  async getTitleHtml() {
+    return new Promise((resolve, reject) => {
+      this.titleResolve = resolve;
+      this.titleReject = reject;
+      this._sendAction(actions.getTitleHtml);
+
+      this.pendingTitleHtml = setTimeout(() => {
+        if (this.titleReject) {
+          this.titleReject('timeout')
         }
       }, 5000);
     });
+  }
+
+  async getContentHtml() {
+    return new Promise((resolve, reject) => {
+      this.contentResolve = resolve;
+      this.contentReject = reject;
+      this._sendAction(actions.getContentHtml);
+
+      this.pendingContentHtml = setTimeout(() => {
+        if (this.contentReject) {
+          this.contentReject('timeout')
+        }
+      }, 5000);
+    });
+  }
+
+  async getHtml() {
+
   }
 
 }
