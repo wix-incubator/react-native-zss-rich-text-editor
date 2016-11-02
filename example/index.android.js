@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
     AppRegistry,
@@ -11,50 +5,52 @@ import {
     Text,
     View
 } from 'react-native';
-import {Navigation} from 'react-native-navigation';
+import RichTextEditor from 'react-native-ZSSRichTextEditor'
 
-class react_native_navigation_bootstrap extends Component {
+class RichTextExample extends Component {
+
+  constructor(props) {
+    super(props);
+    this.getHTML = this.getHTML.bind(this);
+  }
+
   render() {
     return (
         <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Welcome to React Native!
-          </Text>
-          <Text style={styles.instructions}>
-            To get started, edit index.ios.js
-          </Text>
-          <Text style={styles.instructions}>
-            Press Cmd+R to reload,{'\n'}
-            Cmd+D or shake for dev menu
-          </Text>
+          <RichTextEditor
+              ref={(r)=>this.richtext = r}
+              style={styles.richText}
+              initialHTML={'Hello <b>World</b> <p>this is a new paragraph</p>'}
+          />
         </View>
     );
+  }
+
+  async getHTML() {
+    const html = await this.richtext.getHtml();
+    alert(html);
+  }
+
+  componentDidMount() {
+
+    setTimeout(()=>{
+      this.getHTML();
+    }, 3000);
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'column',
     backgroundColor: '#F5FCFF',
+    paddingTop: 40
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  richText: {
+    alignItems:'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
 });
 
-Navigation.registerComponent('react-native-navigation-bootstrap', () => react_native_navigation_bootstrap);
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: 'react-native-navigation-bootstrap',
-    title: 'Navigation Bootstrap'
-  }
-});
+AppRegistry.registerComponent('example', () => RichTextExample);

@@ -40,7 +40,7 @@ export const InjectedMessageHandler = `
           zss_editor.setHeading('h6');
           break;
         case '${actions.setParagraph}':
-          zss_editor.setParagraph()
+          zss_editor.setParagraph();
           break;
         case '${actions.removeFormat}':
           zss_editor.removeFormating();

@@ -27,7 +27,6 @@ export default class RichTextEditor extends Component {
   }
 
   onBridgeMessage(message){
-    // handle other callbacks
     const json = JSON.parse(message);
     if (json && json.type && json.type === consts.HTML_RESPONSE) {
       if (this.resolve) {
@@ -42,11 +41,6 @@ export default class RichTextEditor extends Component {
     }
   }
 
-  onShouldStartLoadRequest(event) {
-    console.log('RichTextEditor', 'should start load request event: ', event);
-    return (event.url.indexOf("editor.html") != -1);
-  }
-
   render() {
     return (
       <WebViewBridge
@@ -54,9 +48,8 @@ export default class RichTextEditor extends Component {
         hideKeyboardAccessoryView={true}
         ref={(r) => {this.webviewBridge = r}}
         onBridgeMessage={(message) => this.onBridgeMessage(message)}
-        onShouldStartLoadWithRequest={(event) => this.onShouldStartLoadRequest(event)}
-        source={require('./editor.html')}
         injectedJavaScript={injectScript}
+        source={require('./editor.html')}
       />
     );
   }

@@ -1,6 +1,6 @@
-rootProject.name = 'react_native_navigation_bootstrap'
+rootProject.name = 'example'
 
 include ':app'
-include ':react-native-navigation'
-project(':react-native-navigation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-navigation/android/app/')
 
+include ':react-native-webview-bridge'
+project(':react-native-webview-bridge').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-bridge-updated/android')
