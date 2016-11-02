@@ -179,6 +179,10 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.insertLink, {url, title});
   }
 
+  insertImage(url, alt) {
+    this._sendAction(actions.insertImage, {url, alt});
+  }
+
   setSubscript() {
     this._sendAction(actions.setSubscript);
   }

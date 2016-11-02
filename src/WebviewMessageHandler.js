@@ -72,6 +72,10 @@ export const InjectedMessageHandler = `
           zss_editor.prepareInsert();
           zss_editor.insertLink(action.data.url, action.data.title);
           break;
+        case '${actions.insertImage}':
+          zss_editor.prepareInsert();
+          zss_editor.insertImage(action.data.url, action.data.alt);
+          break;
         case '${actions.setSubscript}':
           zss_editor.setSubscript();
           break;

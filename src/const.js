@@ -23,6 +23,7 @@ export const actions = {
   insertBulletsList: 'INST_BULLETS',
   insertOrderedList: 'INST_ORDERED',
   insertLink: 'INST_LINK',
+  insertImage: 'INST_IMAGE',
   setSubscript: 'SET_SUB',
   setSuperscript: 'SET_SUPER',
   setStrikethrough: 'SET_STRIKETHRU',
