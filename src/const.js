@@ -1,5 +1,6 @@
 export const actions = {
   setHtml: 'SET_HTML',
+  getHtml: 'GET_HTML',
   blurEditor: 'BLUR_EDITOR',
   setBold: 'SET_BOLD',
   setItalic: 'SET_ITALIC',
@@ -23,5 +24,8 @@ export const actions = {
   setStrikethrough: 'SET_STRIKETHRU',
   setHR: 'SET_HR',
   setIndent: 'SET_INDENT',
-  setOutdent: 'SET_OUTDENT'
+  setOutdent: 'SET_OUTDENT',
+  setPlaceholder: 'SET_PLACEHOLDER'
 };
+
+export const HTML_RESPONSE = 'HTML_RESPONSE';

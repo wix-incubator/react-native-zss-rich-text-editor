@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import WebViewBridge from 'react-native-webview-bridge-updated';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
 import {actions} from './const';
+import * as consts from './const';
 
 const injectScript = `
   (function () {
@@ -26,7 +27,19 @@ export default class RichTextEditor extends Component {
   }
 
   onBridgeMessage(message){
-    console.log('RichTextEditor', 'bridge message: ', message);
+    // handle other callbacks
+    const json = JSON.parse(message);
+    if (json && json.type && json.type === consts.HTML_RESPONSE) {
+      if (this.resolve) {
+        this.resolve(json.data);
+        this.resolve = undefined;
+        this.reject = undefined;
+        if (this.pendingHtml) {
+          clearTimeout(this.pendingHtml);
+          this.pendingHtml = undefined;
+        }
+      }
+    }
   }
 
   onShouldStartLoadRequest(event) {
@@ -54,7 +67,7 @@ export default class RichTextEditor extends Component {
 
   //-------------------------------------------------------------------------------
   //--------------- Public API
-  
+
   setHTML(html) {
     this._sendAction(actions.setHtml, html);
   }
@@ -154,4 +167,23 @@ export default class RichTextEditor extends Component {
   setOutdent() {
     this._sendAction(actions.setOutdent);
   }
+
+  setPlaceholder() {
+    this._sendAction(actions.setPlaceholder);
+  }
+
+  async getHtml() {
+    return new Promise((resolve, reject) => {
+      this.resolve = resolve;
+      this.reject = reject;
+      this._sendAction(actions.getHtml);
+
+      this.pendingHtml = setTimeout(() => {
+        if (this.reject) {
+          this.reject('timeout')
+        }
+      }, 5000);
+    });
+  }
+
 }

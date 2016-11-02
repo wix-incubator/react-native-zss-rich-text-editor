@@ -1,4 +1,5 @@
 import {actions} from './const';
+import * as consts from './const';
 
 export const InjectedMessageHandler = `
   if (WebViewBridge) {
@@ -79,6 +80,13 @@ export const InjectedMessageHandler = `
           break;
         case '${actions.setOutdent}':
           zss_editor.setOutdent();
+          break;
+        case '${actions.setPlaceholder}':
+          zss_editor.setPlaceholder();
+          break;
+        case '${actions.getHtml}':
+          const html = zss_editor.getHTML();
+          WebViewBridge.send(JSON.stringify({type: '${consts.HTML_RESPONSE}', data: html}));
           break;
       }
     };
