@@ -13,6 +13,7 @@ export default class RichTextEditor extends Component {
   static propTypes = {
     initialTitleHTML: PropTypes.string,
     initialContentHTML: PropTypes.string,
+    editorInitializedCallback: PropTypes.func
   };
 
   constructor(props) {
@@ -50,6 +51,7 @@ export default class RichTextEditor extends Component {
         case messages.ZSS_INITIALIZED:
           this.setTitleHTML(this.props.initialTitleHTML);
           this.setContentHTML(this.props.initialContentHTML);
+          this.props.editorInitializedCallback && this.props.editorInitializedCallback();
           break;
         case messages.LOG:
           console.log('FROM ZSS', message.data);
@@ -57,8 +59,13 @@ export default class RichTextEditor extends Component {
         case messages.SCROLL:
           this.webviewBridge.setNativeProps({contentOffset: {y: message.data}});
           break;
+        case messages.TITLE_FOCUSED:
+          this.titleFocusHandler && this.titleFocusHandler();
+          break;
+        case messages.CONTENT_FOCUSED:
+          this.contentFocusHandler && this.contentFocusHandler();
+          break;
       }
-
     } catch(e) {
       //alert('NON JSON MESSAGE');
     }
@@ -228,8 +235,13 @@ export default class RichTextEditor extends Component {
     });
   }
 
-  async getHtml() {
-
+  setTitleFocusHandler(callbackHandler) {
+    this.titleFocusHandler = callbackHandler;
+    this._sendAction(actions.setTitleFocusHandler);
   }
 
+  setContentFocusHandler(callbackHandler) {
+    this.contentFocusHandler = callbackHandler;
+    this._sendAction(actions.setContentFocusHandler);
+  }
 }

@@ -22,6 +22,7 @@ export default class RichTextExample extends Component {
               style={styles.richText}
               initialTitleHTML={'Title!!'}
               initialContentHTML={'Hello <b>World</b> <p>this is a new paragraph</p> <p>this is another new paragraph</p>'}
+              editorInitializedCallback={() => this.onEditorInitialized()}
           />
           <RichTextToolbar
             getEditor={() => this.richtext}
@@ -31,17 +32,24 @@ export default class RichTextExample extends Component {
     );
   }
 
+  onEditorInitialized() {
+    this.setFocusHandlers();
+    this.getHTML();
+  }
+
   async getHTML() {
     const titleHtml = await this.richtext.getTitleHtml();
     const contentHtml = await this.richtext.getContentHtml();
     //alert(titleHtml + ' ' + contentHtml)
   }
 
-  componentDidMount() {
-
-    setTimeout(()=>{
-      this.getHTML();
-    }, 3000);
+  setFocusHandlers() {
+    this.richtext.setTitleFocusHandler(() => {
+      //alert('title focus');
+    });
+    this.richtext.setContentFocusHandler(() => {
+      //alert('content focus');
+    });
   }
 }
 

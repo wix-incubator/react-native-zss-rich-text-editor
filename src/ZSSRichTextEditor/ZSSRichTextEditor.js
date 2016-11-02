@@ -745,4 +745,21 @@ zss_editor.setCustomCSS = function(customCSS) {
     
 }
 
+function addFocusEvent(editorId, callbackHandler) {
+    var editor = $(`#${editorId}`);
+    editor.focus(callbackHandler);
+}
+
+zss_editor.setTitleFocusHandler = function() {
+    addFocusEvent('zss_editor_title', function() {
+        WebViewBridge.send(JSON.stringify({type: 'TITLE_FOCUSED'}))
+    });
+}
+
+zss_editor.setContentFocusHandler = function() {
+    addFocusEvent('zss_editor_content', function() {
+        WebViewBridge.send(JSON.stringify({type: 'CONTENT_FOCUSED'}))
+    });
+}
+
 //end

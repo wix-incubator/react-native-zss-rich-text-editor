@@ -100,6 +100,12 @@ export const InjectedMessageHandler = `
           var html = zss_editor.getContentHTML();
           WebViewBridge.send(JSON.stringify({type: '${messages.CONTENT_HTML_RESPONSE}', data: html}));
           break;
+        case '${actions.setTitleFocusHandler}':
+          zss_editor.setTitleFocusHandler();
+          break;
+        case '${actions.setContentFocusHandler}':
+          zss_editor.setContentFocusHandler();
+          break;
       }
     };
   }
