@@ -19,14 +19,14 @@ export default class RichTextEditor extends Component {
     this._sendAction = this._sendAction.bind(this);
   }
 
-  onBridgeMessage(message){
+  onBridgeMessage(str){
     try {
-      const json = JSON.parse(message);
+      const message = JSON.parse(str);
 
-      switch (json.type) {
+      switch (message.type) {
         case messages.HTML_RESPONSE:
           if (this.resolve) {
-            this.resolve(json.data);
+            this.resolve(message.data);
             this.resolve = undefined;
             this.reject = undefined;
             if (this.pendingHtml) {
@@ -37,6 +37,12 @@ export default class RichTextEditor extends Component {
           break;
         case messages.ZSS_INITIALIZED:
           this.setHTML(this.props.initialHTML);
+          break;
+        case messages.LOG:
+          console.log('FROM ZSS', message.data);
+          break;
+        case messages.SCROLL:
+          this.webviewBridge.setNativeProps({contentOffset: {y: message.data}});
           break;
       }
 

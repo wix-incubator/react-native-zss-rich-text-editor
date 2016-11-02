@@ -30,5 +30,7 @@ export const actions = {
 
 export const messages = {
   HTML_RESPONSE : 'HTML_RESPONSE',
-  ZSS_INITIALIZED: 'ZSS_INITIALIZED'
+  ZSS_INITIALIZED: 'ZSS_INITIALIZED',
+  SCROLL: 'SCROLL',
+  LOG: 'LOG'
 }

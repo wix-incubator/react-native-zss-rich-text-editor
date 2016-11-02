@@ -38,6 +38,7 @@ zss_editor.updateScrollOffset = false;
  */
 zss_editor.init = function() {
 
+
     $('#zss_editor_content').on('touchend', function(e) {
                                 zss_editor.enabledEditingItems(e);
                                 var clicked = $(e.target);
@@ -103,13 +104,13 @@ zss_editor.updateOffset = function() {
 
 // This will show up in the XCode console as we are able to push this into an NSLog.
 zss_editor.debug = function(msg) {
-    WebViewBridge.send('debug://'+msg);
+    WebViewBridge.send(JSON.stringify({type: 'LOG', data: msg}));
 }
 
 
 zss_editor.setScrollPosition = function() {
     var position = window.pageYOffset;
-    WebViewBridge.send('scroll://'+position);
+    WebViewBridge.send(JSON.stringify({type: 'SCROLL', data: position}));
 }
 
 
