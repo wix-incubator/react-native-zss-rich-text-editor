@@ -63,7 +63,18 @@ function setupTouchEndFocus(editorId) {
     });
 }
 
+function disableLineBreakIfNecessary(editorId) {
+    var editor = $(`#${editorId}`);
+    var disableLineBreaks = editor.attr("disableLineBreaks");
+    if (disableLineBreaks) {
+        editor.keypress(function(e){ return e.which != 13; });
+    }
+}
+
 zss_editor.init = function() {
+
+    disableLineBreakIfNecessary('zss_editor_title');
+    disableLineBreakIfNecessary('zss_editor_content');
 
     setupTouchEndEnableEditing('zss_editor_title');
     setupTouchEndEnableEditing('zss_editor_content');
