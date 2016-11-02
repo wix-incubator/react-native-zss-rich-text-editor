@@ -175,6 +175,10 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.insertOrderedList);
   }
 
+  insertLink(url, title) {
+    this._sendAction(actions.insertLink, {url, title});
+  }
+
   setSubscript() {
     this._sendAction(actions.setSubscript);
   }

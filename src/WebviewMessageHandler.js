@@ -68,6 +68,10 @@ export const InjectedMessageHandler = `
         case '${actions.insertOrderedList}':
           zss_editor.setOrderedList();
           break;
+        case '${actions.insertLink}':
+          zss_editor.prepareInsert();
+          zss_editor.insertLink(action.data.url, action.data.title);
+          break;
         case '${actions.setSubscript}':
           zss_editor.setSubscript();
           break;

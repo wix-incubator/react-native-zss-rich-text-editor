@@ -22,6 +22,7 @@ export const actions = {
   alignFull: 'ALIGN_FULL',
   insertBulletsList: 'INST_BULLETS',
   insertOrderedList: 'INST_ORDERED',
+  insertLink: 'INST_LINK',
   setSubscript: 'SET_SUB',
   setSuperscript: 'SET_SUPER',
   setStrikethrough: 'SET_STRIKETHRU',
