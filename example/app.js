@@ -12,6 +12,7 @@ export default class RichTextExample extends Component {
   constructor(props) {
     super(props);
     this.getHTML = this.getHTML.bind(this);
+    this.setFocusHandlers = this.setFocusHandlers.bind(this);
   }
 
   render() {
