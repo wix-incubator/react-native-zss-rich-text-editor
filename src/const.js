@@ -28,4 +28,7 @@ export const actions = {
   setPlaceholder: 'SET_PLACEHOLDER'
 };
 
-export const HTML_RESPONSE = 'HTML_RESPONSE';
+export const messages = {
+  HTML_RESPONSE : 'HTML_RESPONSE',
+  ZSS_INITIALIZED: 'ZSS_INITIALIZED'
+}

@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import WebViewBridge from 'react-native-webview-bridge-updated';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
-import {actions} from './const';
-import * as consts from './const';
+import {actions, messages} from './const';
 
 const injectScript = `
   (function () {
@@ -20,24 +19,29 @@ export default class RichTextEditor extends Component {
     this._sendAction = this._sendAction.bind(this);
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setHTML(this.props.initialHTML);
-    }, 1000);
-  }
-
   onBridgeMessage(message){
-    const json = JSON.parse(message);
-    if (json && json.type && json.type === consts.HTML_RESPONSE) {
-      if (this.resolve) {
-        this.resolve(json.data);
-        this.resolve = undefined;
-        this.reject = undefined;
-        if (this.pendingHtml) {
-          clearTimeout(this.pendingHtml);
-          this.pendingHtml = undefined;
-        }
+    try {
+      const json = JSON.parse(message);
+
+      switch (json.type) {
+        case messages.HTML_RESPONSE:
+          if (this.resolve) {
+            this.resolve(json.data);
+            this.resolve = undefined;
+            this.reject = undefined;
+            if (this.pendingHtml) {
+              clearTimeout(this.pendingHtml);
+              this.pendingHtml = undefined;
+            }
+          }
+          break;
+        case messages.ZSS_INITIALIZED:
+          this.setHTML(this.props.initialHTML);
+          break;
       }
+
+    } catch(e) {
+      //alert('NON JSON MESSAGE');
     }
   }
 

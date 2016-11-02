@@ -71,6 +71,11 @@ zss_editor.init = function() {
                  zss_editor.focusEditor();
                  }
                  });
+
+
+    setTimeout(function() {
+        WebViewBridge.send(JSON.stringify({type: 'ZSS_INITIALIZED'}))
+    }, 20);
     
 }//end
 
