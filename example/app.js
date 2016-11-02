@@ -4,7 +4,8 @@ import {
     Text,
     View
 } from 'react-native';
-import RichTextEditor from 'react-native-ZSSRichTextEditor'
+import {RichTextEditor, RichTextToolbar} from 'react-native-ZSSRichTextEditor'
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 export default class RichTextExample extends Component {
 
@@ -21,6 +22,10 @@ export default class RichTextExample extends Component {
               style={styles.richText}
               initialHTML={'Hello <b>World</b> <p>this is a new paragraph</p> <p>this is another new paragraph</p>'}
           />
+          <RichTextToolbar
+            getEditor={() => this.richtext}
+          />
+          <KeyboardSpacer/>
         </View>
     );
   }
