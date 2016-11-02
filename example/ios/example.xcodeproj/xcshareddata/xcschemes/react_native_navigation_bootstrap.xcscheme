@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "react_native_navigation_bootstrap.app"
-               BlueprintName = "react_native_navigation_bootstrap"
-               ReferencedContainer = "container:react_native_navigation_bootstrap.xcodeproj">
+               BlueprintName = "example"
+               ReferencedContainer = "container:example.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,27 +29,27 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "react_native_navigation_bootstrapTests.xctest"
-               BlueprintName = "react_native_navigation_bootstrapTests"
-               ReferencedContainer = "container:react_native_navigation_bootstrap.xcodeproj">
+               BuildableName = "exampleTests.xctest"
+               BlueprintName = "exampleTests"
+               ReferencedContainer = "container:example.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "react_native_navigation_bootstrapTests.xctest"
-               BlueprintName = "react_native_navigation_bootstrapTests"
-               ReferencedContainer = "container:react_native_navigation_bootstrap.xcodeproj">
+               BuildableName = "exampleTests.xctest"
+               BlueprintName = "exampleTests"
+               ReferencedContainer = "container:example.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -58,19 +58,22 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "react_native_navigation_bootstrap.app"
-            BlueprintName = "react_native_navigation_bootstrap"
-            ReferencedContainer = "container:react_native_navigation_bootstrap.xcodeproj">
+            BlueprintName = "example"
+            ReferencedContainer = "container:example.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </TestAction>
    <LaunchAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
@@ -78,18 +81,18 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "react_native_navigation_bootstrap.app"
-            BlueprintName = "react_native_navigation_bootstrap"
-            ReferencedContainer = "container:react_native_navigation_bootstrap.xcodeproj">
+            BlueprintName = "example"
+            ReferencedContainer = "container:example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
@@ -97,8 +100,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "react_native_navigation_bootstrap.app"
-            BlueprintName = "react_native_navigation_bootstrap"
-            ReferencedContainer = "container:react_native_navigation_bootstrap.xcodeproj">
+            BlueprintName = "example"
+            ReferencedContainer = "container:example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
