@@ -698,12 +698,8 @@ zss_editor.enabledEditingItems = function(e) {
         }
         
     }
-    
-    if (items.length > 0) {
-        WebViewBridge.send('callback://0/"+items.join(',')');
-    } else {
-        WebViewBridge.send('zss-callback/');
-    }
+
+    WebViewBridge.send(JSON.stringify({type: 'SELECTION_CHANGE', data: {items}}))
 }
 
 zss_editor.focusEditor = function(editorId) {

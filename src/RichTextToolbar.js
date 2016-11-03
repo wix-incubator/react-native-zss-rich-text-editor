@@ -22,7 +22,6 @@ function getDefaultIconText() {
   return texts;
 }
 
-
 export default class RichTextToolbar extends Component {
 
   static propTypes = {
@@ -32,7 +31,8 @@ export default class RichTextToolbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editor: undefined
+      editor: undefined,
+      selectedItems: []
     };
   }
 
@@ -41,15 +41,24 @@ export default class RichTextToolbar extends Component {
     if (!editor) {
       throw new Error('Toolbar has no editor!');
     } else {
+      editor.registerToolbar((selectedItems) => this.setSelectedItems(selectedItems));
       this.setState({editor});
     }
   }
+
+  setSelectedItems(selectedItems) {
+    this.setState({
+      selectedItems
+    });
+  }
+
+
 
   _getButton(action, selected) {
     return (
       <TouchableOpacity
           key={action}
-          style={{flex: 1, backgroundColor: '#D3D3D3', justifyContent: 'center'}}
+          style={{flex: 1, backgroundColor: selected? 'red' : '#D3D3D3', justifyContent: 'center'}}
           onPress={() => this._onPress(action)}
       >
         <Text style={{textAlign: 'center'}}>
@@ -62,7 +71,7 @@ export default class RichTextToolbar extends Component {
   render() {
     return (
       <View style={{flexDirection: 'row', height: 50}}>
-        {defaultActions.map((action) => this._getButton(action, false))}
+        {defaultActions.map((action) => this._getButton(action, this.state.selectedItems.includes(action)))}
       </View>
     );
   }

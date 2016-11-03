@@ -19,6 +19,11 @@ export default class RichTextEditor extends Component {
   constructor(props) {
     super(props);
     this._sendAction = this._sendAction.bind(this);
+    this.registerToolbar = this.registerToolbar.bind(this);
+    this.onBridgeMessage = this.onBridgeMessage.bind(this);
+    this.state = {
+      listeners: []
+    };
   }
 
   onBridgeMessage(str){
@@ -65,6 +70,10 @@ export default class RichTextEditor extends Component {
         case messages.CONTENT_FOCUSED:
           this.contentFocusHandler && this.contentFocusHandler();
           break;
+        case messages.SELECTION_CHANGE:
+          const items = message.data.items;
+          this.state.listeners.map((listener) => listener(items));
+          break
       }
     } catch(e) {
       //alert('NON JSON MESSAGE');
@@ -90,6 +99,12 @@ export default class RichTextEditor extends Component {
 
   //-------------------------------------------------------------------------------
   //--------------- Public API
+
+  registerToolbar(listener) {
+    this.setState({
+      listeners: [...this.state.listeners, listener]
+    });
+  }
 
   setTitleHTML(html) {
     this._sendAction(actions.setTitleHtml, html);
