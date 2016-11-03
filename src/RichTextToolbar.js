@@ -31,9 +31,11 @@ export default class RichTextToolbar extends Component {
     onPressAddLink: PropTypes.func,
     onPressAddImage: PropTypes.func,
     selectedButtonStyle: PropTypes.object,
+    iconTint: PropTypes.any,
+    selectedIconTint: PropTypes.any,
     unselectedButtonStyle: PropTypes.object,
     renderAction: PropTypes.func,
-    iconMap: PropTypes.object
+    iconMap: PropTypes.object,
   };
 
   constructor(props) {
@@ -107,7 +109,7 @@ export default class RichTextToolbar extends Component {
           ]}
           onPress={() => this._onPress(action)}
       >
-        {icon ? <Image source={icon}/> : null}
+        {icon ? <Image source={icon} style={{tintColor: selected ? this.props.selectedIconTint : this.props.iconTint}}/> : null}
       </TouchableOpacity>
     );
   }
