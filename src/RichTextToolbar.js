@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {ListView, View, TouchableOpacity, Text} from 'react-native';
+import {ListView, View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {actions} from './const';
 
 const defaultActions = [
@@ -22,13 +22,16 @@ function getDefaultIconText() {
   return texts;
 }
 
+
 export default class RichTextToolbar extends Component {
 
   static propTypes = {
     getEditor: PropTypes.func.isRequired,
     actions: PropTypes.array,
     onPressAddLink: PropTypes.func,
-    onPressAddImage: PropTypes.func
+    onPressAddImage: PropTypes.func,
+    selectedButtonStyle: PropTypes.object,
+    unselectedButtonStyle: PropTypes.object
   };
 
   constructor(props) {
@@ -73,13 +76,22 @@ export default class RichTextToolbar extends Component {
     }
   }
 
+  _getButtonSelectedStyle() {
+    return this.props.selectedButtonStyle ? this.props.selectedButtonStyle : styles.defaultSelectedButton;
+  }
 
+  _getButtonUnselectedStyle() {
+    return this.props.unselectedButtonStyle ? this.props.unselectedButtonStyle : styles.defaultUnselectedButton;
+  }
 
   _renderAction(action, selected) {
     return (
       <TouchableOpacity
           key={action}
-          style={{height: 50, width: 50, backgroundColor: selected? 'red' : undefined, justifyContent: 'center'}}
+          style={[
+            {height: 50, width: 50, justifyContent: 'center'},
+            selected ? this._getButtonSelectedStyle() : this._getButtonUnselectedStyle()
+          ]}
           onPress={() => this._onPress(action)}
       >
         <Text style={{textAlign: 'center'}}>
@@ -145,3 +157,10 @@ export default class RichTextToolbar extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  defaultSelectedButton: {
+    backgroundColor: 'red'
+  },
+  defaultUnselectedButton: {}
+});
