@@ -284,8 +284,8 @@ zss_editor.setHeading = function(heading) {
     var t = current_selection.prop("tagName").toLowerCase();
     var is_heading = (t == 'h1' || t == 'h2' || t == 'h3' || t == 'h4' || t == 'h5' || t == 'h6');
     if (is_heading && heading == t) {
-        var c = current_selection.html();
-        current_selection.replaceWith(c);
+        //var c = current_selection.html();
+        //current_selection.replaceWith(c);
     } else {
         document.execCommand('formatBlock', false, '<'+heading+'>');
     }

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {ListView, View, TouchableOpacity, Text} from 'react-native';
 import {actions} from './const';
 
 const defaultActions = [
@@ -25,15 +25,33 @@ function getDefaultIconText() {
 export default class RichTextToolbar extends Component {
 
   static propTypes = {
-    getEditor: PropTypes.func.isRequired
+    getEditor: PropTypes.func.isRequired,
+    actions: PropTypes.array,
+    onPressAddLink: PropTypes.func,
+    onPressAddImage: PropTypes.func
   };
 
   constructor(props) {
     super(props);
+    const actions = this.props.actions ? this.props.actions : defaultActions;
     this.state = {
       editor: undefined,
-      selectedItems: []
+      selectedItems: [],
+      actions,
+      ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.getRows(actions, []))
     };
+  }
+
+  componentDidReceiveProps(newProps) {
+    const actions = newProps.actions ? newProps.actions : defaultActions;
+    this.setState({
+      actions,
+      ds: this.state.ds.cloneWithRows(this.getRows(actions, this.state.selectedItems))
+    });
+  }
+
+  getRows(actions, selectedItems) {
+    return actions.map((action) => {return {action, selected: selectedItems.includes(action)};});
   }
 
   componentDidMount() {
@@ -47,22 +65,25 @@ export default class RichTextToolbar extends Component {
   }
 
   setSelectedItems(selectedItems) {
-    this.setState({
-      selectedItems
-    });
+    if (selectedItems !== this.state.selectedItems) {
+      this.setState({
+        selectedItems,
+        ds: this.state.ds.cloneWithRows(this.getRows(this.state.actions, selectedItems))
+      });
+    }
   }
 
 
 
-  _getButton(action, selected) {
+  _renderAction(action, selected) {
     return (
       <TouchableOpacity
           key={action}
-          style={{flex: 1, backgroundColor: selected? 'red' : '#D3D3D3', justifyContent: 'center'}}
+          style={{height: 50, width: 50, backgroundColor: selected? 'red' : undefined, justifyContent: 'center'}}
           onPress={() => this._onPress(action)}
       >
         <Text style={{textAlign: 'center'}}>
-          {getDefaultIconText()[action]}
+          {getDefaultIconText()[action] ? getDefaultIconText()[action] : action.slice(0,1)}
         </Text>
       </TouchableOpacity>
     );
@@ -70,8 +91,15 @@ export default class RichTextToolbar extends Component {
 
   render() {
     return (
-      <View style={{flexDirection: 'row', height: 50}}>
-        {defaultActions.map((action) => this._getButton(action, this.state.selectedItems.includes(action)))}
+      <View
+          style={[{height: 50, backgroundColor: '#D3D3D3', alignItems: 'center'}, this.props.style]}
+      >
+        <ListView
+            horizontal
+            contentContainerStyle={{flexDirection: 'row'}}
+            dataSource={this.state.ds}
+            renderRow= {(row) => this._renderAction(row.action, row.selected)}
+        />
       </View>
     );
   }
@@ -104,7 +132,15 @@ export default class RichTextToolbar extends Component {
         this.state.editor._sendAction(action);
         break;
       case actions.insertLink:
+        if(this.props.onPressAddLink) {
+          this.props.onPressAddLink();
+        }
+        break;
       case actions.insertImage:
+        if(this.props.onPressAddImage) {
+          this.props.onPressAddImage();
+        }
+        break;
         break;
     }
   }
