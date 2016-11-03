@@ -69,11 +69,9 @@ export const InjectedMessageHandler = `
           zss_editor.setOrderedList();
           break;
         case '${actions.insertLink}':
-          zss_editor.prepareInsert();
           zss_editor.insertLink(action.data.url, action.data.title);
           break;
         case '${actions.insertImage}':
-          zss_editor.prepareInsert();
           zss_editor.insertImage(action.data.url, action.data.alt);
           break;
         case '${actions.setSubscript}':
@@ -119,6 +117,12 @@ export const InjectedMessageHandler = `
           break;
         case '${actions.focusTitle}':
           zss_editor.focusTitle();
+          break;
+        case '${actions.prepareInsert}':
+          zss_editor.prepareInsert();
+          break;
+        case '${actions.restoreSelection}':
+          zss_editor.restorerange();
           break;
       }
     };

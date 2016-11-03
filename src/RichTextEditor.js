@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import WebViewBridge from 'react-native-webview-bridge-updated';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
 import {actions, messages} from './const';
+import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 
 const injectScript = `
   (function () {
@@ -22,7 +23,10 @@ export default class RichTextEditor extends Component {
     this.registerToolbar = this.registerToolbar.bind(this);
     this.onBridgeMessage = this.onBridgeMessage.bind(this);
     this.state = {
-      listeners: []
+      listeners: [],
+      showLinkDialog: false,
+      linkTitle: '',
+      linkUrl: ''
     };
   }
 
@@ -80,16 +84,91 @@ export default class RichTextEditor extends Component {
     }
   }
 
+  _renderLinkModal() {
+    return (
+        <Modal
+            animationType={"fade"}
+            transparent
+            visible={this.state.showLinkDialog}
+            onRequestClose={() => this.setState({showLinkDialog: false})}
+        >
+          <View style={styles.modal}>
+
+
+            <View style={styles.innerModal}>
+
+              <Text>Title</Text>
+              <View style={styles.inputWrapper}>
+                <TextInput
+                    style={{height: 20}}
+                    onChangeText={(text) => this.setState({linkTitle: text})}
+                    value={this.state.linkTitle}
+                />
+              </View>
+
+              <Text style={{marginTop: 10}}>URL</Text>
+              <View style={styles.inputWrapper}>
+                <TextInput
+                    style={{height: 20}}
+                    onChangeText={(text) => this.setState({linkUrl: text})}
+                    value={this.state.linkUrl}
+                />
+              </View>
+
+              {this._renderModalButtons()}
+            </View>
+          </View>
+        </Modal>
+    );
+  }
+
+  _hideModal() {
+    this.setState({
+      showLinkDialog: false,
+      linkTitle: '',
+      linkUrl: ''
+    })
+  }
+
+  _renderModalButtons() {
+    return (
+      <View style={{paddingTop: 10, alignSelf: 'stretch', flexDirection: 'row'}}>
+        <View style={{flex: 1}}/>
+        <TouchableOpacity
+            onPress={() => this._hideModal()}
+        >
+          <Text style={[styles.button, {paddingRight: 10}]}>
+            Cancel
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+            onPress={() => {
+              this.insertLink(this.state.linkUrl, this.state.linkTitle);
+              this._hideModal();
+            }}
+        >
+          <Text style={styles.button}>
+            OK
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   render() {
     return (
-      <WebViewBridge
-        {...this.props}
-        hideKeyboardAccessoryView={true}
-        ref={(r) => {this.webviewBridge = r}}
-        onBridgeMessage={(message) => this.onBridgeMessage(message)}
-        injectedJavaScript={injectScript}
-        source={require('./editor.html')}
-      />
+      <View style={{flex: 1}}>
+        <WebViewBridge
+          style={{flex: 1}}
+          {...this.props}
+          hideKeyboardAccessoryView={true}
+          ref={(r) => {this.webviewBridge = r}}
+          onBridgeMessage={(message) => this.onBridgeMessage(message)}
+          injectedJavaScript={injectScript}
+          source={require('./editor.html')}
+        />
+        {this._renderLinkModal()}
+      </View>
     );
   }
 
@@ -114,9 +193,15 @@ export default class RichTextEditor extends Component {
   //-------------------------------------------------------------------------------
   //--------------- Public API
 
+  showLinkDialog() {
+    this.setState({
+      showLinkDialog: true
+    });
+  }
+
   focusTitle() {
     this._sendAction(actions.focusTitle);
-  }wewe
+  }
 
   focusContent() {
     this._sendAction(actions.focusContent);
@@ -213,6 +298,7 @@ export default class RichTextEditor extends Component {
   }
 
   insertLink(url, title) {
+
     this._sendAction(actions.insertLink, {url, title});
   }
 
@@ -250,6 +336,14 @@ export default class RichTextEditor extends Component {
 
   setContentPlaceholder() {
     this._sendAction(actions.setContentPlaceholder);
+  }
+
+  prepareInsert() {
+    this._sendAction(actions.prepareInsert);
+  }
+
+  restoreSelection() {
+    this._sendAction(actions.restoreSelection);
   }
 
   async getTitleHtml() {
@@ -290,3 +384,27 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.setContentFocusHandler);
   }
 }
+
+const styles = StyleSheet.create({
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
+  innerModal: {
+    backgroundColor: '#ffffff',
+    padding: 20,
+    alignSelf: 'stretch',
+    margin: 40
+  },
+  button: {
+    fontSize: 16
+  },
+  inputWrapper: {
+    marginTop: 10,
+    marginBottom: 10,
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1
+  }
+});
