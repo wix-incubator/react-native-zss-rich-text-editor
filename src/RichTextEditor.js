@@ -14,7 +14,8 @@ export default class RichTextEditor extends Component {
   static propTypes = {
     initialTitleHTML: PropTypes.string,
     initialContentHTML: PropTypes.string,
-    editorInitializedCallback: PropTypes.func
+    editorInitializedCallback: PropTypes.func,
+    customCSS: PropTypes.string
   };
 
   constructor(props) {
@@ -58,9 +59,13 @@ export default class RichTextEditor extends Component {
           }
           break;
         case messages.ZSS_INITIALIZED:
+          if (this.props.customCSS) {
+            this.setCustomCSS(this.props.customCSS);
+          }
           this.setTitleHTML(this.props.initialTitleHTML);
           this.setContentHTML(this.props.initialContentHTML);
           this.props.editorInitializedCallback && this.props.editorInitializedCallback();
+
           break;
         case messages.LOG:
           console.log('FROM ZSS', message.data);
@@ -337,6 +342,10 @@ export default class RichTextEditor extends Component {
 
   setContentPlaceholder() {
     this._sendAction(actions.setContentPlaceholder);
+  }
+
+  setCustomCSS(css) {
+    this._sendAction(actions.setCustomCSS, css);
   }
 
   prepareInsert() {

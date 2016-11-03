@@ -38,7 +38,8 @@ export const actions = {
   setTitleFocusHandler: 'SET_TITLE_FOCUS_HANDLER',
   setContentFocusHandler: 'SET_CONTENT_FOCUS_HANDLER',
   prepareInsert: 'PREPARE_INSERT',
-  restoreSelection: 'RESTORE_SELECTION'
+  restoreSelection: 'RESTORE_SELECTION',
+  setCustomCSS: 'SET_CUSTOM_CSS'
 };
 
 
@@ -51,4 +52,4 @@ export const messages = {
   TITLE_FOCUSED: 'TITLE_FOCUSED',
   CONTENT_FOCUSED: 'CONTENT_FOCUSED',
   SELECTION_CHANGE: 'SELECTION_CHANGE'
-}
+};

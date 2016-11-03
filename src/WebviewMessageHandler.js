@@ -3,7 +3,9 @@ import {actions, messages} from './const';
 export const InjectedMessageHandler = `
   if (WebViewBridge) {
     WebViewBridge.onMessage = function (message) {
+
       const action = JSON.parse(message);
+
       switch(action.type) {
         case '${actions.setTitleHtml}':
           zss_editor.setTitleHTML(action.data);
@@ -123,6 +125,9 @@ export const InjectedMessageHandler = `
           break;
         case '${actions.restoreSelection}':
           zss_editor.restorerange();
+          break;
+        case '${actions.setCustomCSS}':
+          zss_editor.setCustomCSS(action.data);
           break;
       }
     };
