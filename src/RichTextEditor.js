@@ -93,8 +93,22 @@ export default class RichTextEditor extends Component {
     );
   }
 
+  escapeJSONString = function(string) {
+    return string
+      .replace(/[\\]/g, '\\\\')
+      .replace(/[\"]/g, '\\\"')
+      .replace(/[\/]/g, '\\/')
+      .replace(/[\b]/g, '\\b')
+      .replace(/[\f]/g, '\\f')
+      .replace(/[\n]/g, '\\n')
+      .replace(/[\r]/g, '\\r')
+      .replace(/[\t]/g, '\\t');
+  };
+
   _sendAction(action, data) {
-    this.webviewBridge.sendToBridge(JSON.stringify({type: action, data}));
+    let jsonString = JSON.stringify({type: action, data});
+    jsonString = this.escapeJSONString(jsonString);
+    this.webviewBridge.sendToBridge(jsonString);
   }
 
   //-------------------------------------------------------------------------------
