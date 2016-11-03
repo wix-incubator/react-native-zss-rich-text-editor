@@ -44,6 +44,12 @@ div.zss_editor_content {
     height: 100%;
     -webkit-overflow-scrolling: touch;
     overflow:auto;
+
+}
+
+#zss_editor_content {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 div.zss_editor_title {
@@ -53,9 +59,14 @@ div.zss_editor_title {
     color: #2d4150;
 }
 
+#zss_editor_title {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 [placeholder]:empty:before {
     content: attr(placeholder);
-    color: #c0c0c0;
+    color: #e0e0e0;
 }
 
 [placeholder]:empty:focus:before {
@@ -67,4 +78,10 @@ hr {
     border: none;
     height: 1px;
     background-color: #e7e7e7;
+}
+
+#separatorContainer {
+    -webkit-user-select: none;
+    padding-left: 10px;
+    padding-right: 10px;
 }
