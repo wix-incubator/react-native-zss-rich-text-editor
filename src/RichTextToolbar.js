@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {ListView, View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {ListView, View, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {actions} from './const';
 
 const defaultActions = [
@@ -11,14 +11,14 @@ const defaultActions = [
   actions.insertLink
 ];
 
-function getDefaultIconText() {
+function getDefaultIcon() {
   const texts = {};
-  texts[actions.insertImage] = 'IMG';
-  texts[actions.setBold] = 'B';
-  texts[actions.setItalic] = 'I';
-  texts[actions.insertBulletsList] = '0';
-  texts[actions.insertOrderedList] = '1';
-  texts[actions.insertLink] = '<a>';
+  texts[actions.insertImage] = require('../img/icon_format_media.png');
+  texts[actions.setBold] = require('../img/icon_format_bold.png');
+  texts[actions.setItalic] = require('../img/icon_format_italic.png');
+  texts[actions.insertBulletsList] = require('../img/icon_format_ul.png');
+  texts[actions.insertOrderedList] = require('../img/icon_format_ol.png');
+  texts[actions.insertLink] = require('../img/icon_format_link.png');
   return texts;
 }
 
@@ -32,7 +32,8 @@ export default class RichTextToolbar extends Component {
     onPressAddImage: PropTypes.func,
     selectedButtonStyle: PropTypes.object,
     unselectedButtonStyle: PropTypes.object,
-    renderAction: PropTypes.func
+    renderAction: PropTypes.func,
+    iconMap: PropTypes.object
   };
 
   constructor(props) {
@@ -85,7 +86,18 @@ export default class RichTextToolbar extends Component {
     return this.props.unselectedButtonStyle ? this.props.unselectedButtonStyle : styles.defaultUnselectedButton;
   }
 
+  _getButtonIcon(action) {
+    if (this.props.iconMap && this.props.iconMap[action]) {
+      return this.props.iconMap[action];
+    } else if (getDefaultIcon()[action]){
+      return getDefaultIcon()[action];
+    } else {
+      return undefined;
+    }
+  }
+
   _defaultRenderAction(action, selected) {
+    const icon = this._getButtonIcon(action);
     return (
       <TouchableOpacity
           key={action}
@@ -95,9 +107,7 @@ export default class RichTextToolbar extends Component {
           ]}
           onPress={() => this._onPress(action)}
       >
-        <Text style={{textAlign: 'center'}}>
-          {getDefaultIconText()[action] ? getDefaultIconText()[action] : action.slice(0,1)}
-        </Text>
+        {icon ? <Image source={icon}/> : null}
       </TouchableOpacity>
     );
   }
