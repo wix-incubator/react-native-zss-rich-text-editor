@@ -129,6 +129,12 @@ export const InjectedMessageHandler = `
         case '${actions.setCustomCSS}':
           zss_editor.setCustomCSS(action.data);
           break;
+        case '${actions.setTextColor}':
+          zss_editor.setTextColor(action.data);
+          break;
+        case '${actions.setBackgroundColor}':
+          zss_editor.setBackgroundColor(action.data);
+          break;
       }
     };
   }

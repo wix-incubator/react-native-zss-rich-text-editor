@@ -336,6 +336,14 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.setOutdent);
   }
 
+  setBackgroundColor(color) {
+    this._sendAction(actions.setBackgroundColor, color);
+  }
+
+  setTextColor(color) {
+    this._sendAction(actions.setTextColor, color);
+  }
+
   setTitlePlaceholder() {
     this._sendAction(actions.setTitlePlaceholder);
   }

@@ -39,7 +39,9 @@ export const actions = {
   setContentFocusHandler: 'SET_CONTENT_FOCUS_HANDLER',
   prepareInsert: 'PREPARE_INSERT',
   restoreSelection: 'RESTORE_SELECTION',
-  setCustomCSS: 'SET_CUSTOM_CSS'
+  setCustomCSS: 'SET_CUSTOM_CSS',
+  setTextColor: 'SET_TEXT_COLOR',
+  setBackgroundColor: 'SET_BACKGROUND_COLOR'
 };
 
 

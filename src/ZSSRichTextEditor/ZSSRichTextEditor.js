@@ -371,8 +371,10 @@ zss_editor.setFontFamily = function(fontFamily) {
 }
 
 zss_editor.setTextColor = function(color) {
-		
-    zss_editor.restorerange();
+
+    if(zss_editor.currentSelection) {
+        zss_editor.restorerange();
+    }
     document.execCommand("styleWithCSS", null, true);
     document.execCommand('foreColor', false, color);
     document.execCommand("styleWithCSS", null, false);
@@ -382,7 +384,10 @@ zss_editor.setTextColor = function(color) {
 }
 
 zss_editor.setBackgroundColor = function(color) {
-    zss_editor.restorerange();
+    
+    if(zss_editor.currentSelection) {
+        zss_editor.restorerange();
+    }
     document.execCommand("styleWithCSS", null, true);
     document.execCommand('hiliteColor', false, color);
     document.execCommand("styleWithCSS", null, false);
