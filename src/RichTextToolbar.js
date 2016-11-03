@@ -29,11 +29,27 @@ export default class RichTextToolbar extends Component {
     getEditor: PropTypes.func.isRequired
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      editor: undefined
+    };
+  }
+
+  componentDidMount() {
+    const editor = this.props.getEditor();
+    if (!editor) {
+      throw new Error('Toolbar has no editor!');
+    } else {
+      this.setState({editor});
+    }
+  }
+
   _getButton(action, selected) {
     return (
       <TouchableOpacity
           key={action}
-          style={{flex: 1, backgroundColor: 'blue', justifyContent: 'center'}}
+          style={{flex: 1, backgroundColor: '#D3D3D3', justifyContent: 'center'}}
           onPress={() => this._onPress(action)}
       >
         <Text style={{textAlign: 'center'}}>
@@ -54,16 +70,32 @@ export default class RichTextToolbar extends Component {
   _onPress(action) {
     switch(action) {
       case actions.setBold:
-        this.props.getEditor().setBold();
-        break;
       case actions.setItalic:
-        this.props.getEditor().setItalic();
-        break;
       case actions.insertBulletsList:
-        this.props.getEditor().insertBulletsList();
-        break;
       case actions.insertOrderedList:
-        this.props.getEditor().insertOrderedList();
+      case actions.setUnderline:
+      case actions.heading1:
+      case actions.heading2:
+      case actions.heading3:
+      case actions.heading4:
+      case actions.heading5:
+      case actions.heading6:
+      case actions.setParagraph:
+      case actions.removeFormat:
+      case actions.alignLeft:
+      case actions.alignCenter:
+      case actions.alignRight:
+      case actions.alignFull:
+      case actions.setSubscript:
+      case actions.setSuperscript:
+      case actions.setStrikethrough:
+      case actions.setHR:
+      case actions.setIndent:
+      case actions.setOutdent:
+        this.state.editor._sendAction(action);
+        break;
+      case actions.insertLink:
+      case actions.insertImage:
         break;
     }
   }
