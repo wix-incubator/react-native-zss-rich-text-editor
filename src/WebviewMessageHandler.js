@@ -114,6 +114,12 @@ export const InjectedMessageHandler = `
         case '${actions.setContentFocusHandler}':
           zss_editor.setContentFocusHandler();
           break;
+        case '${actions.focusContent}':
+          zss_editor.focusContent();
+          break;
+        case '${actions.focusTitle}':
+          zss_editor.focusTitle();
+          break;
       }
     };
   }

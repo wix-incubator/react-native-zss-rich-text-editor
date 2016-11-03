@@ -5,6 +5,8 @@ export const actions = {
   getContentHtml: 'GET_CONTENT_HTML',
   blurTitleEditor: 'BLUR_TITLE_EDITOR',
   blurContentEditor: 'BLUR_CONTENT_EDITOR',
+  focusTitle: 'FOCUS_TITLE',
+  focusContent: 'FOCUS_CONTENT',
 
   setBold: 'bold',
   setItalic: 'italic',

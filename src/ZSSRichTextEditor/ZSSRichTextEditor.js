@@ -702,6 +702,14 @@ zss_editor.enabledEditingItems = function(e) {
     WebViewBridge.send(JSON.stringify({type: 'SELECTION_CHANGE', data: {items}}))
 }
 
+zss_editor.focusContent = function() {
+    zss_editor.focusEditor('zss_editor_content');
+}
+
+zss_editor.focusTitle = function() {
+    zss_editor.focusEditor('zss_editor_title');
+}
+
 zss_editor.focusEditor = function(editorId) {
     
     // the following was taken from http://stackoverflow.com/questions/1125292/how-to-move-cursor-to-end-of-contenteditable-entity/3866442#3866442

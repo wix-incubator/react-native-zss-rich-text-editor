@@ -114,6 +114,14 @@ export default class RichTextEditor extends Component {
   //-------------------------------------------------------------------------------
   //--------------- Public API
 
+  focusTitle() {
+    this._sendAction(actions.focusTitle);
+  }wewe
+
+  focusContent() {
+    this._sendAction(actions.focusContent);
+  }
+
   registerToolbar(listener) {
     this.setState({
       listeners: [...this.state.listeners, listener]
