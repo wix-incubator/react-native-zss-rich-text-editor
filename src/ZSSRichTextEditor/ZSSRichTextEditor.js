@@ -204,17 +204,21 @@ zss_editor.calculateEditorHeightWithCaretPosition = function(editorId) {
 
 zss_editor.backuprange = function(){
     var selection = window.getSelection();
-    var range = selection.getRangeAt(0);
-    zss_editor.currentSelection = {"startContainer": range.startContainer, "startOffset":range.startOffset,"endContainer":range.endContainer, "endOffset":range.endOffset};
+    if(selection && selection.length > 0) {
+        var range = selection.getRangeAt(0);
+        zss_editor.currentSelection = {"startContainer": range.startContainer, "startOffset":range.startOffset,"endContainer":range.endContainer, "endOffset":range.endOffset};
+    }
 }
 
 zss_editor.restorerange = function(){
     var selection = window.getSelection();
-    selection.removeAllRanges();
-    var range = document.createRange();
-    range.setStart(zss_editor.currentSelection.startContainer, zss_editor.currentSelection.startOffset);
-    range.setEnd(zss_editor.currentSelection.endContainer, zss_editor.currentSelection.endOffset);
-    selection.addRange(range);
+    if(selection && selection.length > 0) {
+        selection.removeAllRanges();
+        var range = document.createRange();
+        range.setStart(zss_editor.currentSelection.startContainer, zss_editor.currentSelection.startOffset);
+        range.setEnd(zss_editor.currentSelection.endContainer, zss_editor.currentSelection.endOffset);
+        selection.addRange(range);
+    }
 }
 
 zss_editor.getSelectedNode = function() {
@@ -504,6 +508,7 @@ zss_editor.prepareInsert = function() {
 }
 
 zss_editor.insertImage = function(url, alt) {
+    zss_editor.focusContent();
     zss_editor.restorerange();
     var html = '<img src="'+url+'" alt="'+alt+'" />';
     zss_editor.insertHTML(html);
