@@ -55,11 +55,12 @@ div.zss_editor_title {
 
 [placeholder]:empty:before {
     content: attr(placeholder);
-    color: #555;
+    color: #c0c0c0;
 }
 
 [placeholder]:empty:focus:before {
-    content: "";
+    content: attr(placeholder);
+    color: #e0e0e0;
 }
 
 hr {

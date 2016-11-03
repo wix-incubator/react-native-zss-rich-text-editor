@@ -14,6 +14,8 @@ export default class RichTextEditor extends Component {
   static propTypes = {
     initialTitleHTML: PropTypes.string,
     initialContentHTML: PropTypes.string,
+    titlePlaceholder: PropTypes.string,
+    contentPlaceholder: PropTypes.string,
     editorInitializedCallback: PropTypes.func,
     customCSS: PropTypes.string
   };
@@ -62,6 +64,8 @@ export default class RichTextEditor extends Component {
           if (this.props.customCSS) {
             this.setCustomCSS(this.props.customCSS);
           }
+          this.setTitlePlaceholder(this.props.titlePlaceholder);
+          this.setContentPlaceholder(this.props.contentPlaceholder);
           this.setTitleHTML(this.props.initialTitleHTML);
           this.setContentHTML(this.props.initialContentHTML);
           this.props.editorInitializedCallback && this.props.editorInitializedCallback();
@@ -344,12 +348,12 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.setTextColor, color);
   }
 
-  setTitlePlaceholder() {
-    this._sendAction(actions.setTitlePlaceholder);
+  setTitlePlaceholder(placeholder) {
+    this._sendAction(actions.setTitlePlaceholder, placeholder);
   }
 
-  setContentPlaceholder() {
-    this._sendAction(actions.setContentPlaceholder);
+  setContentPlaceholder(placeholder) {
+    this._sendAction(actions.setContentPlaceholder, placeholder);
   }
 
   setCustomCSS(css) {

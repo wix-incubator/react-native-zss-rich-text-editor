@@ -95,10 +95,10 @@ export const InjectedMessageHandler = `
           zss_editor.setOutdent();
           break;
         case '${actions.setTitlePlaceholder}':
-          zss_editor.setTitlePlaceholder();
+          zss_editor.setTitlePlaceholder(action.data);
           break;
         case '${actions.setContentPlaceholder}':
-          zss_editor.setContentPlaceholder();
+          zss_editor.setContentPlaceholder(action.data);
           break;
         case '${actions.getTitleHtml}':
           var html = zss_editor.getTitleHTML();

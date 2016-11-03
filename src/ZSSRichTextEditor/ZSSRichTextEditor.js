@@ -384,7 +384,7 @@ zss_editor.setTextColor = function(color) {
 }
 
 zss_editor.setBackgroundColor = function(color) {
-    
+
     if(zss_editor.currentSelection) {
         zss_editor.restorerange();
     }
