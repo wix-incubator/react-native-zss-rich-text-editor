@@ -31,7 +31,8 @@ export default class RichTextToolbar extends Component {
     onPressAddLink: PropTypes.func,
     onPressAddImage: PropTypes.func,
     selectedButtonStyle: PropTypes.object,
-    unselectedButtonStyle: PropTypes.object
+    unselectedButtonStyle: PropTypes.object,
+    renderAction: PropTypes.func
   };
 
   constructor(props) {
@@ -84,7 +85,7 @@ export default class RichTextToolbar extends Component {
     return this.props.unselectedButtonStyle ? this.props.unselectedButtonStyle : styles.defaultUnselectedButton;
   }
 
-  _renderAction(action, selected) {
+  _defaultRenderAction(action, selected) {
     return (
       <TouchableOpacity
           key={action}
@@ -99,6 +100,12 @@ export default class RichTextToolbar extends Component {
         </Text>
       </TouchableOpacity>
     );
+  }
+
+  _renderAction(action, selected) {
+    return this.props.renderAction ?
+        this.props.renderAction(action, selected) :
+        this._defaultRenderAction(action, selected);
   }
 
   render() {
