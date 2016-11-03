@@ -1,2 +1,6 @@
 import RichTextEditor from './src/RichTextEditor';
-export default RichTextEditor;
+import RichTextToolbar from './src/RichTextToolbar';
+
+module.exports = {
+  RichTextEditor, RichTextToolbar
+}
