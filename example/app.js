@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    View,
+    Platform
 } from 'react-native';
 import {RichTextEditor, RichTextToolbar} from 'react-native-ZSSRichTextEditor'
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -28,7 +29,7 @@ export default class RichTextExample extends Component {
           <RichTextToolbar
             getEditor={() => this.richtext}
           />
-          <KeyboardSpacer/>
+          {Platform.OS === 'ios' && <KeyboardSpacer/>}
         </View>
     );
   }

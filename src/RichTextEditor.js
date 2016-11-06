@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import WebViewBridge from 'react-native-webview-bridge-updated';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
 import {actions, messages} from './const';
-import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform} from 'react-native';
 
 const injectScript = `
   (function () {
@@ -165,6 +165,8 @@ export default class RichTextEditor extends Component {
   }
 
   render() {
+    //in release build, external html files in Android can't be required, so they must be placed in the assets folder and accessed via uri
+    const pageSource = Platform.OS === 'ios' ? require('./editor.html') : { uri: 'file:///android_asset/editor.html' };
     return (
       <View style={{flex: 1}}>
         <WebViewBridge
@@ -174,7 +176,7 @@ export default class RichTextEditor extends Component {
           ref={(r) => {this.webviewBridge = r}}
           onBridgeMessage={(message) => this.onBridgeMessage(message)}
           injectedJavaScript={injectScript}
-          source={require('./editor.html')}
+          source={pageSource}
         />
         {this._renderLinkModal()}
       </View>
