@@ -27,6 +27,7 @@ project.xcworkspace
 .idea
 .gradle
 local.properties
+*.iml
 
 # node.js
 #
@@ -42,3 +43,5 @@ android/*.iml
 android/app/*.iml
 yarn.lock
 *.log
+
+example/android/app/src/main/assets/editor.html
