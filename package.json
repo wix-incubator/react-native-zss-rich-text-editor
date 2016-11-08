@@ -1,22 +1,21 @@
 {
-  "name": "react-native-ZSSRichTextEditor",
+  "name": "react-native-temp-rich-text-editor",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "http://repo.dev.wix/artifactory/api/npm/npm-local/"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/wix-private/react-native-ZSSRichTextEditor.git"
   },
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "React Native Wrapper for ZSSRichTextEditor",
   "main": "index.js",
-  "private": true,
-  "license": "MIT",
+  "license": "UNLICENSED",
   "dependencies": {
     "react-native-webview-bridge-updated": "^1.0.0"
   },
   "peerDependencies": {
-    "react": "^15.2.1",
-    "react-native": "^0.31.0"
+    "react": "*",
+    "react-native": ">=0.31.0"
   }
 }
