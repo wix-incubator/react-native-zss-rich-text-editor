@@ -927,7 +927,7 @@
 				//set focus
 				editor.focusout(function(){
 					var element = $(this);
-					if (!element.text().trim().length) {
+					if (!element.html().trim().length) {
 						element.empty();
 					}
 				});
