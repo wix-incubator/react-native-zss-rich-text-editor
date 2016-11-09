@@ -41,7 +41,8 @@ export const actions = {
   restoreSelection: 'RESTORE_SELECTION',
   setCustomCSS: 'SET_CUSTOM_CSS',
   setTextColor: 'SET_TEXT_COLOR',
-  setBackgroundColor: 'SET_BACKGROUND_COLOR'
+  setBackgroundColor: 'SET_BACKGROUND_COLOR',
+  init: 'ZSSS_INIT'
 };
 
 

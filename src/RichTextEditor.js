@@ -177,6 +177,7 @@ export default class RichTextEditor extends Component {
           onBridgeMessage={(message) => this.onBridgeMessage(message)}
           injectedJavaScript={injectScript}
           source={pageSource}
+          onLoad={() => this.init()}
         />
         {this._renderLinkModal()}
       </View>
@@ -368,6 +369,10 @@ export default class RichTextEditor extends Component {
 
   restoreSelection() {
     this._sendAction(actions.restoreSelection);
+  }
+
+  init() {
+    this._sendAction(actions.init);
   }
 
   async getTitleHtml() {

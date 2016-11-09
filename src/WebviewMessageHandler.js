@@ -135,6 +135,9 @@ export const InjectedMessageHandler = `
         case '${actions.setBackgroundColor}':
           zss_editor.setBackgroundColor(action.data);
           break;
+        case '${actions.init}':
+          zss_editor.init();
+          break;
       }
     };
   }
