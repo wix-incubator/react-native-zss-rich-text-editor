@@ -66,8 +66,8 @@ export default class RichTextEditor extends Component {
           }
           this.setTitlePlaceholder(this.props.titlePlaceholder);
           this.setContentPlaceholder(this.props.contentPlaceholder);
-          this.setTitleHTML(this.props.initialTitleHTML);
-          this.setContentHTML(this.props.initialContentHTML);
+          this.setTitleHTML(this.htmlEcodeString(this.props.initialTitleHTML));
+          this.setContentHTML(this.htmlEcodeString(this.props.initialContentHTML));
           this.props.editorInitializedCallback && this.props.editorInitializedCallback();
 
           break;
@@ -196,6 +196,12 @@ export default class RichTextEditor extends Component {
       .replace(/[\t]/g, '\\t');
   };
 
+  htmlEcodeString = function (string) {
+    //for some reason there's an issue only with apostrophes
+    return string
+      .replace(/'/g, '&apos;');
+  }
+
   _sendAction(action, data) {
     let jsonString = JSON.stringify({type: action, data});
     jsonString = this.escapeJSONString(jsonString);
@@ -310,8 +316,7 @@ export default class RichTextEditor extends Component {
   }
 
   insertLink(url, title) {
-
-    this._sendAction(actions.insertLink, {url, title});
+    this._sendAction(actions.insertLink, {url, title: this.htmlEcodeString(title)});
   }
 
   insertImage(url, alt) {
