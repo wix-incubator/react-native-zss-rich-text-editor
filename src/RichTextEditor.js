@@ -172,7 +172,7 @@ export default class RichTextEditor extends Component {
   }
 
   _renderModalButtons() {
-    const insertDisabled = this.state.linkTitle.length <= 0;
+    const insertDisabled = this.state.linkTitle.trim().length <= 0 || this.state.linkUrl.trim().length <= 0;
     const containerPlatformStyle = PlatfomIOS ? {justifyContent: 'space-between'} : {paddingTop: 15};
     const buttonPlatformStyle = PlatfomIOS ? {flex: 1, height: 45, justifyContent: 'center'} : {};
     return (
