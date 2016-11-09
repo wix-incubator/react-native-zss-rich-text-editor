@@ -2,13 +2,15 @@ import React, {Component, PropTypes} from 'react';
 import WebViewBridge from 'react-native-webview-bridge-updated';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
 import {actions, messages} from './const';
-import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform} from 'react-native';
+import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, PixelRatio, Keyboard} from 'react-native';
 
 const injectScript = `
   (function () {
     ${InjectedMessageHandler}
   }());
 `;
+
+const PlatfomIOS = Platform.OS === 'ios';
 
 export default class RichTextEditor extends Component {
   static propTypes = {
@@ -25,14 +27,48 @@ export default class RichTextEditor extends Component {
     this._sendAction = this._sendAction.bind(this);
     this.registerToolbar = this.registerToolbar.bind(this);
     this.onBridgeMessage = this.onBridgeMessage.bind(this);
+    this._onKeyboardWillShow = this._onKeyboardWillShow.bind(this);
+    this._onKeyboardWillHide = this._onKeyboardWillHide.bind(this);
     this.state = {
       listeners: [],
       showLinkDialog: false,
       linkTitle: '',
-      linkUrl: ''
+      linkUrl: '',
+      keyboardHeight: 0
     };
   }
 
+  componentWillMount() {
+    if(PlatfomIOS) {
+      this.keyboardEventListeners = [
+        Keyboard.addListener('keyboardWillShow', this._onKeyboardWillShow),
+        Keyboard.addListener('keyboardWillHide', this._onKeyboardWillHide)
+      ];
+    } else {
+      this.keyboardEventListeners = [
+        Keyboard.addListener('keyboardDidShow', this._onKeyboardWillShow),
+        Keyboard.addListener('keyboardDidHide', this._onKeyboardWillHide)
+      ];
+    }
+  }
+
+  componentWillUnmount() {
+    this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
+  }
+
+  _onKeyboardWillShow(event) {
+    console.log('!!!!', event);
+    const newKeyboardHeight = event.endCoordinates.height;
+    if (this.state.keyboardHeight === newKeyboardHeight) {
+      return;
+    }
+    this.setState({keyboardHeight: newKeyboardHeight});
+  }
+
+  _onKeyboardWillHide(event) {
+    this.setState({keyboardHeight: 0});
+  }
+  
   onBridgeMessage(str){
     try {
       const message = JSON.parse(str);
@@ -102,11 +138,8 @@ export default class RichTextEditor extends Component {
             onRequestClose={() => this.setState({showLinkDialog: false})}
         >
           <View style={styles.modal}>
-
-
-            <View style={styles.innerModal}>
-
-              <Text>Title</Text>
+            <View style={[styles.innerModal, {marginBottom: this.state.keyboardHeight}]}>
+              <Text style={styles.inputTitle}>Title</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
                     style={{height: 20}}
@@ -114,8 +147,7 @@ export default class RichTextEditor extends Component {
                     value={this.state.linkTitle}
                 />
               </View>
-
-              <Text style={{marginTop: 10}}>URL</Text>
+              <Text style={[styles.inputTitle ,{marginTop: 10}]}>URL</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
                     style={{height: 20}}
@@ -123,7 +155,7 @@ export default class RichTextEditor extends Component {
                     value={this.state.linkUrl}
                 />
               </View>
-
+              {PlatfomIOS && <View style={styles.lineSeparator}/>}
               {this._renderModalButtons()}
             </View>
           </View>
@@ -140,14 +172,18 @@ export default class RichTextEditor extends Component {
   }
 
   _renderModalButtons() {
+    const insertDisabled = this.state.linkTitle.length <= 0;
+    const containerPlatformStyle = PlatfomIOS ? {justifyContent: 'space-between'} : {paddingTop: 15};
+    const buttonPlatformStyle = PlatfomIOS ? {flex: 1, height: 45, justifyContent: 'center'} : {};
     return (
-      <View style={{paddingTop: 10, alignSelf: 'stretch', flexDirection: 'row'}}>
-        <View style={{flex: 1}}/>
+      <View style={[{alignSelf: 'stretch', flexDirection: 'row'}, containerPlatformStyle]}>
+        {!PlatfomIOS && <View style={{flex: 1}}/>}
         <TouchableOpacity
             onPress={() => this._hideModal()}
+            style={buttonPlatformStyle}
         >
           <Text style={[styles.button, {paddingRight: 10}]}>
-            Cancel
+            {PlatfomIOS ? 'Cancel' : 'CANCEL'}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -155,9 +191,11 @@ export default class RichTextEditor extends Component {
               this.insertLink(this.state.linkUrl, this.state.linkTitle);
               this._hideModal();
             }}
+            disabled={insertDisabled}
+            style={buttonPlatformStyle}
         >
-          <Text style={styles.button}>
-            OK
+          <Text style={[styles.button, {opacity: insertDisabled ? 0.5 : 1}]}>
+            {PlatfomIOS ? 'Insert' : 'INSERT'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -166,7 +204,7 @@ export default class RichTextEditor extends Component {
 
   render() {
     //in release build, external html files in Android can't be required, so they must be placed in the assets folder and accessed via uri
-    const pageSource = Platform.OS === 'ios' ? require('./editor.html') : { uri: 'file:///android_asset/editor.html' };
+    const pageSource = PlatfomIOS ? require('./editor.html') : { uri: 'file:///android_asset/editor.html' };
     return (
       <View style={{flex: 1}}>
         <WebViewBridge
@@ -427,18 +465,34 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   innerModal: {
-    backgroundColor: '#ffffff',
-    padding: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    paddingTop: 20,
+    paddingBottom: PlatfomIOS ? 0 : 20,
+    paddingLeft: 20,
+    paddingRight: 20,
     alignSelf: 'stretch',
-    margin: 40
+    margin: 40,
+    borderRadius: PlatfomIOS ? 8 : 2
   },
   button: {
-    fontSize: 16
+    fontSize: 16,
+    color: '#4a4a4a',
+    textAlign: 'center'
   },
   inputWrapper: {
-    marginTop: 10,
+    marginTop: 5,
     marginBottom: 10,
-    borderBottomColor: '#000000',
-    borderBottomWidth: 1
+    borderBottomColor: '#4a4a4a',
+    borderBottomWidth: PlatfomIOS ? 1 / PixelRatio.get() : 0
+  },
+  inputTitle: {
+    color: '#4a4a4a'
+  },
+  lineSeparator: {
+    height: 1 / PixelRatio.get(),
+    backgroundColor: '#d5d5d5',
+    marginLeft: -20,
+    marginRight: -20,
+    marginTop: 20
   }
 });
