@@ -153,6 +153,9 @@ export default class RichTextEditor extends Component {
                     style={{height: 20}}
                     onChangeText={(text) => this.setState({linkUrl: text})}
                     value={this.state.linkUrl}
+                    keyboardType="url"
+                    autoCapitalize="none"
+                    autoCorrect={false}
                 />
               </View>
               {PlatfomIOS && <View style={styles.lineSeparator}/>}
@@ -216,10 +219,15 @@ export default class RichTextEditor extends Component {
           injectedJavaScript={injectScript}
           source={pageSource}
           onLoad={() => this.init()}
+          onShouldStartLoadWithRequest={(event) => {return this._onShouldStartLoadWithRequest(event)}}
         />
         {this._renderLinkModal()}
       </View>
     );
+  }
+
+  _onShouldStartLoadWithRequest(event) {
+    return (event.url.indexOf('editor.html') != -1);
   }
 
   escapeJSONString = function(string) {
