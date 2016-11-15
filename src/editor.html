@@ -879,11 +879,40 @@
 				setupTouchEndFocus('zss_editor_title');
 				setupTouchEndFocus('zss_editor_content');
 
+				whenPastingInsertAsPlainText('zss_editor_title');
+				whenPastingInsertAsPlainText('zss_editor_content');
+
 				setTimeout(function() {
 					WebViewBridge.send(JSON.stringify({type: 'ZSS_INITIALIZED'}))
 				}, 20);
 
 			}//end
+
+			function whenPastingInsertAsPlainText(editorId) {
+				var editor = document.getElementById(editorId);
+				editor.addEventListener('paste', function(event) {
+					event.preventDefault();
+
+					var text = event.clipboardData.getData('text/plain');
+					var html = convertTextToHtmlWithLineBreaks(text);
+					zss_editor.insertHTML(html);
+				});
+			}
+
+			function convertTextToHtmlWithLineBreaks(text) {
+				var html = encodeHtmlEntities(text);
+				return replaceNewlinesWithLineBreaks(html);
+			}
+
+			function encodeHtmlEntities(text) {
+				var paragraph = document.createElement('p');
+				paragraph.textContent = text;
+				return paragraph.innerHTML;
+			}
+
+			function replaceNewlinesWithLineBreaks(html) {
+				return html.replace(/\r?\n/g, '<br>');
+			}
 
 			zss_editor.updateOffset = function() {
 
