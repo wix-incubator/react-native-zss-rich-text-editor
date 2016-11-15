@@ -2,6 +2,7 @@ export const actions = {
   setTitleHtml: 'SET_TITLE_HTML',
   setContentHtml: 'SET_CONTENT_HTML',
   getTitleHtml: 'GET_TITLE_HTML',
+  getTitleText: 'GET_TITLE_TEXT',
   getContentHtml: 'GET_CONTENT_HTML',
   blurTitleEditor: 'BLUR_TITLE_EDITOR',
   blurContentEditor: 'BLUR_CONTENT_EDITOR',
@@ -48,6 +49,7 @@ export const actions = {
 
 export const messages = {
   TITLE_HTML_RESPONSE: 'TITLE_HTML_RESPONSE',
+  TITLE_TEXT_RESPONSE: 'TITLE_TEXT_RESPONSE',
   CONTENT_HTML_RESPONSE: 'CONTENT_HTML_RESPONSE',
   ZSS_INITIALIZED: 'ZSS_INITIALIZED',
   SCROLL: 'SCROLL',

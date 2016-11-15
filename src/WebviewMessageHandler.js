@@ -104,6 +104,10 @@ export const InjectedMessageHandler = `
           var html = zss_editor.getTitleHTML();
           WebViewBridge.send(JSON.stringify({type: '${messages.TITLE_HTML_RESPONSE}', data: html}));
           break;
+        case '${actions.getTitleText}':
+          var html = zss_editor.getTitleText();
+          WebViewBridge.send(JSON.stringify({type: '${messages.TITLE_TEXT_RESPONSE}', data: html}));
+          break;
         case '${actions.getContentHtml}':
           var html = zss_editor.getContentHTML();
           WebViewBridge.send(JSON.stringify({type: '${messages.CONTENT_HTML_RESPONSE}', data: html}));

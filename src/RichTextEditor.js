@@ -85,6 +85,17 @@ export default class RichTextEditor extends Component {
             }
           }
           break;
+        case messages.TITLE_TEXT_RESPONSE:
+          if (this.titleTextResolve) {
+            this.titleTextResolve(message.data);
+            this.titleTextResolve = undefined;
+            this.titleTextReject = undefined;
+            if (this.pendingTitleText) {
+              clearTimeout(this.pendingTitleText);
+              this.pendingTitleText = undefined;
+            }
+          }
+          break;
         case messages.CONTENT_HTML_RESPONSE:
           if (this.contentResolve) {
             this.contentResolve(message.data);
@@ -435,6 +446,20 @@ export default class RichTextEditor extends Component {
       this.pendingTitleHtml = setTimeout(() => {
         if (this.titleReject) {
           this.titleReject('timeout')
+        }
+      }, 5000);
+    });
+  }
+
+  async getTitleText() {
+    return new Promise((resolve, reject) => {
+      this.titleTextResolve = resolve;
+      this.titleTextReject = reject;
+      this._sendAction(actions.getTitleText);
+
+      this.pendingTitleText = setTimeout(() => {
+        if (this.titleTextReject) {
+          this.titleTextReject('timeout');
         }
       }, 5000);
     });
