@@ -1321,7 +1321,7 @@
 
 			zss_editor.insertImage = function(url, alt) {
 				zss_editor.restorerange();
-				var html = '<img src="'+url+'" alt="'+alt+'" />';
+				var html = '<img src="'+url+'" alt="'+alt+'" /><br>';
 				zss_editor.insertHTML(html);
 				zss_editor.enabledEditingItems();
 			}
@@ -1619,6 +1619,7 @@
 				max-width: 98%;
 				margin-left:auto;
 				margin-right:auto;
+				display: block;
 			}
 
 			audio {
