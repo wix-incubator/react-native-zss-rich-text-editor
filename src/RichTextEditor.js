@@ -231,15 +231,10 @@ export default class RichTextEditor extends Component {
           injectedJavaScript={injectScript}
           source={pageSource}
           onLoad={() => this.init()}
-          onShouldStartLoadWithRequest={(event) => {return this._onShouldStartLoadWithRequest(event)}}
         />
         {this._renderLinkModal()}
       </View>
     );
-  }
-
-  _onShouldStartLoadWithRequest(event) {
-    return (event.url.indexOf('editor.html') != -1);
   }
 
   escapeJSONString = function(string) {
