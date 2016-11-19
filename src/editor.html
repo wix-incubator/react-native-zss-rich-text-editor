@@ -827,14 +827,6 @@
 				});
 			}
 
-			function setupSelectionChange(editorId) {
-				$(document).on('selectionchange',function(e){
-					zss_editor.calculateEditorHeightWithCaretPosition(editorId);
-					zss_editor.setScrollPosition();
-					zss_editor.enabledEditingItems(e);
-				});
-			}
-
 			function setupTouchEndFocus(editorId) {
 				$(window).on('touchend', function(e) {
 					if (!zss_editor.isDragging && (e.target.id == "zss_editor_footer"||e.target.nodeName.toLowerCase() == "html")) {
@@ -879,8 +871,12 @@
 				setupTouchEndEnableEditing('zss_editor_title');
 				setupTouchEndEnableEditing('zss_editor_content');
 
-				setupSelectionChange('zss_editor_title');
-				setupSelectionChange('zss_editor_content');
+				$(document).on('selectionchange',function(e){
+					console.log('selectionchange');
+					zss_editor.calculateEditorHeightWithCaretPosition();
+					zss_editor.setScrollPosition();
+					zss_editor.enabledEditingItems(e);
+				});
 
 				$(window).on('scroll', function(e) {
 					zss_editor.updateOffset();
@@ -1014,13 +1010,10 @@
 				return topPosition;
 			}
 
-			zss_editor.calculateEditorHeightWithCaretPosition = function(editorId) {
+			zss_editor.calculateEditorHeightWithCaretPosition = function() {
 
 				var padding = 50;
 				var c = zss_editor.getCaretYPosition();
-				var e = document.getElementById(editorId);
-
-				var editor = $(`#${editorId}`);
 
 				var offsetY = window.document.body.scrollTop;
 				var height = zss_editor.contentHeight;
@@ -1682,5 +1675,6 @@
 		<div id="zss_editor_title" class="zss_editor_title" contenteditable="true" placeholder="" disableLineBreaks="true"></div>
 		<div id="separatorContainer"><hr></div>
 		<div id="zss_editor_content" class="zs_editor_content" contenteditable="true" placeholder=""></div>
+		<div id="zss_editor_footer"></div>
 	</body>
 </html>
