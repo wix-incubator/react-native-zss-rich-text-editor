@@ -4,6 +4,7 @@ export const actions = {
   getTitleHtml: 'GET_TITLE_HTML',
   getTitleText: 'GET_TITLE_TEXT',
   getContentHtml: 'GET_CONTENT_HTML',
+  getSelectedText: 'GET_SELECTED_TEXT',
   blurTitleEditor: 'BLUR_TITLE_EDITOR',
   blurContentEditor: 'BLUR_CONTENT_EDITOR',
   focusTitle: 'FOCUS_TITLE',
@@ -27,6 +28,7 @@ export const actions = {
   insertBulletsList: 'unorderedList',
   insertOrderedList: 'orderedList',
   insertLink: 'INST_LINK',
+  updateLink: 'UPDATE_LINK',
   insertImage: 'INST_IMAGE',
   setSubscript: 'subscript',
   setSuperscript: 'superscript',
@@ -56,5 +58,7 @@ export const messages = {
   LOG: 'LOG',
   TITLE_FOCUSED: 'TITLE_FOCUSED',
   CONTENT_FOCUSED: 'CONTENT_FOCUSED',
-  SELECTION_CHANGE: 'SELECTION_CHANGE'
+  SELECTION_CHANGE: 'SELECTION_CHANGE',
+  SELECTED_TEXT_RESPONSE: 'SELECTED_TEXT_RESPONSE',
+  LINK_TOUCHED: 'LINK_TOUCHED'
 };

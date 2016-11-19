@@ -73,6 +73,9 @@ export const InjectedMessageHandler = `
         case '${actions.insertLink}':
           zss_editor.insertLink(action.data.url, action.data.title);
           break;
+        case '${actions.updateLink}':
+          zss_editor.updateLink(action.data.url, action.data.title);
+          break;
         case '${actions.insertImage}':
           zss_editor.insertImage(action.data.url, action.data.alt);
           break;
@@ -117,6 +120,10 @@ export const InjectedMessageHandler = `
           break;
         case '${actions.setContentFocusHandler}':
           zss_editor.setContentFocusHandler();
+          break;
+        case '${actions.getSelectedText}':
+          var selectedText = getSelection().toString();
+          WebViewBridge.send(JSON.stringify({type: '${messages.SELECTED_TEXT_RESPONSE}', data: selectedText}));
           break;
         case '${actions.focusContent}':
           zss_editor.focusContent();

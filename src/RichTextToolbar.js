@@ -167,7 +167,9 @@ export default class RichTextToolbar extends Component {
         if(this.props.onPressAddLink) {
           this.props.onPressAddLink();
         } else {
-          this.state.editor.showLinkDialog();
+          this.state.editor.getSelectedText().then(selectedText => {
+            this.state.editor.showLinkDialog(selectedText);
+          });
         }
         break;
       case actions.insertImage:

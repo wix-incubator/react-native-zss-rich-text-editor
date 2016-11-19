@@ -851,6 +851,20 @@
 				}
 			}
 
+			function setCurrentEditingLinkOnTouch() {
+				$('#zss_editor_content').delegate('a', 'touchend', function(event) {
+					var anchor = $(event.currentTarget);
+
+					zss_editor.currentEditingLink = anchor;
+
+					var link = {
+						title: anchor.text(),
+						url: anchor.attr('href')
+					};
+					WebViewBridge.send(JSON.stringify({type: 'LINK_TOUCHED', data: link}))
+				});
+			}
+
 			function preventLinkFollowingOnTouch() {
 				$('#zss_editor_content').delegate('a', 'touchend', function(event) {
 					event.preventDefault();
@@ -886,6 +900,7 @@
 				setupTouchEndFocus('zss_editor_title');
 				setupTouchEndFocus('zss_editor_content');
 
+				setCurrentEditingLinkOnTouch();
 				preventLinkFollowingOnTouch();
 
 				whenPastingInsertAsPlainText('zss_editor_title');
@@ -1219,24 +1234,8 @@
 
 				zss_editor.restorerange();
 				var sel = document.getSelection();
-				console.log(sel);
-				if (sel.toString().length != 0) {
-					if (sel.rangeCount) {
-
-						var el = document.createElement("a");
-						el.setAttribute("href", url);
-						el.setAttribute("title", title);
-
-						var range = sel.getRangeAt(0).cloneRange();
-						range.surroundContents(el);
-						sel.removeAllRanges();
-						sel.addRange(range);
-					}
-				}
-				else
-				{
-					document.execCommand("insertHTML",false,"<a href='"+url+"'>"+title+"</a>");
-				}
+				sel.deleteFromDocument();
+				document.execCommand("insertHTML",false,"<a href='"+url+"'>"+title+"</a>");
 
 				zss_editor.enabledEditingItems();
 			}
@@ -1248,7 +1247,7 @@
 				if (zss_editor.currentEditingLink) {
 					var c = zss_editor.currentEditingLink;
 					c.attr('href', url);
-					c.attr('title', title);
+					c.text(title);
 				}
 				zss_editor.enabledEditingItems();
 
@@ -1493,18 +1492,6 @@
 						items.push('fonts');
 					}
 
-					// Link
-					if (nodeName == 'a') {
-						zss_editor.currentEditingLink = t;
-						var title = t.attr('title');
-						items.push('link:'+t.attr('href'));
-						if (t.attr('title') !== undefined) {
-							items.push('link-title:'+t.attr('title'));
-						}
-
-					} else {
-						zss_editor.currentEditingLink = null;
-					}
 					// Blockquote
 					if (nodeName == 'blockquote') {
 						items.push('indent');

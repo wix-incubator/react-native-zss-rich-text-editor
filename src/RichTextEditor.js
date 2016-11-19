@@ -32,6 +32,7 @@ export default class RichTextEditor extends Component {
     this.state = {
       listeners: [],
       showLinkDialog: false,
+      linkInitialUrl: '',
       linkTitle: '',
       linkUrl: '',
       keyboardHeight: 0
@@ -107,6 +108,17 @@ export default class RichTextEditor extends Component {
             }
           }
           break;
+        case messages.SELECTED_TEXT_RESPONSE:
+          if (this.selectedTextResolve) {
+            this.selectedTextResolve(message.data);
+            this.selectedTextResolve = undefined;
+            this.selectedTextReject = undefined;
+            if (this.pendingSelectedText) {
+              clearTimeout(this.pendingSelectedText);
+              this.pendingSelectedText = undefined;
+            }
+          }
+          break;
         case messages.ZSS_INITIALIZED:
           if (this.props.customCSS) {
             this.setCustomCSS(this.props.customCSS);
@@ -117,6 +129,11 @@ export default class RichTextEditor extends Component {
           this.setContentHTML(this.props.initialContentHTML);
           this.props.editorInitializedCallback && this.props.editorInitializedCallback();
 
+          break;
+        case messages.LINK_TOUCHED:
+          this.prepareInsert();
+          const {title, url} = message.data;
+          this.showLinkDialog(title, url);
           break;
         case messages.LOG:
           console.log('FROM ZSS', message.data);
@@ -180,13 +197,14 @@ export default class RichTextEditor extends Component {
   _hideModal() {
     this.setState({
       showLinkDialog: false,
+      linkInitialUrl: '',
       linkTitle: '',
       linkUrl: ''
     })
   }
 
   _renderModalButtons() {
-    const insertDisabled = this.state.linkTitle.trim().length <= 0 || this.state.linkUrl.trim().length <= 0;
+    const insertUpdateDisabled = this.state.linkTitle.trim().length <= 0 || this.state.linkUrl.trim().length <= 0;
     const containerPlatformStyle = PlatfomIOS ? {justifyContent: 'space-between'} : {paddingTop: 15};
     const buttonPlatformStyle = PlatfomIOS ? {flex: 1, height: 45, justifyContent: 'center'} : {};
     return (
@@ -197,23 +215,35 @@ export default class RichTextEditor extends Component {
             style={buttonPlatformStyle}
         >
           <Text style={[styles.button, {paddingRight: 10}]}>
-            {PlatfomIOS ? 'Cancel' : 'CANCEL'}
+            {this._upperCaseButtonTextIfNeeded('Cancel')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
             onPress={() => {
-              this.insertLink(this.state.linkUrl, this.state.linkTitle);
+              if (this._linkIsNew()) {
+                this.insertLink(this.state.linkUrl, this.state.linkTitle);
+              } else {
+                this.updateLink(this.state.linkUrl, this.state.linkTitle);
+              }
               this._hideModal();
             }}
-            disabled={insertDisabled}
+            disabled={insertUpdateDisabled}
             style={buttonPlatformStyle}
         >
-          <Text style={[styles.button, {opacity: insertDisabled ? 0.5 : 1}]}>
-            {PlatfomIOS ? 'Insert' : 'INSERT'}
+          <Text style={[styles.button, {opacity: insertUpdateDisabled ? 0.5 : 1}]}>
+            {this._upperCaseButtonTextIfNeeded(this._linkIsNew() ? 'Insert' : 'Update')}
           </Text>
         </TouchableOpacity>
       </View>
     );
+  }
+
+  _linkIsNew() {
+    return !this.state.linkInitialUrl;
+  }
+
+  _upperCaseButtonTextIfNeeded(buttonText) {
+    return PlatfomIOS ? buttonText : buttonText.toLowerCase();
   }
 
   render() {
@@ -259,8 +289,11 @@ export default class RichTextEditor extends Component {
   //-------------------------------------------------------------------------------
   //--------------- Public API
 
-  showLinkDialog() {
+  showLinkDialog(optionalTitle = '', optionalUrl = '') {
     this.setState({
+      linkInitialUrl: optionalUrl,
+      linkTitle: optionalTitle,
+      linkUrl: optionalUrl,
       showLinkDialog: true
     });
   }
@@ -364,8 +397,11 @@ export default class RichTextEditor extends Component {
   }
 
   insertLink(url, title) {
-
     this._sendAction(actions.insertLink, {url, title});
+  }
+
+  updateLink(url, title) {
+    this._sendAction(actions.updateLink, {url, title});
   }
 
   insertImage(url, alt) {
@@ -466,6 +502,20 @@ export default class RichTextEditor extends Component {
       this.pendingContentHtml = setTimeout(() => {
         if (this.contentReject) {
           this.contentReject('timeout')
+        }
+      }, 5000);
+    });
+  }
+
+  async getSelectedText() {
+    return new Promise((resolve, reject) => {
+      this.selectedTextResolve = resolve;
+      this.selectedTextReject = reject;
+      this._sendAction(actions.getSelectedText);
+
+      this.pendingSelectedText = setTimeout(() => {
+        if (this.selectedTextReject) {
+          this.selectedTextReject('timeout')
         }
       }, 5000);
     });
