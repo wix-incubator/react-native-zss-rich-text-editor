@@ -246,6 +246,7 @@ export default class RichTextEditor extends Component {
     return string
       .replace(/[\\]/g, '\\\\')
       .replace(/[\"]/g, '\\\"')
+      .replace(/[\']/g, '\\\'')
       .replace(/[\/]/g, '\\/')
       .replace(/[\b]/g, '\\b')
       .replace(/[\f]/g, '\\f')
