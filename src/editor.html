@@ -1235,7 +1235,7 @@
 				zss_editor.restorerange();
 				var sel = document.getSelection();
 				sel.deleteFromDocument();
-				document.execCommand("insertHTML",false,"<a href='"+url+"'>"+title+"</a>");
+				document.execCommand('insertHTML',false,'<a href="'+encodeHtmlEntities(url)+'">'+encodeHtmlEntities(title)+'</a>');
 
 				zss_editor.enabledEditingItems();
 			}
@@ -1317,7 +1317,7 @@
 					}
 				}
 
-				var html_code = '<a href="' + link_url + '">' + sel + '</a>';
+				var html_code = '<a href="' + encodeHtmlEntities(link_url) + '">' + encodeHtmlEntities(sel) + '</a>';
 				zss_editor.insertHTML(html_code);
 
 			}
@@ -1328,14 +1328,14 @@
 
 			zss_editor.insertImage = function(url, alt) {
 				zss_editor.restorerange();
-				var html = '<img src="'+url+'" alt="'+alt+'" /><br>';
+				var html = '<img src="'+encodeHtmlEntities(url)+'" alt="'+encodeHtmlEntities(alt)+'" /><br>';
 				zss_editor.insertHTML(html);
 				zss_editor.enabledEditingItems();
 			}
 
 			zss_editor.insertImageBase64String = function(imageBase64String, alt) {
 				zss_editor.restorerange();
-				var html = '<img src="data:image/jpeg;base64,'+imageBase64String+'" alt="'+alt+'" />';
+				var html = '<img src="data:image/jpeg;base64,'+encodeHtmlEntities(imageBase64String)+'" alt="'+encodeHtmlEntities(alt)+'" />';
 				zss_editor.insertHTML(html);
 				zss_editor.enabledEditingItems();
 			}
