@@ -851,6 +851,12 @@
 				}
 			}
 
+			function preventLinkFollowingOnTouch() {
+				$('#zss_editor_content').delegate('a', 'touchend', function(event) {
+					event.preventDefault();
+				});
+			}
+
 			zss_editor.init = function() {
 
 				disableLineBreakIfNecessary('zss_editor_title');
@@ -879,6 +885,8 @@
 
 				setupTouchEndFocus('zss_editor_title');
 				setupTouchEndFocus('zss_editor_content');
+
+				preventLinkFollowingOnTouch();
 
 				whenPastingInsertAsPlainText('zss_editor_title');
 				whenPastingInsertAsPlainText('zss_editor_content');
