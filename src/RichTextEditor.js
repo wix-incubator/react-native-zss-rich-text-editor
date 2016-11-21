@@ -170,7 +170,7 @@ export default class RichTextEditor extends Component {
               <Text style={styles.inputTitle}>Title</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
-                    style={{height: 20}}
+                    style={styles.input}
                     onChangeText={(text) => this.setState({linkTitle: text})}
                     value={this.state.linkTitle}
                 />
@@ -178,7 +178,7 @@ export default class RichTextEditor extends Component {
               <Text style={[styles.inputTitle ,{marginTop: 10}]}>URL</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
-                    style={{height: 20}}
+                    style={styles.input}
                     onChangeText={(text) => this.setState({linkUrl: text})}
                     value={this.state.linkUrl}
                     keyboardType="url"
@@ -562,6 +562,10 @@ const styles = StyleSheet.create({
   },
   inputTitle: {
     color: '#4a4a4a'
+  },
+  input: {
+    height: PlatfomIOS ? 20 : 40,
+    paddingTop: 0
   },
   lineSeparator: {
     height: 1 / PixelRatio.get(),
