@@ -863,6 +863,16 @@
 				});
 			}
 
+			function clearHtmlIfTextIsEmpty(editorId) {
+				var $editor = $(`#${editorId}`);
+
+				$editor.on('input', function() {
+					if (!(this.textContent || this.querySelectorAll('img, li').length)) {
+						this.innerHTML = '';
+					}
+				});
+			}
+
 			zss_editor.init = function() {
 
 				disableLineBreakIfNecessary('zss_editor_title');
@@ -870,6 +880,9 @@
 
 				setupTouchEndEnableEditing('zss_editor_title');
 				setupTouchEndEnableEditing('zss_editor_content');
+
+				clearHtmlIfTextIsEmpty('zss_editor_title');
+				clearHtmlIfTextIsEmpty('zss_editor_content');
 
 				$(document).on('selectionchange',function(e){
 					console.log('selectionchange');
