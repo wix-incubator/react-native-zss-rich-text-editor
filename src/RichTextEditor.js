@@ -243,7 +243,7 @@ export default class RichTextEditor extends Component {
   }
 
   _upperCaseButtonTextIfNeeded(buttonText) {
-    return PlatfomIOS ? buttonText : buttonText.toLowerCase();
+    return PlatfomIOS ? buttonText : buttonText.toUpperCase();
   }
 
   render() {
