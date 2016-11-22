@@ -858,7 +858,7 @@
 			}
 
 			function preventLinkFollowingOnTouch() {
-				$('#zss_editor_content').delegate('a', 'touchend', function(event) {
+				$('#zss_editor_content').delegate('a', 'click touchend', function(event) {
 					event.preventDefault();
 				});
 			}
