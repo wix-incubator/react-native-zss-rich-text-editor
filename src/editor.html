@@ -818,7 +818,7 @@
 			 */
 
 			function setupTouchEndEnableEditing(editorId) {
-				$(`#${editorId}`).on('touchend', function(e) {
+				$('#' + editorId).on('touchend', function(e) {
 					zss_editor.enabledEditingItems(e);
 					var clicked = $(e.target);
 					if (!clicked.hasClass('zs_active')) {
@@ -836,7 +836,7 @@
 			}
 
 			function disableLineBreakIfNecessary(editorId) {
-				var editor = $(`#${editorId}`);
+				var editor = $('#' + editorId);
 				var disableLineBreaks = editor.attr("disableLineBreaks");
 				if (disableLineBreaks) {
 					editor.keypress(function(e){ return e.which != 13; });
@@ -864,7 +864,7 @@
 			}
 
 			function clearHtmlIfTextIsEmpty(editorId) {
-				var $editor = $(`#${editorId}`);
+				var $editor = $('#' + editorId);
 
 				$editor.on('input', function() {
 					if (!(this.textContent || this.querySelectorAll('img, li').length)) {
@@ -983,7 +983,7 @@
 			}
 
 			function setPlaceholder(editorId, placeholder) {
-				var editor = $(`#${editorId}`);
+				var editor = $('#' + editorId);
 
 				//set placeHolder
 				editor.attr("placeholder",placeholder);
@@ -1347,7 +1347,7 @@
 			}
 
 			function setHTML(editorId, html) {
-				var editor = $(`#${editorId}`);
+				var editor = $('#' + editorId);
 				editor.html(html);
 			}
 
@@ -1516,7 +1516,7 @@
 
 				}
 
-				WebViewBridge.send(JSON.stringify({type: 'SELECTION_CHANGE', data: {items}}))
+				WebViewBridge.send(JSON.stringify({type: 'SELECTION_CHANGE', data: {items: items}}))
 			}
 
 			zss_editor.focusContent = function() {
@@ -1531,7 +1531,7 @@
 
 				// the following was taken from http://stackoverflow.com/questions/1125292/how-to-move-cursor-to-end-of-contenteditable-entity/3866442#3866442
 				// and ensures we move the cursor to the end of the editor
-				var editor = $(`#${editorId}`);
+				var editor = $('#' + editorId);
 				var range = document.createRange();
 				range.selectNodeContents(editor.get(0));
 				range.collapse(false);
@@ -1567,7 +1567,7 @@
 			}
 
 			function addFocusEvent(editorId, callbackHandler) {
-				var editor = $(`#${editorId}`);
+				var editor = $('#' + editorId);
 				editor.focus(callbackHandler);
 			}
 
