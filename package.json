@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/wix-private/react-native-ZSSRichTextEditor.git"
   },
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "React Native Wrapper for ZSSRichTextEditor",
   "main": "index.js",
   "license": "UNLICENSED",
