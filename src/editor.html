@@ -1332,10 +1332,11 @@
 				zss_editor.backuprange();
 			}
 
-			zss_editor.insertImage = function(url, alt) {
+			zss_editor.insertImage = function(attributes) {
 				zss_editor.restorerange();
-				var html = '<img src="'+encodeHtmlEntities(url)+'" alt="'+encodeHtmlEntities(alt)+'" /><br>';
-				zss_editor.insertHTML(html);
+				var imageContainer = $('<div><img></div>');
+				imageContainer.find('img').attr(attributes);
+				zss_editor.insertHTML(imageContainer.html() + '<br>');
 				zss_editor.enabledEditingItems();
 			}
 
