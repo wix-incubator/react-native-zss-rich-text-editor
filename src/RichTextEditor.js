@@ -166,7 +166,7 @@ export default class RichTextEditor extends Component {
             onRequestClose={() => this.setState({showLinkDialog: false})}
         >
           <View style={styles.modal}>
-            <View style={[styles.innerModal, {marginBottom: this.state.keyboardHeight}]}>
+            <View style={[styles.innerModal, {marginBottom: PlatfomIOS ? this.state.keyboardHeight : 0}]}>
               <Text style={styles.inputTitle}>Title</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
