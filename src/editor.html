@@ -891,10 +891,6 @@
 					zss_editor.enabledEditingItems(e);
 				});
 
-				$(window).on('scroll', function(e) {
-					zss_editor.updateOffset();
-				});
-
 				// Make sure that when we tap anywhere in the document we focus on the editor
 				$(window).on('touchmove', function(e) {
 					zss_editor.isDragging = true;

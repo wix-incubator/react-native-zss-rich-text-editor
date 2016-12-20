@@ -5,7 +5,7 @@ import {
     View,
     Platform
 } from 'react-native';
-import {RichTextEditor, RichTextToolbar} from 'react-native-temp-rich-text-editor';
+import {RichTextEditor, RichTextToolbar} from 'react-native-zss-rich-text-editor';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 export default class RichTextExample extends Component {
