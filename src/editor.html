@@ -1352,6 +1352,30 @@
 				setHTML('zss_editor_title', html);
 			}
 
+			zss_editor.toggleTitle = function() {
+				$('#zss_editor_title').toggle();
+				$('#separatorContainer').toggle();
+			}
+
+			zss_editor.enableOnChange = function() {
+				$('#zss_editor_content').on('input', function(){
+					WebViewBridge.send(JSON.stringify({
+						type: 'CONTENT_CHANGE',
+						data: {content: getHtml("zss_editor_content")}
+					}))
+				});
+			}
+
+			zss_editor.hideTitle = function() {
+				$('#zss_editor_title').hide();
+				$('#separatorContainer').hide();
+			}
+
+			zss_editor.showTitle = function() {
+				$('#zss_editor_title').show();
+				$('#separatorContainer').show();
+			}
+
 			zss_editor.setContentHTML = function(html) {
 				setHTML('zss_editor_content', html);
 			}

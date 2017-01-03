@@ -19,7 +19,9 @@ export default class RichTextEditor extends Component {
     titlePlaceholder: PropTypes.string,
     contentPlaceholder: PropTypes.string,
     editorInitializedCallback: PropTypes.func,
-    customCSS: PropTypes.string
+    customCSS: PropTypes.string,
+    hiddenTitle: PropTypes.bool,
+    enableOnChange: PropTypes.bool
   };
 
   constructor(props) {
@@ -31,6 +33,7 @@ export default class RichTextEditor extends Component {
     this._onKeyboardWillHide = this._onKeyboardWillHide.bind(this);
     this.state = {
       listeners: [],
+      onChange: [],
       showLinkDialog: false,
       linkInitialUrl: '',
       linkTitle: '',
@@ -127,6 +130,10 @@ export default class RichTextEditor extends Component {
           this.setContentPlaceholder(this.props.contentPlaceholder);
           this.setTitleHTML(this.props.initialTitleHTML);
           this.setContentHTML(this.props.initialContentHTML);
+
+          this.props.hiddenTitle && this.hideTitle();
+          this.props.enableOnChange && this.enableOnChange();
+
           this.props.editorInitializedCallback && this.props.editorInitializedCallback();
 
           break;
@@ -150,6 +157,10 @@ export default class RichTextEditor extends Component {
         case messages.SELECTION_CHANGE:
           const items = message.data.items;
           this.state.listeners.map((listener) => listener(items));
+          break
+        case messages.CONTENT_CHANGE:
+          const content = message.data.content;
+          this.state.onChange.map((listener) => listener(content));
           break
       }
     } catch(e) {
@@ -311,11 +322,29 @@ export default class RichTextEditor extends Component {
       listeners: [...this.state.listeners, listener]
     });
   }
+  
+  enableOnChange() {
+    this._sendAction(actions.enableOnChange);
+  }
+
+  registerContentChangeListener(listener) {
+    this.setState({
+      onChange: [...this.state.onChange, listener]
+    });
+  }
 
   setTitleHTML(html) {
     this._sendAction(actions.setTitleHtml, html);
   }
-
+  hideTitle() {
+    this._sendAction(actions.hideTitle);
+  }
+  showTitle() {
+    this._sendAction(actions.showTitle);
+  }
+  toggleTitle() {
+    this._sendAction(actions.toggleTitle);
+  }
   setContentHTML(html) {
     this._sendAction(actions.setContentHtml, html);
   }
