@@ -7,8 +7,20 @@ export const InjectedMessageHandler = `
       const action = JSON.parse(message);
 
       switch(action.type) {
+        case '${actions.enableOnChange}':
+          zss_editor.enableOnChange();
+          break;
         case '${actions.setTitleHtml}':
           zss_editor.setTitleHTML(action.data);
+          break;
+        case '${actions.toggleTitle}':
+          zss_editor.toggleTitle(action.data);
+          break;
+        case '${actions.hideTitle}':
+          zss_editor.hideTitle(action.data);
+          break;
+        case '${actions.showTitle}':
+          zss_editor.showTitle(action.data);
           break;
         case '${actions.setContentHtml}':
           zss_editor.setContentHTML(action.data);

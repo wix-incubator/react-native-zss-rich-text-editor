@@ -1,8 +1,12 @@
 export const actions = {
+  enableOnChange: 'ENABLE_ON_CHANGE',
   setTitleHtml: 'SET_TITLE_HTML',
   setContentHtml: 'SET_CONTENT_HTML',
   getTitleHtml: 'GET_TITLE_HTML',
   getTitleText: 'GET_TITLE_TEXT',
+  toggleTitle: 'TOGGLE_TITLE',
+  hideTitle: 'HIDE_TITLE',
+  showTitle: 'SHOW_TITLE',
   getContentHtml: 'GET_CONTENT_HTML',
   getSelectedText: 'GET_SELECTED_TEXT',
   blurTitleEditor: 'BLUR_TITLE_EDITOR',
@@ -59,6 +63,7 @@ export const messages = {
   TITLE_FOCUSED: 'TITLE_FOCUSED',
   CONTENT_FOCUSED: 'CONTENT_FOCUSED',
   SELECTION_CHANGE: 'SELECTION_CHANGE',
+  CONTENT_CHANGE: 'CONTENT_CHANGE',
   SELECTED_TEXT_RESPONSE: 'SELECTED_TEXT_RESPONSE',
   LINK_TOUCHED: 'LINK_TOUCHED'
 };
