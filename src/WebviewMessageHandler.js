@@ -161,6 +161,12 @@ export const InjectedMessageHandler = `
         case '${actions.init}':
           zss_editor.init();
           break;
+        case '${actions.setEditorHeight}':
+          zss_editor.setEditorHeight(action.data);
+          break;
+        case '${actions.setPlatform}':
+          zss_editor.setPlatform(action.data);
+          break;
       }
     };
   }

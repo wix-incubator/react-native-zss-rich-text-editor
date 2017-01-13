@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import WebViewBridge from 'react-native-webview-bridge-updated';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
 import {actions, messages} from './const';
-import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, PixelRatio, Keyboard} from 'react-native';
+import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, PixelRatio, Keyboard, Dimensions} from 'react-native';
 
 const injectScript = `
   (function () {
@@ -10,7 +10,7 @@ const injectScript = `
   }());
 `;
 
-const PlatfomIOS = Platform.OS === 'ios';
+const PlatformIOS = Platform.OS === 'ios';
 
 export default class RichTextEditor extends Component {
   static propTypes = {
@@ -43,7 +43,7 @@ export default class RichTextEditor extends Component {
   }
 
   componentWillMount() {
-    if(PlatfomIOS) {
+    if(PlatformIOS) {
       this.keyboardEventListeners = [
         Keyboard.addListener('keyboardWillShow', this._onKeyboardWillShow),
         Keyboard.addListener('keyboardWillHide', this._onKeyboardWillHide)
@@ -66,11 +66,23 @@ export default class RichTextEditor extends Component {
     if (this.state.keyboardHeight === newKeyboardHeight) {
       return;
     }
+    if (newKeyboardHeight) {
+      this.setEditorAvailableHeightBasedOnKeyboardHeight(newKeyboardHeight);
+    }
     this.setState({keyboardHeight: newKeyboardHeight});
   }
 
   _onKeyboardWillHide(event) {
     this.setState({keyboardHeight: 0});
+  }
+
+  setEditorAvailableHeightBasedOnKeyboardHeight(keyboardHeight) {
+    const {top = 0, bottom = 0} = this.props.contentInset;
+    const {marginTop = 0, marginBottom = 0} = this.props.style;
+    const spacing = marginTop + marginBottom + top + bottom;
+
+    const editorAvailableHeight = Dimensions.get('window').height - keyboardHeight - spacing;
+    this.setEditorHeight(editorAvailableHeight);
   }
   
   onBridgeMessage(str){
@@ -177,7 +189,7 @@ export default class RichTextEditor extends Component {
             onRequestClose={() => this.setState({showLinkDialog: false})}
         >
           <View style={styles.modal}>
-            <View style={[styles.innerModal, {marginBottom: PlatfomIOS ? this.state.keyboardHeight : 0}]}>
+            <View style={[styles.innerModal, {marginBottom: PlatformIOS ? this.state.keyboardHeight : 0}]}>
               <Text style={styles.inputTitle}>Title</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
@@ -197,7 +209,7 @@ export default class RichTextEditor extends Component {
                     autoCorrect={false}
                 />
               </View>
-              {PlatfomIOS && <View style={styles.lineSeparator}/>}
+              {PlatformIOS && <View style={styles.lineSeparator}/>}
               {this._renderModalButtons()}
             </View>
           </View>
@@ -216,11 +228,11 @@ export default class RichTextEditor extends Component {
 
   _renderModalButtons() {
     const insertUpdateDisabled = this.state.linkTitle.trim().length <= 0 || this.state.linkUrl.trim().length <= 0;
-    const containerPlatformStyle = PlatfomIOS ? {justifyContent: 'space-between'} : {paddingTop: 15};
-    const buttonPlatformStyle = PlatfomIOS ? {flex: 1, height: 45, justifyContent: 'center'} : {};
+    const containerPlatformStyle = PlatformIOS ? {justifyContent: 'space-between'} : {paddingTop: 15};
+    const buttonPlatformStyle = PlatformIOS ? {flex: 1, height: 45, justifyContent: 'center'} : {};
     return (
       <View style={[{alignSelf: 'stretch', flexDirection: 'row'}, containerPlatformStyle]}>
-        {!PlatfomIOS && <View style={{flex: 1}}/>}
+        {!PlatformIOS && <View style={{flex: 1}}/>}
         <TouchableOpacity
             onPress={() => this._hideModal()}
             style={buttonPlatformStyle}
@@ -254,16 +266,15 @@ export default class RichTextEditor extends Component {
   }
 
   _upperCaseButtonTextIfNeeded(buttonText) {
-    return PlatfomIOS ? buttonText : buttonText.toUpperCase();
+    return PlatformIOS ? buttonText : buttonText.toUpperCase();
   }
 
   render() {
     //in release build, external html files in Android can't be required, so they must be placed in the assets folder and accessed via uri
-    const pageSource = PlatfomIOS ? require('./editor.html') : { uri: 'file:///android_asset/editor.html' };
+    const pageSource = PlatformIOS ? require('./editor.html') : { uri: 'file:///android_asset/editor.html' };
     return (
       <View style={{flex: 1}}>
         <WebViewBridge
-          style={{flex: 1}}
           {...this.props}
           hideKeyboardAccessoryView={true}
           keyboardDisplayRequiresUserAction={false}
@@ -492,6 +503,15 @@ export default class RichTextEditor extends Component {
 
   init() {
     this._sendAction(actions.init);
+    this.setPlatform();
+  }
+
+  setEditorHeight(height) {
+    this._sendAction(actions.setEditorHeight, height);
+  }
+
+  setPlatform() {
+    this._sendAction(actions.setPlatform, Platform.OS);
   }
 
   async getTitleHtml() {
@@ -571,12 +591,12 @@ const styles = StyleSheet.create({
   innerModal: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     paddingTop: 20,
-    paddingBottom: PlatfomIOS ? 0 : 20,
+    paddingBottom: PlatformIOS ? 0 : 20,
     paddingLeft: 20,
     paddingRight: 20,
     alignSelf: 'stretch',
     margin: 40,
-    borderRadius: PlatfomIOS ? 8 : 2
+    borderRadius: PlatformIOS ? 8 : 2
   },
   button: {
     fontSize: 16,
@@ -587,13 +607,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
     borderBottomColor: '#4a4a4a',
-    borderBottomWidth: PlatfomIOS ? 1 / PixelRatio.get() : 0
+    borderBottomWidth: PlatformIOS ? 1 / PixelRatio.get() : 0
   },
   inputTitle: {
     color: '#4a4a4a'
   },
   input: {
-    height: PlatfomIOS ? 20 : 40,
+    height: PlatformIOS ? 20 : 40,
     paddingTop: 0
   },
   lineSeparator: {
