@@ -32,7 +32,7 @@ export default class RichTextEditor extends Component {
     this._onKeyboardWillShow = this._onKeyboardWillShow.bind(this);
     this._onKeyboardWillHide = this._onKeyboardWillHide.bind(this);
     this.state = {
-      listeners: [],
+      selectionChangeListeners: [],
       onChange: [],
       showLinkDialog: false,
       linkInitialUrl: '',
@@ -40,6 +40,7 @@ export default class RichTextEditor extends Component {
       linkUrl: '',
       keyboardHeight: 0
     };
+    this._selectedTextChangeListeners = [];
   }
 
   componentWillMount() {
@@ -154,14 +155,25 @@ export default class RichTextEditor extends Component {
         case messages.CONTENT_FOCUSED:
           this.contentFocusHandler && this.contentFocusHandler();
           break;
-        case messages.SELECTION_CHANGE:
+        case messages.SELECTION_CHANGE: {
           const items = message.data.items;
-          this.state.listeners.map((listener) => listener(items));
-          break
-        case messages.CONTENT_CHANGE:
+          this.state.selectionChangeListeners.map((listener) => {
+            listener(items);
+          });
+          break;
+        }
+        case messages.CONTENT_CHANGE: {
           const content = message.data.content;
           this.state.onChange.map((listener) => listener(content));
-          break
+          break;
+        }
+        case messages.SELECTED_TEXT_CHANGED: {
+          const selectedText = message.data;
+          this._selectedTextChangeListeners.forEach((listener) => {
+            listener(selectedText);
+          });
+          break;
+        }
       }
     } catch(e) {
       //alert('NON JSON MESSAGE');
@@ -319,7 +331,7 @@ export default class RichTextEditor extends Component {
 
   registerToolbar(listener) {
     this.setState({
-      listeners: [...this.state.listeners, listener]
+      selectionChangeListeners: [...this.state.selectionChangeListeners, listener]
     });
   }
   
@@ -558,6 +570,10 @@ export default class RichTextEditor extends Component {
   setContentFocusHandler(callbackHandler) {
     this.contentFocusHandler = callbackHandler;
     this._sendAction(actions.setContentFocusHandler);
+  }
+
+  addSelectedTextChangeListener(listener) {
+    this._selectedTextChangeListeners.push(listener);
   }
 }
 

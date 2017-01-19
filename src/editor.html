@@ -889,6 +889,7 @@
 					zss_editor.calculateEditorHeightWithCaretPosition();
 					zss_editor.setScrollPosition();
 					zss_editor.enabledEditingItems(e);
+					notifyIfSelectedTextHasChanged();
 				});
 
 				// Make sure that when we tap anywhere in the document we focus on the editor
@@ -918,6 +919,18 @@
 				}, 20);
 
 			}//end
+
+			function notifyIfSelectedTextHasChanged() {
+				var selectedTextChangeMessage = JSON.stringify({
+					data: String(getSelection()),
+					type: 'SELECTED_TEXT_CHANGED'
+				});
+
+				if (selectedTextChangeMessage !== zss_editor.previousSelectedTextChangeMessage) {
+					WebViewBridge.send(selectedTextChangeMessage);
+					zss_editor.previousSelectedTextChangeMessage = selectedTextChangeMessage;
+				}
+			}
 
 			function whenPastingInsertAsPlainText(editorId) {
 				var editor = document.getElementById(editorId);
@@ -1537,7 +1550,19 @@
 
 				}
 
-				WebViewBridge.send(JSON.stringify({type: 'SELECTION_CHANGE', data: {items: items}}))
+				notifyIfSelectionHasChanged(items);
+			}
+
+			function notifyIfSelectionHasChanged(items) {
+				var selectionChangeMessage = JSON.stringify({
+					data: {items: items},
+					type: 'SELECTION_CHANGE'
+				});
+
+				if (selectionChangeMessage !== zss_editor.previousSelectionChangeMessage) {
+					WebViewBridge.send(selectionChangeMessage);
+					zss_editor.previousSelectionChangeMessage = selectionChangeMessage;
+				}
 			}
 
 			zss_editor.focusContent = function() {
