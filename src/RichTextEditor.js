@@ -162,6 +162,11 @@ export default class RichTextEditor extends Component {
           });
           break;
         }
+        case messages.CONTENT_CHANGE: {
+          const content = message.data.content;
+          this.state.onChange.map((listener) => listener(content));
+          break;
+        }
         case messages.SELECTED_TEXT_CHANGED: {
           const selectedText = message.data;
           this._selectedTextChangeListeners.forEach((listener) => {
