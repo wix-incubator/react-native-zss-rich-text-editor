@@ -32,7 +32,7 @@ export default class RichTextEditor extends Component {
     this._onKeyboardWillShow = this._onKeyboardWillShow.bind(this);
     this._onKeyboardWillHide = this._onKeyboardWillHide.bind(this);
     this.state = {
-      listeners: [],
+      selectionChangeListeners: [],
       onChange: [],
       showLinkDialog: false,
       linkInitialUrl: '',
@@ -157,14 +157,9 @@ export default class RichTextEditor extends Component {
           break;
         case messages.SELECTION_CHANGE: {
           const items = message.data.items;
-          this.state.listeners.map((listener) => {
+          this.state.selectionChangeListeners.map((listener) => {
             listener(items);
           });
-          break;
-        }
-        case messages.CONTENT_CHANGE: {
-          const content = message.data.content;
-          this.state.onChange.map((listener) => listener(content));
           break;
         }
         case messages.SELECTED_TEXT_CHANGED: {
@@ -331,7 +326,7 @@ export default class RichTextEditor extends Component {
 
   registerToolbar(listener) {
     this.setState({
-      listeners: [...this.state.listeners, listener]
+      selectionChangeListeners: [...this.state.selectionChangeListeners, listener]
     });
   }
   
