@@ -1537,7 +1537,19 @@
 
 				}
 
-				WebViewBridge.send(JSON.stringify({type: 'SELECTION_CHANGE', data: {items: items}}))
+				notifyIfSelectionHasChanged(items);
+			}
+
+			function notifyIfSelectionHasChanged(items) {
+				var selectionChangeMessage = JSON.stringify({
+					data: {items: items},
+					type: 'SELECTION_CHANGE'
+				});
+
+				if (selectionChangeMessage !== zss_editor.previousSelectionChangeMessage) {
+					WebViewBridge.send(selectionChangeMessage);
+					zss_editor.previousSelectionChangeMessage = selectionChangeMessage;
+				}
 			}
 
 			zss_editor.focusContent = function() {
