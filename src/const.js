@@ -51,6 +51,7 @@ export const actions = {
   setBackgroundColor: 'SET_BACKGROUND_COLOR',
   init: 'ZSSS_INIT',
   setEditorHeight: 'SET_EDITOR_HEIGHT',
+  setFooterHeight: 'SET_FOOTER_HEIGHT',
   setPlatform: 'SET_PLATFORM'
 };
 

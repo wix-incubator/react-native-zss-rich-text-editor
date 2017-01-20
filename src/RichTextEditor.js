@@ -21,7 +21,8 @@ export default class RichTextEditor extends Component {
     editorInitializedCallback: PropTypes.func,
     customCSS: PropTypes.string,
     hiddenTitle: PropTypes.bool,
-    enableOnChange: PropTypes.bool
+    enableOnChange: PropTypes.bool,
+    footerHeight: PropTypes.number
   };
 
   constructor(props) {
@@ -504,10 +505,17 @@ export default class RichTextEditor extends Component {
   init() {
     this._sendAction(actions.init);
     this.setPlatform();
+    if (this.props.footerHeight) {
+      this.setFooterHeight();
+    }
   }
 
   setEditorHeight(height) {
     this._sendAction(actions.setEditorHeight, height);
+  }
+
+  setFooterHeight() {
+    this._sendAction(actions.setFooterHeight, this.props.footerHeight);
   }
 
   setPlatform() {
