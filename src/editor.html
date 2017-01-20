@@ -1351,7 +1351,7 @@
 				zss_editor.restorerange();
 				var imageContainer = $('<div><img></div>');
 				imageContainer.find('img').attr(attributes);
-				zss_editor.insertHTML(imageContainer.html() + '<br>');
+				zss_editor.insertHTML('<br>' + imageContainer.html() + '<br>');
 				zss_editor.enabledEditingItems();
 			}
 
