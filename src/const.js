@@ -49,7 +49,10 @@ export const actions = {
   setCustomCSS: 'SET_CUSTOM_CSS',
   setTextColor: 'SET_TEXT_COLOR',
   setBackgroundColor: 'SET_BACKGROUND_COLOR',
-  init: 'ZSSS_INIT'
+  init: 'ZSSS_INIT',
+  setEditorHeight: 'SET_EDITOR_HEIGHT',
+  setFooterHeight: 'SET_FOOTER_HEIGHT',
+  setPlatform: 'SET_PLATFORM'
 };
 
 

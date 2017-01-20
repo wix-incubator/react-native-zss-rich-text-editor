@@ -808,7 +808,7 @@
 			zss_editor.enabledItems = {};
 
 			// Height of content window, will be set by viewController
-			zss_editor.contentHeight = 244;
+			zss_editor.editorHeight = 244;
 
 			// Sets to true when extra footer gap shows and requires to hide
 			zss_editor.updateScrollOffset = false;
@@ -902,6 +902,11 @@
 				$(window).on('touchstart', function(e) {
 					zss_editor.isDragging = false;
 				});
+				$(window).on('scroll', function(e) {
+					if (zss_editor.platform === 'ios') {
+						zss_editor.updateOffset();
+					}
+				});
 
 				setupTouchEndFocus('zss_editor_title');
 				setupTouchEndFocus('zss_editor_content');
@@ -965,9 +970,9 @@
 
 				var offsetY = window.document.body.scrollTop;
 
-				var footer = $('#zss_editor_footer');
+				var footer = document.getElementById('zss_editor_footer');
 
-				var maxOffsetY = footer.offset().top - zss_editor.contentHeight;
+				var maxOffsetY = footer.offsetTop + footer.offsetHeight - zss_editor.editorHeight;
 
 				if (maxOffsetY < 0)
 					maxOffsetY = 0;
@@ -1033,22 +1038,23 @@
 			}
 
 			zss_editor.calculateEditorHeightWithCaretPosition = function() {
-
-				var padding = 50;
-				var c = zss_editor.getCaretYPosition();
-
+				var caretYPosition = zss_editor.getCaretYPosition();
+				var lineHeight = 20;
+				var halfLineHeight = lineHeight/2;
 				var offsetY = window.document.body.scrollTop;
-				var height = zss_editor.contentHeight;
+				var editorHeight = zss_editor.editorHeight;
+				var newPos;
 
-				var newPos = window.pageYOffset;
-
-				if (c < offsetY) {
-					newPos = c;
-				} else if (c > (offsetY + height - padding)) {
-					newPos = c - height + padding - 18;
+				var futureEditorHeight = caretYPosition + lineHeight;
+				if (caretYPosition < offsetY) {
+					newPos = caretYPosition;
+				} else if (futureEditorHeight > editorHeight + offsetY) {
+					newPos = futureEditorHeight - editorHeight + halfLineHeight;
 				}
 
-				window.scrollTo(0, newPos);
+				if (newPos) {
+					window.scrollTo(0, newPos);
+				}
 			}
 
 			zss_editor.backuprange = function(){
@@ -1627,6 +1633,14 @@
 				addFocusEvent('zss_editor_content', function() {
 					WebViewBridge.send(JSON.stringify({type: 'CONTENT_FOCUSED'}))
 				});
+			}
+
+			zss_editor.setEditorHeight = function(editorHeight) {
+				zss_editor.editorHeight = editorHeight;
+			}
+
+			zss_editor.setPlatform = function(platform) {
+				zss_editor.platform = platform;
 			}
 
 			//end
