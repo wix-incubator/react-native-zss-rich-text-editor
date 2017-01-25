@@ -22,7 +22,13 @@ export default class RichTextEditor extends Component {
     customCSS: PropTypes.string,
     hiddenTitle: PropTypes.bool,
     enableOnChange: PropTypes.bool,
-    footerHeight: PropTypes.number
+    footerHeight: PropTypes.number,
+    contentInset: PropTypes.object
+  };
+
+  static defaultProps = {
+    contentInset: {},
+    style: {}
   };
 
   constructor(props) {
