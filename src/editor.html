@@ -1741,13 +1741,36 @@
 			/* Custom CSS Styling */
 			/*customcss*/
 		</style>
+        <script src="./NoUIBundleWixRichText.js"></script>
 	</head>
 
 	<body>
 		<!-- ZSSRichTextEditor Editable Content -->
 		<div id="zss_editor_title" class="zss_editor_title" contenteditable="true" placeholder="" disableLineBreaks="true"></div>
 		<div id="separatorContainer"><hr></div>
-		<div id="zss_editor_content" class="zs_editor_content" contenteditable="true" placeholder=""></div>
+        <div id="wix-richtext"></div>
+		<div id="zss_editor_content" class="zs_editor_content" contenteditable="true" placeholder="" style="display:none"></div>
 		<div id="zss_editor_footer"></div>
+        <script type="text/javascript">
+            function detectActiveElement(){
+                if(document.activeElement.tagName === 'IFRAME'){
+                    WebViewBridge.send(JSON.stringify({type: 'CONTENT_FOCUSED'}))
+                }
+            }
+            window.addEventListener('blur', detectActiveElement, true);
+            window.addEventListener('focus', detectActiveElement, true);
+            richtext.createInstance({
+                domElement: window.document.getElementById('wix-richtext'),
+                initialData: '<p>WIXRICHTEXT</p>',
+                autoGrow: false,
+                onLoaded: function(instance){
+                    window.wixRichTextInstance = instance;
+                    instance.resize(null, 500);
+//                    instance.onFocus(function() {
+//                        instance.resize(null, 1000);
+//                    })
+                }
+            })
+        </script>
 	</body>
 </html>

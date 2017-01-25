@@ -2,6 +2,9 @@
 #
 .DS_Store
 
+src/ckeditor/
+src/NoUIBundleWixRichText.js
+src/wixck.min.js
 # Xcode
 #
 build/

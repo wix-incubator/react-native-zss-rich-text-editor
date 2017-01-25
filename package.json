@@ -4,12 +4,19 @@
     "type": "git",
     "url": "https://github.com/wix/react-native-zss-rich-text-editor.git"
   },
+  "scripts": {
+    "copy-wix-ck": "cp -R ../wix-ck-editor/dist/ node_modules/wix-richtext/dist",
+    "copy-richtext-from-node_modules": "cp -R node_modules/wix-richtext/dist/ckeditor src/ && cp node_modules/wix-richtext/dist/NoUIBundleWixRichText.js src/ && cp node_modules/wix-richtext/dist/wixck.min.js src/",
+    "copy-into-blog-oneapp": "rm -rf ~/projects/blog-manager-mobile/node_modules/react-native-zss-rich-text-editor && cp -R ~/projects/react-native-zss-rich-text-editor ~/projects/blog-manager-mobile/node_modules/",
+    "build": "npm run copy-wix-ck && npm run copy-richtext-from-node_modules && . hack-fix-guard.sh && npm run copy-into-blog-oneapp"
+  },
   "version": "1.0.1",
   "description": "React Native Wrapper for ZSSRichTextEditor",
   "main": "index.js",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "react-native-webview-bridge-updated": "^1.0.0"
+    "react-native-webview-bridge-updated": "^1.0.0",
+    "wix-richtext": "^1.0.261"
   },
   "peerDependencies": {
     "react": "*",

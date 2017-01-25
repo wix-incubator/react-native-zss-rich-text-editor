@@ -3,7 +3,7 @@ import {actions, messages} from './const';
 export const InjectedMessageHandler = `
   if (WebViewBridge) {
     WebViewBridge.onMessage = function (message) {
-
+console.log(message)
       const action = JSON.parse(message);
 
       switch(action.type) {
@@ -33,12 +33,15 @@ export const InjectedMessageHandler = `
           break;
         case '${actions.setBold}':
           zss_editor.setBold();
+          window.wixRichTextInstance.execCommand('bold');
           break;
         case '${actions.setItalic}':
           zss_editor.setItalic();
+          window.wixRichTextInstance.execCommand('italic');
           break;
         case '${actions.setUnderline}':
           zss_editor.setUnderline();
+          window.wixRichTextInstance.execCommand('underline');
           break;
         case '${actions.heading1}':
           zss_editor.setHeading('h1');
@@ -78,9 +81,11 @@ export const InjectedMessageHandler = `
           break;
         case '${actions.insertBulletsList}':
           zss_editor.setUnorderedList();
+          window.wixRichTextInstance.execCommand('bulletedlist');
           break;
         case '${actions.insertOrderedList}':
           zss_editor.setOrderedList();
+          window.wixRichTextInstance.execCommand('numberedlist');
           break;
         case '${actions.insertLink}':
           zss_editor.insertLink(action.data.url, action.data.title);
