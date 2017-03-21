@@ -853,7 +853,7 @@
 						title: anchor.text(),
 						url: anchor.attr('href')
 					};
-					WebViewBridge.send(JSON.stringify({type: 'LINK_TOUCHED', data: link}))
+					postMessage(JSON.stringify({type: 'LINK_TOUCHED', data: link}))
 				});
 			}
 
@@ -874,7 +874,6 @@
 			}
 
 			zss_editor.init = function() {
-
 				disableLineBreakIfNecessary('zss_editor_title');
 				disableLineBreakIfNecessary('zss_editor_content');
 
@@ -920,7 +919,7 @@
 				zss_editor.focusTitle();
 
 				setTimeout(function() {
-					WebViewBridge.send(JSON.stringify({type: 'ZSS_INITIALIZED'}))
+					postMessage(JSON.stringify({type: 'ZSS_INITIALIZED'}))
 				}, 20);
 
 			}//end
@@ -932,7 +931,7 @@
 				});
 
 				if (selectedTextChangeMessage !== zss_editor.previousSelectedTextChangeMessage) {
-					WebViewBridge.send(selectedTextChangeMessage);
+					postMessage(selectedTextChangeMessage);
 					zss_editor.previousSelectedTextChangeMessage = selectedTextChangeMessage;
 				}
 			}
@@ -987,13 +986,13 @@
 
 			// This will show up in the XCode console as we are able to push this into an NSLog.
 			zss_editor.debug = function(msg) {
-				WebViewBridge.send(JSON.stringify({type: 'LOG', data: msg}));
+				postMessage(JSON.stringify({type: 'LOG', data: msg}));
 			}
 
 
 			zss_editor.setScrollPosition = function() {
 				var position = window.pageYOffset;
-				WebViewBridge.send(JSON.stringify({type: 'SCROLL', data: position}));
+				postMessage(JSON.stringify({type: 'SCROLL', data: position}));
 			}
 
 			function setPlaceholder(editorId, placeholder) {
@@ -1378,7 +1377,7 @@
 
 			zss_editor.enableOnChange = function() {
 				$('#zss_editor_content').on('input', function(){
-					WebViewBridge.send(JSON.stringify({
+					postMessage(JSON.stringify({
 						type: 'CONTENT_CHANGE',
 						data: {content: getHtml("zss_editor_content")}
 					}))
@@ -1566,7 +1565,7 @@
 				});
 
 				if (selectionChangeMessage !== zss_editor.previousSelectionChangeMessage) {
-					WebViewBridge.send(selectionChangeMessage);
+					postMessage(selectionChangeMessage);
 					zss_editor.previousSelectionChangeMessage = selectionChangeMessage;
 				}
 			}
@@ -1625,13 +1624,13 @@
 
 			zss_editor.setTitleFocusHandler = function() {
 				addFocusEvent('zss_editor_title', function() {
-					WebViewBridge.send(JSON.stringify({type: 'TITLE_FOCUSED'}))
+					postMessage(JSON.stringify({type: 'TITLE_FOCUSED'}))
 				});
 			}
 
 			zss_editor.setContentFocusHandler = function() {
 				addFocusEvent('zss_editor_content', function() {
-					WebViewBridge.send(JSON.stringify({type: 'CONTENT_FOCUSED'}))
+					postMessage(JSON.stringify({type: 'CONTENT_FOCUSED'}))
 				});
 			}
 
