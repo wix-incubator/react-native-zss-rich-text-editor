@@ -1,8 +1,8 @@
-#React Native Rich Text Editor
+# React Native Rich Text Editor
 
 A fully functional Rich Text Editor for both Android and iOS, based off the [ZSSRichTextEditor](https://github.com/nnhubbard/ZSSRichTextEditor/tree/master/ZSSRichTextEditor) project. 
 
-##Installation
+## Installation
 
 `npm i --save react-native-zss-rich-text-editor`
 
@@ -18,11 +18,11 @@ project.afterEvaluate {
 Also, follow instructions [here](https://github.com/alinz/react-native-webview-bridge) to add the native `react-native-webview-bridge-updated` dependency.
 
 
-##Usage
+## Usage
 
 `react-native-zss-rich-text-editor` exports two Components and one const dictionary:
 
-##`RichTextEditor`
+## `RichTextEditor`
 
 The editor component. Simply place this component in your view hierarchy to receive a fully functional Rich text Editor.
 
@@ -119,7 +119,7 @@ This method registers a function that will get called whenver the cursor positio
 
 *  `registerToolbar(listener)` 
 
-###Example Usage:
+### Example Usage:
 
 ```javascript
 <RichTextEditor
@@ -132,7 +132,7 @@ This method registers a function that will get called whenver the cursor positio
 
 ![RichTextEditor](readme/editor.png)
 
-##`RichTextToolbar`
+## `RichTextToolbar`
 
 This is a Component that provides a toolbar for easily controlling an editor. It is designed to be used together with a `RichTextEditor` component.
 
@@ -178,11 +178,11 @@ Other props supported by the `RichTextToolbar` component are:
 	`RichTextToolbar` comes with default icons for the default actions it renders. To override those, or to add icons for non-default actions, provide them in a dictionary to this prop.
 	
 
-###Example Usage:
+### Example Usage:
 
 ```javascript
 <RichTextToolbar
-	getEditor={() => this.richtext}
+  getEditor={() => this.richtext}
 />
 ```
 
@@ -191,60 +191,59 @@ Other props supported by the `RichTextToolbar` component are:
 ![RichTextEditor](readme/toolbar_selected.png)
 
 
-##`actions`
+## `actions`
 
 This is a set of consts of all supported actions. These will be passed in arrays to all callbacks registered with the editor using  the `registerToolbar()` method.
+```
+{
+  setTitleHtml: 'SET_TITLE_HTML',
+  setContentHtml: 'SET_CONTENT_HTML',
+  getTitleHtml: 'GET_TITLE_HTML',
+  getTitleText: 'GET_TITLE_TEXT',
+  getContentHtml: 'GET_CONTENT_HTML',
+  getSelectedText: 'GET_SELECTED_TEXT',
+  blurTitleEditor: 'BLUR_TITLE_EDITOR',
+  blurContentEditor: 'BLUR_CONTENT_EDITOR',
+  focusTitle: 'FOCUS_TITLE',
+  focusContent: 'FOCUS_CONTENT',
+  setBold: 'bold',
+  setItalic: 'italic',
+  setUnderline: 'underline',
+  heading1: 'h1',
+  heading2: 'h2',
+  heading3: 'h3',
+  heading4: 'h4',
+  heading5: 'h5',
+  heading6: 'h6',
+  setParagraph: 'SET_PARAGRAPH',
+  removeFormat: 'REMOVE_FORMAT',
+  alignLeft: 'justifyLeft',
+  alignCenter: 'justifyCenter',
+  alignRight: 'justifyRight',
+  alignFull: 'justifyFull',
+  insertBulletsList: 'unorderedList',
+  insertOrderedList: 'orderedList',
+  insertLink: 'INST_LINK',
+  updateLink: 'UPDATE_LINK',
+  insertImage: 'INST_IMAGE',
+  setSubscript: 'subscript',
+  setSuperscript: 'superscript',
+  setStrikethrough: 'strikeThrough',
+  setHR: 'horizontalRule',
+  setIndent: 'indent',
+  setOutdent: 'outdent',
+  setTitlePlaceholder: 'SET_TITLE_PLACEHOLDER',
+  setContentPlaceholder: 'SET_CONTENT_PLACEHOLDER',
+  setTitleFocusHandler: 'SET_TITLE_FOCUS_HANDLER',
+  setContentFocusHandler: 'SET_CONTENT_FOCUS_HANDLER',
+  prepareInsert: 'PREPARE_INSERT',
+  restoreSelection: 'RESTORE_SELECTION',
+  setCustomCSS: 'SET_CUSTOM_CSS',
+  setTextColor: 'SET_TEXT_COLOR',
+  setBackgroundColor: 'SET_BACKGROUND_COLOR',
+}
+```
 
-	{
-		setTitleHtml: 'SET_TITLE_HTML',
-	  	setContentHtml: 'SET_CONTENT_HTML',
-	  	getTitleHtml: 'GET_TITLE_HTML',
-	  	getTitleText: 'GET_TITLE_TEXT',
-	 	getContentHtml: 'GET_CONTENT_HTML',
-	  	getSelectedText: 'GET_SELECTED_TEXT',
-	  	blurTitleEditor: 'BLUR_TITLE_EDITOR',
-	  	blurContentEditor: 'BLUR_CONTENT_EDITOR',
-	  	focusTitle: 'FOCUS_TITLE',
-	  	focusContent: 'FOCUS_CONTENT',
-		
-	  	setBold: 'bold',
-	  	setItalic: 'italic',
-	  	setUnderline: 'underline',
-	  	heading1: 'h1',
-	  	heading2: 'h2',
-	  	heading3: 'h3',
-	  	heading4: 'h4',
-	  	heading5: 'h5',
-	  	heading6: 'h6',
-	  	setParagraph: 'SET_PARAGRAPH',
-	  	removeFormat: 'REMOVE_FORMAT',
-	  	alignLeft: 'justifyLeft',
-	  	alignCenter: 'justifyCenter',
-	  	alignRight: 'justifyRight',
-	  	alignFull: 'justifyFull',
-	  	insertBulletsList: 'unorderedList',
-	  	insertOrderedList: 'orderedList',
-	  	insertLink: 'INST_LINK',
-	  	updateLink: 'UPDATE_LINK',
-	  	insertImage: 'INST_IMAGE',
-	  	setSubscript: 'subscript',
-	  	setSuperscript: 'superscript',
-	  	setStrikethrough: 'strikeThrough',
-	  	setHR: 'horizontalRule',
-	  	setIndent: 'indent',
-	  	setOutdent: 'outdent',
-	  	setTitlePlaceholder: 'SET_TITLE_PLACEHOLDER',
-	  	setContentPlaceholder: 'SET_CONTENT_PLACEHOLDER',
-	  	setTitleFocusHandler: 'SET_TITLE_FOCUS_HANDLER',
-	  	setContentFocusHandler: 'SET_CONTENT_FOCUS_HANDLER',
-	  	prepareInsert: 'PREPARE_INSERT',
-	  	restoreSelection: 'RESTORE_SELECTION',
-	  	setCustomCSS: 'SET_CUSTOM_CSS',
-	  	setTextColor: 'SET_TEXT_COLOR',
-	  	setBackgroundColor: 'SET_BACKGROUND_COLOR',
-  	}
-
-
-##Attribution
+## Attribution
 
 `react-native-zss-rich-text-editor` is a wrapper around the amazing [ZSSRichTextEditor](https://github.com/nnhubbard/ZSSRichTextEditor/tree/master/ZSSRichTextEditor) project. It also communicates with the editor using (a tiny fork) of the awesome [react-native-webview-bridge](https://github.com/alinz/react-native-webview-bridge) project.
