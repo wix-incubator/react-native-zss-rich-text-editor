@@ -30,6 +30,7 @@ export default class RichTextToolbar extends Component {
     actions: PropTypes.array,
     onPressAddLink: PropTypes.func,
     onPressAddImage: PropTypes.func,
+    onPressCustomAction: PropTypes.func,
     selectedButtonStyle: PropTypes.object,
     iconTint: PropTypes.any,
     selectedIconTint: PropTypes.any,
@@ -186,6 +187,8 @@ export default class RichTextToolbar extends Component {
           this.props.onPressAddImage();
         }
         break;
+      default:
+        this.props.onPressCustomAction(action);
         break;
     }
   }
