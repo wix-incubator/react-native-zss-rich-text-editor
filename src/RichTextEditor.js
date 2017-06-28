@@ -32,14 +32,15 @@ export default class RichTextEditor extends Component {
     linkInsertText: PropTypes.string,
     linkUpdateText: PropTypes.string,
 
+    //keyoard control
     showKeyboadrAtFirst: PropTypes.bool,
   };
 
   static defaultProps = {
     contentInset: {},
     style: {},
-    linkTitle: 'Title',
-    linkURL: 'URL',
+    linkTitleText: 'Title',
+    linkURLText: 'URL',
     linkCancelText: 'Cancel',
     linkInsertText: 'Insert',
     linkUpdateText: 'Update',
@@ -223,7 +224,7 @@ export default class RichTextEditor extends Component {
         >
           <View style={styles.modal}>
             <View style={[styles.innerModal, {marginBottom: PlatformIOS ? this.state.keyboardHeight : 0}]}>
-              <Text style={styles.inputTitle}>{this.props.linkTitle}</Text>
+              <Text style={styles.inputTitle}>{this.props.linkTitleText}</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
                     style={styles.input}
@@ -231,7 +232,7 @@ export default class RichTextEditor extends Component {
                     value={this.state.linkTitle}
                 />
               </View>
-              <Text style={[styles.inputTitle ,{marginTop: 10}]}>{this.props.linkURL}</Text>
+              <Text style={[styles.inputTitle ,{marginTop: 10}]}>{this.props.linkURLText}</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
                     style={styles.input}
