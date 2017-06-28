@@ -31,6 +31,8 @@ export default class RichTextEditor extends Component {
     linkCancelText: PropTypes.string,
     linkInsertText: PropTypes.string,
     linkUpdateText: PropTypes.string,
+
+    showKeyboadrAtFirst: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -41,6 +43,7 @@ export default class RichTextEditor extends Component {
     linkCancelText: 'Cancel',
     linkInsertText: 'Insert',
     linkUpdateText: 'Update',
+    showKeyboadrAtFirst: true,
   };
 
   constructor(props) {
@@ -307,7 +310,7 @@ export default class RichTextEditor extends Component {
         <WebViewBridge
           {...this.props}
           hideKeyboardAccessoryView={true}
-          keyboardDisplayRequiresUserAction={false}
+          keyboardDisplayRequiresUserAction={!this.props.showKeyboardAtFirst}
           ref={(r) => {this.webviewBridge = r}}
           onBridgeMessage={(message) => this.onBridgeMessage(message)}
           injectedJavaScript={injectScript}
