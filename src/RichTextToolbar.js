@@ -130,18 +130,32 @@ export default class RichTextToolbar extends Component {
   }
 
   render() {
+    const rows = this.getRows(this.props.actions, this.state.selectedItems)
+    const style = {
+      height: 50,
+      backgroundColor: '#D3D3D3',
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-around'
+    }
     return (
-      <View
-          style={[{height: 50, backgroundColor: '#D3D3D3', alignItems: 'center'}, this.props.style]}
-      >
-        <ListView
-            horizontal
-            contentContainerStyle={{flexDirection: 'row'}}
-            dataSource={this.state.ds}
-            renderRow= {(row) => this._renderAction(row.action, row.selected)}
-        />
+      <View style={[style, this.props.style]}>
+        {rows.map(row => this._renderAction(row.action, row.selected))}
       </View>
-    );
+    )
+
+    // return (
+    //   <View
+    //       style={[{height: 50, backgroundColor: '#D3D3D3', alignItems: 'center'}, this.props.style]}
+    //   >
+    //     <ListView
+    //         horizontal
+    //         contentContainerStyle={{flexDirection: 'row'}}
+    //         dataSource={this.state.ds}
+    //         renderRow= {(row) => this._renderAction(row.action, row.selected)}
+    //     />
+    //   </View>
+    // );
   }
 
   _onPress(action) {
