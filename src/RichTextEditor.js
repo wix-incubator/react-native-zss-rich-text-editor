@@ -23,12 +23,18 @@ export default class RichTextEditor extends Component {
     hiddenTitle: PropTypes.bool,
     enableOnChange: PropTypes.bool,
     footerHeight: PropTypes.number,
-    contentInset: PropTypes.object
+    contentInset: PropTypes.object,
+
+    //keyboard control
+    showKeyboardAtFirst: PropTypes.bool,
   };
 
   static defaultProps = {
     contentInset: {},
-    style: {}
+    style: {},
+
+    //keyboard control
+    showKeyboardAtFirst: true,
   };
 
   constructor(props) {
@@ -296,7 +302,7 @@ export default class RichTextEditor extends Component {
         <WebViewBridge
           {...this.props}
           hideKeyboardAccessoryView={true}
-          keyboardDisplayRequiresUserAction={false}
+          keyboardDisplayRequiresUserAction={!this.props.showKeyboardAtFirst}
           ref={(r) => {this.webviewBridge = r}}
           onBridgeMessage={(message) => this.onBridgeMessage(message)}
           injectedJavaScript={injectScript}
