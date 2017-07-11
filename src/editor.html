@@ -923,6 +923,10 @@
 					WebViewBridge.send(JSON.stringify({type: 'ZSS_INITIALIZED'}))
 				}, 20);
 
+				window.onerror = function (message, source, line, col, err) {
+					zss_editor.debug('Error: ' + message + '\n' + err.stack)
+				}
+
 			}//end
 
 			function notifyIfSelectedTextHasChanged() {
