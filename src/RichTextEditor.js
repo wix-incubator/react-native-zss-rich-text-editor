@@ -150,7 +150,6 @@ export default class RichTextEditor extends Component {
           this.setTitleHTML(this.props.initialTitleHTML);
           this.setContentHTML(this.props.initialContentHTML);
 
-          this.props.hiddenTitle && this.hideTitle();
           this.props.enableOnChange && this.enableOnChange();
 
           this.props.editorInitializedCallback && this.props.editorInitializedCallback();
@@ -524,7 +523,9 @@ export default class RichTextEditor extends Component {
   }
 
   init() {
-    this._sendAction(actions.init);
+    this._sendAction(actions.init, {
+      hiddenTitle: this.props.hiddenTitle
+    });
     this.setPlatform();
     if (this.props.footerHeight) {
       this.setFooterHeight();

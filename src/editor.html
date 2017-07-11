@@ -873,7 +873,7 @@
 				});
 			}
 
-			zss_editor.init = function() {
+			zss_editor.init = function(options) {
 
 				disableLineBreakIfNecessary('zss_editor_title');
 				disableLineBreakIfNecessary('zss_editor_content');
@@ -917,7 +917,12 @@
 				whenPastingInsertAsPlainText('zss_editor_title');
 				whenPastingInsertAsPlainText('zss_editor_content');
 
-				zss_editor.focusTitle();
+				if (options.hiddenTitle) {
+					zss_editor.hideTitle();
+					zss_editor.focusContent();
+				} else {
+					zss_editor.focusTitle();
+				}
 
 				setTimeout(function() {
 					WebViewBridge.send(JSON.stringify({type: 'ZSS_INITIALIZED'}))

@@ -162,7 +162,7 @@ export const InjectedMessageHandler = `
           zss_editor.setBackgroundColor(action.data);
           break;
         case '${actions.init}':
-          zss_editor.init();
+          zss_editor.init(action.data);
           break;
         case '${actions.setEditorHeight}':
           zss_editor.setEditorHeight(action.data);
