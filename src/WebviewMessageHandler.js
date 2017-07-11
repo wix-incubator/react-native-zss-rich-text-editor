@@ -85,6 +85,9 @@ export const InjectedMessageHandler = `
         case '${actions.insertLink}':
           zss_editor.insertLink(action.data.url, action.data.title);
           break;
+        case '${actions.insertCustomHTML}':
+          zss_editor.insertCustomHTML(action.data);
+          break;
         case '${actions.updateLink}':
           zss_editor.updateLink(action.data.url, action.data.title);
           break;

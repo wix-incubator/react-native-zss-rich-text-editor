@@ -1261,6 +1261,17 @@
 				zss_editor.enabledEditingItems();
 			}
 
+			zss_editor.insertCustomHTML = function(data) {
+				zss_editor.restorerange();
+				var sel = document.getSelection();
+				sel.deleteFromDocument();
+				document.execCommand('insertHTML', false, data);
+
+				zss_editor.enabledEditingItems();
+				zss_editor.debug('insertCustomHTML')
+				zss_editor.debug(data)
+			}
+
 			zss_editor.updateLink = function(url, title) {
 
 				zss_editor.restorerange();

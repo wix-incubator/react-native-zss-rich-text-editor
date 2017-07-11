@@ -458,6 +458,10 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.insertLink, {url, title});
   }
 
+  insertCustomHTML(data) {
+    this._sendAction(actions.insertCustomHTML, data);
+  }
+
   updateLink(url, title) {
     this._sendAction(actions.updateLink, {url, title});
   }
