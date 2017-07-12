@@ -156,9 +156,11 @@ export default class RichTextEditor extends Component {
 
           break;
         case messages.LINK_TOUCHED:
-          this.prepareInsert();
           const {title, url} = message.data;
-          this.showLinkDialog(title, url);
+          if (url && url !== '#') {
+            this.prepareInsert();
+            this.showLinkDialog(title, url);
+          }
           break;
         case messages.LOG:
           console.log('FROM ZSS', message.data);
