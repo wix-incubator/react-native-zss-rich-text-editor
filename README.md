@@ -1,8 +1,8 @@
-#React Native Rich Text Editor
+# React Native Rich Text Editor
 
 A fully functional Rich Text Editor for both Android and iOS, based off the [ZSSRichTextEditor](https://github.com/nnhubbard/ZSSRichTextEditor/tree/master/ZSSRichTextEditor) project. 
 
-##Installation
+## Installation
 
 `npm i --save react-native-zss-rich-text-editor`
 
@@ -18,11 +18,11 @@ project.afterEvaluate {
 Also, follow instructions [here](https://github.com/alinz/react-native-webview-bridge) to add the native `react-native-webview-bridge-updated` dependency.
 
 
-##Usage
+## Usage
 
 `react-native-zss-rich-text-editor` exports two Components and one const dictionary:
 
-##`RichTextEditor`
+## `RichTextEditor`
 
 The editor component. Simply place this component in your view hierarchy to receive a fully functional Rich text Editor.
 
@@ -119,7 +119,7 @@ This method registers a function that will get called whenver the cursor positio
 
 *  `registerToolbar(listener)` 
 
-###Example Usage:
+### Example Usage:
 
 ```javascript
 <RichTextEditor
@@ -132,7 +132,7 @@ This method registers a function that will get called whenver the cursor positio
 
 ![RichTextEditor](readme/editor.png)
 
-##`RichTextToolbar`
+## `RichTextToolbar`
 
 This is a Component that provides a toolbar for easily controlling an editor. It is designed to be used together with a `RichTextEditor` component.
 
@@ -178,7 +178,7 @@ Other props supported by the `RichTextToolbar` component are:
 	`RichTextToolbar` comes with default icons for the default actions it renders. To override those, or to add icons for non-default actions, provide them in a dictionary to this prop.
 	
 
-###Example Usage:
+### Example Usage:
 
 ```javascript
 <RichTextToolbar
@@ -191,7 +191,7 @@ Other props supported by the `RichTextToolbar` component are:
 ![RichTextEditor](readme/toolbar_selected.png)
 
 
-##`actions`
+## `actions`
 
 This is a set of consts of all supported actions. These will be passed in arrays to all callbacks registered with the editor using  the `registerToolbar()` method.
 
@@ -245,6 +245,6 @@ This is a set of consts of all supported actions. These will be passed in arrays
   	}
 
 
-##Attribution
+## Attribution
 
 `react-native-zss-rich-text-editor` is a wrapper around the amazing [ZSSRichTextEditor](https://github.com/nnhubbard/ZSSRichTextEditor/tree/master/ZSSRichTextEditor) project. It also communicates with the editor using (a tiny fork) of the awesome [react-native-webview-bridge](https://github.com/alinz/react-native-webview-bridge) project.
