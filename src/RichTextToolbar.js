@@ -99,7 +99,14 @@ export default class RichTextToolbar extends Component {
   }
 
   _defaultRenderAction(action, selected) {
-    const icon = this._getButtonIcon(action);
+    let icon = this._getButtonIcon(action);
+    let renderedIcon = null
+    if (typeof icon === 'number') {
+      renderedIcon = <Image source={icon} style={{tintColor: selected ? this.props.selectedIconTint : this.props.iconTint}}/>
+    } else if (typeof icon === 'function') {
+      renderedIcon = icon()
+    }
+
     return (
       <TouchableOpacity
           key={action}
@@ -109,7 +116,7 @@ export default class RichTextToolbar extends Component {
           ]}
           onPress={() => this._onPress(action)}
       >
-        {icon ? <Image source={icon} style={{tintColor: selected ? this.props.selectedIconTint : this.props.iconTint}}/> : null}
+        {renderedIcon}
       </TouchableOpacity>
     );
   }
