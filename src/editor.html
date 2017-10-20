@@ -1037,6 +1037,7 @@
 				var sel = window.getSelection();
 				// Next line is comented to prevent deselecting selection. It looks like work but if there are any issues will appear then uconmment it as well as code above.
 				//sel.collapseToStart();
+				if (sel.type === 'None') return null;
 				var range = sel.getRangeAt(0);
 				var span = document.createElement('span');// something happening here preventing selection of elements
 				range.collapse(false);
@@ -1048,6 +1049,7 @@
 
 			zss_editor.calculateEditorHeightWithCaretPosition = function() {
 				var caretYPosition = zss_editor.getCaretYPosition();
+				if (caretYPosition === null) return;
 				var lineHeight = 20;
 				var halfLineHeight = lineHeight/2;
 				var offsetY = window.document.body.scrollTop;
@@ -1536,23 +1538,23 @@
 
 					// The target element
 					var s = zss_editor.getSelectedNode();
-					var t = $(s);
+					var t = s ? $(s) : null;
 					var nodeName = e.target.nodeName.toLowerCase();
 
 					// Background Color
-					var bgColor = t.css('backgroundColor');
-					if (bgColor.length != 0 && bgColor != 'rgba(0, 0, 0, 0)' && bgColor != 'rgb(0, 0, 0)' && bgColor != 'transparent') {
+					var bgColor = t && t.css('backgroundColor');
+					if (bgColor && bgColor.length != 0 && bgColor != 'rgba(0, 0, 0, 0)' && bgColor != 'rgb(0, 0, 0)' && bgColor != 'transparent') {
 						items.push('backgroundColor');
 					}
 					// Text Color
-					var textColor = t.css('color');
-					if (textColor.length != 0 && textColor != 'rgba(0, 0, 0, 0)' && textColor != 'rgb(0, 0, 0)' && textColor != 'transparent') {
+					var textColor = t && t.css('color');
+					if (textColor && textColor.length != 0 && textColor != 'rgba(0, 0, 0, 0)' && textColor != 'rgb(0, 0, 0)' && textColor != 'transparent') {
 						items.push('textColor');
 					}
 
 					//Fonts
-					var font = t.css('font-family');
-					if (font.length != 0 && font != 'Arial, Helvetica, sans-serif') {
+					var font = t && t.css('font-family');
+					if (font && font.length != 0 && font != 'Arial, Helvetica, sans-serif') {
 						items.push('fonts');
 					}
 
@@ -1561,7 +1563,7 @@
 						items.push('indent');
 					}
 					// Image
-					if (nodeName == 'img') {
+					if (t && nodeName == 'img') {
 						zss_editor.currentEditingImage = t;
 						items.push('image:'+t.attr('src'));
 						if (t.attr('alt') !== undefined) {
