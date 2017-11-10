@@ -1,6 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {ListView, View, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {actions} from './const';
+import PropTypes from 'prop-types';
 
 const defaultActions = [
   actions.insertImage,
