@@ -10,7 +10,7 @@
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "prop-types": "^15.6.0",
-    "react-native-webview-bridge-updated": "^1.0.0"
+    "react-native-webview-bridge-updated": "Hylozoic/react-native-webview-bridge#f91be91a"
   },
   "peerDependencies": {
     "react": "*",
