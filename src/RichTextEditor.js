@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import WebViewBridge from 'react-native-webview-bridge-updated';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
 import {actions, messages} from './const';
@@ -92,7 +93,7 @@ export default class RichTextEditor extends Component {
     const editorAvailableHeight = Dimensions.get('window').height - keyboardHeight - spacing;
     this.setEditorHeight(editorAvailableHeight);
   }
-  
+
   onBridgeMessage(str){
     try {
       const message = JSON.parse(str);
@@ -352,7 +353,7 @@ export default class RichTextEditor extends Component {
       selectionChangeListeners: [...this.state.selectionChangeListeners, listener]
     });
   }
-  
+
   enableOnChange() {
     this._sendAction(actions.enableOnChange);
   }
