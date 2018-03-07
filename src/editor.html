@@ -1217,7 +1217,9 @@
 
 			zss_editor.setFontFamily = function(fontFamily) {
 
-				zss_editor.restorerange();
+				if (zss_editor.currentSelection) {
+					zss_editor.restorerange();
+				}
 				document.execCommand("styleWithCSS", null, true);
 				document.execCommand("fontName", false, fontFamily);
 				document.execCommand("styleWithCSS", null, false);
