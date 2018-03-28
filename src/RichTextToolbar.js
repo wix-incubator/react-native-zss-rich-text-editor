@@ -128,7 +128,7 @@ export default class RichTextToolbar extends Component {
       >
         <ListView
             horizontal
-            contentContainerStyle={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
+            contentContainerStyle={{flexGrow: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
             dataSource={this.state.ds}
             renderRow= {(row) => this._renderAction(row.action, row.selected)}
         />
