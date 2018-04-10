@@ -388,6 +388,22 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.blurContentEditor);
   }
 
+  undo(){
+    this._sendAction(actions.undo)
+  }
+
+  redo(){
+    this._sendAction(actions.redo)
+  }
+
+  fontSize(size){
+    this._sendAction(actions.fontSize,size)
+  }
+
+  font(font) {
+    this._sendAction(actions.font, font)
+  }
+
   setBold() {
     this._sendAction(actions.setBold);
   }
