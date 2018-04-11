@@ -50,7 +50,7 @@ export default class RichTextToolbar extends Component {
     };
   }
 
-  componentDidReceiveProps(newProps) {
+  componentWillReceiveProps(newProps) {
     const actions = newProps.actions ? newProps.actions : defaultActions;
     this.setState({
       actions,
