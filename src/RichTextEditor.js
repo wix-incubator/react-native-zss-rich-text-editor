@@ -24,12 +24,26 @@ export default class RichTextEditor extends Component {
     hiddenTitle: PropTypes.bool,
     enableOnChange: PropTypes.bool,
     footerHeight: PropTypes.number,
-    contentInset: PropTypes.object
+    contentInset: PropTypes.object,
+
+    //customize link modal
+    linkTitleText: PropTypes.string,
+    linkURLText: PropTypes.string,
+    linkCancelText: PropTypes.string,
+    linkInsertText: PropTypes.string,
+    linkUpdateText: PropTypes.string,
   };
 
   static defaultProps = {
     contentInset: {},
-    style: {}
+    style: {},
+
+    //customize link modal
+    linkTitleText: 'Title',
+    linkURLText: 'URL',
+    linkCancelText: 'Cancel',
+    linkInsertText: 'Insert',
+    linkUpdateText: 'Update',
   };
 
   constructor(props) {
@@ -210,7 +224,7 @@ export default class RichTextEditor extends Component {
         >
           <View style={styles.modal}>
             <View style={[styles.innerModal, {marginBottom: PlatformIOS ? this.state.keyboardHeight : 0}]}>
-              <Text style={styles.inputTitle}>Title</Text>
+              <Text style={styles.inputTitle}>{this.props.linkTitleText}</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
                     style={styles.input}
@@ -218,7 +232,7 @@ export default class RichTextEditor extends Component {
                     value={this.state.linkTitle}
                 />
               </View>
-              <Text style={[styles.inputTitle ,{marginTop: 10}]}>URL</Text>
+              <Text style={[styles.inputTitle ,{marginTop: 10}]}>{this.props.linkURLText}</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
                     style={styles.input}
@@ -258,7 +272,7 @@ export default class RichTextEditor extends Component {
             style={buttonPlatformStyle}
         >
           <Text style={[styles.button, {paddingRight: 10}]}>
-            {this._upperCaseButtonTextIfNeeded('Cancel')}
+            {this._upperCaseButtonTextIfNeeded(this.props.linkCancelText)}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -274,7 +288,7 @@ export default class RichTextEditor extends Component {
             style={buttonPlatformStyle}
         >
           <Text style={[styles.button, {opacity: insertUpdateDisabled ? 0.5 : 1}]}>
-            {this._upperCaseButtonTextIfNeeded(this._linkIsNew() ? 'Insert' : 'Update')}
+            {this._upperCaseButtonTextIfNeeded(this._linkIsNew() ? this.props.linkInsertText : this.props.linkUpdateText)}
           </Text>
         </TouchableOpacity>
       </View>
