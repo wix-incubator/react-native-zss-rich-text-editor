@@ -466,7 +466,7 @@ export default class RichTextEditor extends Component {
 
   insertImage(attributes) {
     if (PlatformIOS){
-       this._sendAction(actions.insertImage, attributes);	     this._sendAction(actions.insertImage, attributes);
+       this._sendAction(actions.insertImage, attributes);	    
        this.prepareInsert(); //This must be called BEFORE insertImage. But WebViewBridge uses a stack :/
     }else{
        this.prepareInsert(); //This must be called BEFORE insertImage. But WebViewBridge uses a stack :/
