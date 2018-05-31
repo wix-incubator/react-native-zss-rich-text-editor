@@ -15,12 +15,12 @@ const ActionWrapper = styled.TouchableOpacity`
 `
 
 const DEFAULT_ICONS = {
-	[constants.actions.insertImage]: require('./img/icon_format_media.png'),
-	[constants.actions.setBold]: require('./img/icon_format_bold.png'),
-	[constants.actions.setItalic]: require('./img/icon_format_italic.png'),
-	[constants.actions.insertBulletsList]: require('./img/icon_format_ul.png'),
-	[constants.actions.insertOrderedList]: require('./img/icon_format_ol.png'),
-	[constants.actions.insertLink]: require('./img/icon_format_link.png'),
+	[constants.actions.insertImage]: require('../img/icon_format_media.png'),
+	[constants.actions.setBold]: require('../img/icon_format_bold.png'),
+	[constants.actions.setItalic]: require('../img/icon_format_italic.png'),
+	[constants.actions.insertBulletsList]: require('../img/icon_format_ul.png'),
+	[constants.actions.insertOrderedList]: require('../img/icon_format_ol.png'),
+	[constants.actions.insertLink]: require('../img/icon_format_link.png'),
 };
 
 const Image = styled.Image``;
