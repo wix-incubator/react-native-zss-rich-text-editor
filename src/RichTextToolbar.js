@@ -12,17 +12,14 @@ const defaultActions = [
   actions.insertLink
 ];
 
-function getDefaultIcon() {
-  const texts = {};
-  texts[actions.insertImage] = require('../img/icon_format_media.png');
-  texts[actions.setBold] = require('../img/icon_format_bold.png');
-  texts[actions.setItalic] = require('../img/icon_format_italic.png');
-  texts[actions.insertBulletsList] = require('../img/icon_format_ul.png');
-  texts[actions.insertOrderedList] = require('../img/icon_format_ol.png');
-  texts[actions.insertLink] = require('../img/icon_format_link.png');
-  return texts;
-}
-
+const defaultIcons = {
+  [actions.insertImage]: require('../img/icon_format_media.png'),
+  [actions.setBold]: require('../img/icon_format_bold.png'),
+  [actions.setItalic]: require('../img/icon_format_italic.png'),
+  [actions.insertBulletsList]: require('../img/icon_format_ul.png'),
+  [actions.insertOrderedList]: require('../img/icon_format_ol.png'),
+  [actions.insertLink]: require('../img/icon_format_link.png'),
+};
 
 export default class RichTextToolbar extends Component {
 
@@ -92,8 +89,8 @@ export default class RichTextToolbar extends Component {
   _getButtonIcon(action) {
     if (this.props.iconMap && this.props.iconMap[action]) {
       return this.props.iconMap[action];
-    } else if (getDefaultIcon()[action]){
-      return getDefaultIcon()[action];
+    } else if (defaultIcons[action]){
+      return defaultIcons[action];
     } else {
       return undefined;
     }
