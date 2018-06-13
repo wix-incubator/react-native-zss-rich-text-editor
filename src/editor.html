@@ -1383,6 +1383,12 @@
 						data: {content: getHtml("zss_editor_content")}
 					}))
 				});
+				$('#zss_editor_title').on('input', function(){
+					WebViewBridge.send(JSON.stringify({
+						type: 'TITLE_CHANGE',
+						data: {title: getHtml("zss_editor_title")}
+					}))
+				});
 			}
 
 			zss_editor.hideTitle = function() {
