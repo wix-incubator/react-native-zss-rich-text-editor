@@ -42,6 +42,7 @@ export default class RichTextEditor extends Component {
     this.state = {
       selectionChangeListeners: [],
       onChange: [],
+      titleOnChange: [],
       showLinkDialog: false,
       linkInitialUrl: '',
       linkTitle: '',
@@ -185,6 +186,11 @@ export default class RichTextEditor extends Component {
         case messages.CONTENT_CHANGE: {
           const content = message.data.content;
           this.state.onChange.map((listener) => listener(content));
+          break;
+        }
+        case messages.TITLE_CHANGE: {
+          const {title} = message.data;
+          this.state.titleOnChange.map((listener) => listener(title));
           break;
         }
         case messages.SELECTED_TEXT_CHANGED: {
@@ -361,6 +367,12 @@ export default class RichTextEditor extends Component {
   registerContentChangeListener(listener) {
     this.setState({
       onChange: [...this.state.onChange, listener]
+    });
+  }
+
+  registerTitleChangeListener(listener) {
+    this.setState({
+      titleOnChange: [...this.state.titleOnChange, listener]
     });
   }
 
