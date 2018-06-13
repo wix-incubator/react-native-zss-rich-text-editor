@@ -51,7 +51,7 @@ export default class RichTextEditor extends Component {
     this._selectedTextChangeListeners = [];
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if(PlatformIOS) {
       this.keyboardEventListeners = [
         Keyboard.addListener('keyboardWillShow', this._onKeyboardWillShow),
@@ -66,7 +66,9 @@ export default class RichTextEditor extends Component {
   }
 
   componentWillUnmount() {
-    this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
+    if (this.keyboardEventListeners) {
+      this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
+    }
   }
 
   _onKeyboardWillShow(event) {
