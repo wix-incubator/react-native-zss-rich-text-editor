@@ -33,21 +33,42 @@ The editor component. Simply place this component in your view hierarchy to rece
 * `initialTitleHTML`
 
 	HTML that will be rendered in the title section as soon as the component loads.
+
 * `initialContentHTML`
 
 	HTML that will be rendered in the content section on load.
+
 * `titlePlaceholder`
 
 	Text that will be used as a placeholder when no text is present in the title section.
-* `contentPlaceholder `
+
+* `contentPlaceholder`
 	
 	Text that will be used as a placeholder when no text is present in the content section.
-* `customCSS `
 
-	Any custom CSS styles that you want to inject to the editor.
-* `editorInitializedCallback `
+* `editorInitializedCallback`
 
 	A function that will be called when the editor has been initialized.
+
+* `customCSS`
+
+	Any custom CSS styles that you want to inject to the editor.
+
+* `hiddenTitle`
+	
+	Whether the title should be displayed.
+	
+* `enableOnChange`
+
+	Enable the `CONTENT_CHANGE` event.
+	
+* `footerHeight`
+
+	Height of the footer.
+	
+* `contentInset`
+
+	Object representing your content inset.
 
 
 `RichTextEditor` also has methods that can be used on its `ref` to  set styling at the current selection or cursor position:
