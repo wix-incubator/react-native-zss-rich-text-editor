@@ -296,7 +296,7 @@ export default class RichTextEditor extends Component {
       <View style={{flex: 1}}>
         <WebViewBridge
           {...this.props}
-          hideKeyboardAccessoryView={true}
+          hideKeyboardAccessoryView={this.props.hideKeyboardAccessoryView ? this.props.hideKeyboardAccessoryView: true}
           keyboardDisplayRequiresUserAction={false}
           ref={(r) => {this.webviewBridge = r}}
           onBridgeMessage={(message) => this.onBridgeMessage(message)}
