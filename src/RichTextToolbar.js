@@ -117,7 +117,7 @@ export default class RichTextToolbar extends Component {
 
   _renderAction(action, selected) {
     return this.props.renderAction ?
-        this.props.renderAction(action, selected) :
+        this.props.renderAction(action, selected, () => this._onPress(action)) :
         this._defaultRenderAction(action, selected);
   }
 
@@ -178,7 +178,6 @@ export default class RichTextToolbar extends Component {
         if(this.props.onPressAddImage) {
           this.props.onPressAddImage();
         }
-        break;
         break;
     }
   }
