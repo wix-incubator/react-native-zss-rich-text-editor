@@ -1642,7 +1642,16 @@
 			zss_editor.setPlatform = function(platform) {
 				zss_editor.platform = platform;
 			}
-
+			$(window).on("scroll", function() {
+			  var scrollHeight = $(document).height();
+			  var scrollPosition = $(window).height() + $(window).scrollTop();
+			  if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+			    WebViewBridge.send(JSON.stringify({type: 'BOTTOM_REACHED'}))
+			  }
+			  if ((scrollPosition) === 0) {
+			    WebViewBridge.send(JSON.stringify({type: 'TOP_REACHED'}))
+			  }
+			});
 			//end
 		</script>
 
