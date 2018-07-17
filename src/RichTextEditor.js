@@ -158,6 +158,12 @@ export default class RichTextEditor extends Component {
           this.props.editorInitializedCallback && this.props.editorInitializedCallback();
 
           break;
+       case messages.TOP_REACHED:
+          this.thresholdHandler && this.thresholdHandler({top:true})
+          break;
+       case messages.BOTTOM_REACHED:
+          this.thresholdHandler && this.thresholdHandler({bottom:true})
+          break;
         case messages.LINK_TOUCHED:
           this.prepareInsert();
           const {title, url} = message.data;
@@ -600,6 +606,10 @@ export default class RichTextEditor extends Component {
   setTitleFocusHandler(callbackHandler) {
     this.titleFocusHandler = callbackHandler;
     this._sendAction(actions.setTitleFocusHandler);
+  }
+
+  setThresholdHandler(callbackHandler) {
+    this.thresholdHandler = callbackHandler;
   }
 
   setContentFocusHandler(callbackHandler) {
