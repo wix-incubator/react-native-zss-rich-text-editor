@@ -244,6 +244,7 @@ export default class RichTextEditor extends Component {
   }
 
   _hideModal() {
+    this.props.onHideModal && this.props.onHideModal();
     this.setState({
       showLinkDialog: false,
       linkInitialUrl: '',
