@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {ListView, View, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {ListView, View, TouchableOpacity, Image, StyleSheet, ViewPropTypes} from 'react-native';
 import {actions} from './const';
 
 const defaultActions = [
@@ -31,11 +31,14 @@ export default class RichTextToolbar extends Component {
     actions: PropTypes.array,
     onPressAddLink: PropTypes.func,
     onPressAddImage: PropTypes.func,
-    selectedButtonStyle: PropTypes.object,
+    actionButtonStyle: ViewPropTypes.style,
+    selectedButtonStyle: ViewPropTypes.style,
     iconTint: PropTypes.any,
+    iconStyle: ViewPropTypes.style,
     selectedIconTint: PropTypes.any,
-    unselectedButtonStyle: PropTypes.object,
+    unselectedButtonStyle: ViewPropTypes.style,
     renderAction: PropTypes.func,
+    renderIconAction: PropTypes.func,
     iconMap: PropTypes.object,
   };
 
@@ -50,13 +53,18 @@ export default class RichTextToolbar extends Component {
     };
   }
 
-  componentDidReceiveProps(newProps) {
-    const actions = newProps.actions ? newProps.actions : defaultActions;
-    this.setState({
-      actions,
-      ds: this.state.ds.cloneWithRows(this.getRows(actions, this.state.selectedItems))
-    });
-  }
+  // componentWillReceiveProps(newProps) {
+  //   const actions = newProps.actions ? newProps.actions : defaultActions;
+
+  //   const { actions: oldActions } = this.state;
+
+  //   if (oldActions !== actions) {
+  //     this.setState({
+  //       actions,
+  //       ds: this.state.ds.cloneWithRows(this.getRows(actions, this.state.selectedItems))
+  //     });
+  //   }
+  // }
 
   getRows(actions, selectedItems) {
     return actions.map((action) => {return {action, selected: selectedItems.includes(action)};});
@@ -105,12 +113,21 @@ export default class RichTextToolbar extends Component {
       <TouchableOpacity
           key={action}
           style={[
-            {height: 50, width: 50, justifyContent: 'center'},
+            {height: 50, width: 50, justifyContent: 'center', alignItems: 'center'},
+            this.props.actionButtonStyle,
             selected ? this._getButtonSelectedStyle() : this._getButtonUnselectedStyle()
           ]}
           onPress={() => this._onPress(action)}
       >
-        {icon ? <Image source={icon} style={{tintColor: selected ? this.props.selectedIconTint : this.props.iconTint}}/> : null}
+        {this.props.renderIconAction ?
+            this.props.renderIconAction(action, selected) : icon ?
+              <Image
+                source={icon}
+                style={[
+                  this.props.iconStyle,
+                  { tintColor: selected ? this.props.selectedIconTint : this.props.iconTint }
+                ]}
+              /> : null}
       </TouchableOpacity>
     );
   }
@@ -124,7 +141,7 @@ export default class RichTextToolbar extends Component {
   render() {
     return (
       <View
-          style={[{height: 50, backgroundColor: '#D3D3D3', alignItems: 'center'}, this.props.style]}
+          style={[{height: 50, alignItems: 'center'}, this.props.style]}
       >
         <ListView
             horizontal
@@ -186,7 +203,7 @@ export default class RichTextToolbar extends Component {
 
 const styles = StyleSheet.create({
   defaultSelectedButton: {
-    backgroundColor: 'red'
+    backgroundColor: '#b7b9b9'
   },
   defaultUnselectedButton: {}
 });
