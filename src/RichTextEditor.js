@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import WebViewBridge from 'react-native-webview-bridge-updated';
+import WebViewBridge from 'react-native-webview-bridge';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
 import {actions, messages} from './const';
 import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, PixelRatio, Keyboard, Dimensions} from 'react-native';
@@ -51,7 +51,7 @@ export default class RichTextEditor extends Component {
     this._selectedTextChangeListeners = [];
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if(PlatformIOS) {
       this.keyboardEventListeners = [
         Keyboard.addListener('keyboardWillShow', this._onKeyboardWillShow),
@@ -66,7 +66,9 @@ export default class RichTextEditor extends Component {
   }
 
   componentWillUnmount() {
-    this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
+    if (this.keyboardEventListeners) {
+      this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
+    }
   }
 
   _onKeyboardWillShow(event) {
