@@ -109,6 +109,9 @@ export const InjectedMessageHandler = `
         case '${actions.setOutdent}':
           zss_editor.setOutdent();
           break;
+        case '${actions.insertInputField}':
+          zss_editor.insertInputField(action.data);
+          break;
         case '${actions.setTitlePlaceholder}':
           zss_editor.setTitlePlaceholder(action.data);
           break;
@@ -126,6 +129,16 @@ export const InjectedMessageHandler = `
         case '${actions.getContentHtml}':
           var html = zss_editor.getContentHTML();
           WebViewBridge.send(JSON.stringify({type: '${messages.CONTENT_HTML_RESPONSE}', data: html}));
+          break;
+        case '${actions.getInputFieldText}':
+          var text = zss_editor.getInputFieldText(action.data);
+          WebViewBridge.send(JSON.stringify({type: '${messages.INPUT_FIELD_TEXT_RESPONSE}', data: text, key: action.data}));
+          break;
+        case '${actions.setInputFieldText}':
+          zss_editor.setInputFieldText(action.data);
+          break;
+        case '${actions.focusInputField}':
+          zss_editor.focusInputField(action.data);
           break;
         case '${actions.setTitleFocusHandler}':
           zss_editor.setTitleFocusHandler();

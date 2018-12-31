@@ -49,6 +49,9 @@ export default class RichTextEditor extends Component {
       keyboardHeight: 0
     };
     this._selectedTextChangeListeners = [];
+    this.inputFieldResolves = {};
+    this.inputFieldRejects = {};
+    this.inputFieldTimers = {};
   }
 
   componentDidMount() {
@@ -134,6 +137,17 @@ export default class RichTextEditor extends Component {
             }
           }
           break;
+        case messages.INPUT_FIELD_TEXT_RESPONSE:
+          let key = message.key;
+          if (this.inputFieldResolves[key]) {
+            this.inputFieldResolves[key](message.data);
+            this.inputFieldRejects[key] = undefined;
+            if (this.inputFieldTimers[key]) {
+              clearTimeout(this.inputFieldTimers[key]);
+              this.inputFieldTimers[key] = undefined;
+            }
+          }
+          break;
         case messages.SELECTED_TEXT_RESPONSE:
           if (this.selectedTextResolve) {
             this.selectedTextResolve(message.data);
@@ -150,6 +164,7 @@ export default class RichTextEditor extends Component {
             this.setCustomCSS(this.props.customCSS);
           }
           this.setTitlePlaceholder(this.props.titlePlaceholder);
+          this.setInputFields(this.props.inputFields);
           this.setContentPlaceholder(this.props.contentPlaceholder);
           this.setTitleHTML(this.props.initialTitleHTML);
           this.setContentHTML(this.props.initialContentHTML);
@@ -514,6 +529,14 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.setTitlePlaceholder, placeholder);
   }
 
+  setInputFields(inputFields) {
+    if (inputFields && Array.isArray(inputFields)) {
+        for (let i=0; i < inputFields.length; i++) {
+          this._sendAction(actions.insertInputField, inputFields[i]);
+        }
+    }
+  }
+
   setContentPlaceholder(placeholder) {
     this._sendAction(actions.setContentPlaceholder, placeholder);
   }
@@ -590,6 +613,29 @@ export default class RichTextEditor extends Component {
         }
       }, 5000);
     });
+  }
+
+  async getInputFieldText(fieldKey) {
+      return new Promise((resolve, reject) => {
+          this.inputFieldResolves[fieldKey] = resolve;
+          this.inputFieldRejects[fieldKey] = reject;
+          this.inputFieldTimers[fieldKey] = reject;
+          this._sendAction(actions.getInputFieldText, fieldKey);
+
+          this.inputFieldTimers[fieldKey] = setTimeout(() => {
+              if (this.inputFieldRejects[fieldKey]) {
+                  this.inputFieldRejects[fieldKey]('timeout')
+              }
+          }, 5000);
+      });
+  }
+
+  setInputFieldText(fieldKey, text) {
+      this._sendAction(actions.setInputFieldText, {key: fieldKey, text});
+  }
+
+  focusInputField(fieldKey) {
+      this._sendAction(actions.focusInputField, fieldKey);
   }
 
   async getSelectedText() {

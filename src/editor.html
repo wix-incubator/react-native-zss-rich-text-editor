@@ -1035,6 +1035,45 @@
 				});
 			}
 
+            function getOrCreateInputFieldsList() {
+                if ($('#zss_editor_input_fields_list')[0]) {
+                    return $('#zss_editor_input_fields_list');
+                } else {
+                    let div = $('#zss_editor_input_fields').addClass('zss_editor_meta_fields');
+                    div.append('<ul id="zss_editor_input_fields_list" class="zss_editor_ul">')
+					return $('#zss_editor_input_fields_list');
+                }
+            }
+
+            zss_editor.insertInputField = function(data) {
+                let {label, value, editable, placeholder, key} = data;
+
+                let ul = getOrCreateInputFieldsList();
+                let hasItems = ul.children("li").length > 0;
+
+                let inputElStr = '<input class="zss_editor_field_input" type="text" ';
+                if (key) {
+                    inputElStr += `id="${`zss_editor_input_field_${key}`}" `;
+				}
+                if (value) {
+                    inputElStr += `value="${value}" `;
+				}
+				if (placeholder) {
+                    inputElStr += `placeholder="${placeholder}" `;
+				}
+				if (editable === false) {
+                    inputElStr += 'readonly';
+				}
+                inputElStr += '>';
+                let li = $('<li class="zss_editor_field_li">' +
+						'<label class="zss_editor_field_label">' + label + '</label>'+
+                    inputElStr + '</li>');
+                if (hasItems) {
+                    li.addClass('zss_editor_field_separator');
+				}
+				ul.append(li);
+            };
+
 			zss_editor.setTitlePlaceholder = function(placeholder) {
 				setPlaceholder('zss_editor_title', placeholder);
 			}
@@ -1480,6 +1519,26 @@
 				return getHtml("zss_editor_content");
 			}
 
+            zss_editor.getInputFieldText = function(fieldKey) {
+                let input = $(`#zss_editor_input_field_${fieldKey}`)[0];
+				if (input) {
+                    return input.value;
+                }
+                return null;
+            };
+
+			zss_editor.setInputFieldText = function(data) {
+                let {key, text} = data;
+                let input = $(`#zss_editor_input_field_${key}`)[0];
+                if (input) {
+                    input.value = text;
+                }
+			};
+
+            zss_editor.focusInputField = function(fieldKey) {
+                $(`#zss_editor_input_field_${fieldKey}`).focus();
+			};
+
 			zss_editor.getTitleText = function() {
 				return $('#zss_editor_title').text();
 			}
@@ -1755,6 +1814,48 @@
 				padding-right: 10px;
 			}
 
+
+			.zss_editor_meta_fields {
+				display: block;
+				border-bottom: 1px solid #EEEFF1;
+				margin-bottom: 28px;
+			}
+
+			.zss_editor_ul {
+				list-style: none;
+				padding: 0px;
+				margin: 0px 14px 0px 14px;
+			}
+
+
+			li.zss_editor_field_li {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				/*display: block;*/
+				padding: 15px 0px 17px 0px;
+				border-bottom: 1px solid #EEEFF1;
+			}
+
+			.zss_editor_field_label {
+				font-family: Helvetica;
+				font-size: 13px;
+				line-height: 16px;
+				font-weight: bold;
+				color: #a8adb8;
+			}
+
+			input.zss_editor_field_input {
+				flex: 1;
+				margin: 0px 0px 0px 10px;
+				padding: 0px;
+				border: none;
+				font-family: Helvetica;
+				font-size: 16px;
+				line-height: 19px;
+				color: #24272b;
+			}
+
 			[placeholder]:empty:before {
 				content: attr(placeholder);
 				color: #e0e0e0;
@@ -1786,6 +1887,7 @@
 
 	<body>
 		<!-- ZSSRichTextEditor Editable Content -->
+		<div id="zss_editor_input_fields"></div>
 		<div id="zss_editor_title" class="zss_editor_title" contenteditable="true" placeholder="" disableLineBreaks="true"></div>
 		<div id="separatorContainer"><hr></div>
 		<div id="zss_editor_content" style="font-family: 'Proxima Nova'; color: #24272B;" class="zss_editor_content" contenteditable="true" placeholder=""></div>
