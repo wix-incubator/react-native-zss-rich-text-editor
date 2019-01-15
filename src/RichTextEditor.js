@@ -529,13 +529,16 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.setTitlePlaceholder, placeholder);
   }
 
-  setInputFields(inputFields) {
-    if (inputFields && Array.isArray(inputFields)) {
-        for (let i=0; i < inputFields.length; i++) {
+    setInputFields(inputFields) {
+      if (inputFields && Array.isArray(inputFields)) {
+        if (PlatformIOS) {
+          inputFields.reverse(); //iOS reverses the provided order
+        }
+        for (let i = 0; i < inputFields.length; i++) {
           this._sendAction(actions.insertInputField, inputFields[i]);
         }
+      }
     }
-  }
 
   setContentPlaceholder(placeholder) {
     this._sendAction(actions.setContentPlaceholder, placeholder);
