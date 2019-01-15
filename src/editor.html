@@ -1050,10 +1050,11 @@
 
                 let ul = getOrCreateInputFieldsList();
                 let hasItems = ul.children("li").length > 0;
+                let elementID = `zss_editor_input_field_${key}`;
 
                 let inputElStr = '<input class="zss_editor_field_input" type="text" ';
                 if (key) {
-                    inputElStr += `id="${`zss_editor_input_field_${key}`}" `;
+                    inputElStr += `id="${elementID}" `;
 				}
                 if (value) {
                     inputElStr += `value="${value}" `;
@@ -1072,6 +1073,8 @@
                     li.addClass('zss_editor_field_separator');
 				}
 				ul.append(li);
+
+                whenPastingInsertAsPlainText(elementID);
             };
 
 			zss_editor.setTitlePlaceholder = function(placeholder) {
