@@ -941,7 +941,7 @@
 				whenPastingInsertAsPlainText('zss_editor_title');
 				whenPastingInsertAsPlainText('zss_editor_content');
 
-				//zss_editor.focusTitle();
+				zss_editor.focusTitle();
 
 				setTimeout(function() {
 					WebViewBridge.send(JSON.stringify({type: 'ZSS_INITIALIZED'}))
@@ -1046,7 +1046,7 @@
             }
 
             zss_editor.insertInputField = function(data) {
-                let {label, value, editable, placeholder, key} = data;
+                let {label, value, editable, placeholder, onFocus, autoFocus,key} = data;
 
                 let ul = getOrCreateInputFieldsList();
                 let hasItems = ul.children("li").length > 0;
@@ -1074,8 +1074,19 @@
 				}
 				ul.append(li);
 
-                whenPastingInsertAsPlainText(elementID);
-            };
+				whenPastingInsertAsPlainText(elementID);
+
+
+				if (onFocus) {
+					addFocusEvent(elementID, function () {
+						WebViewBridge.send(JSON.stringify({type: 'INPUT_FIELD_FOCUSED', data: key}))
+					});
+				}
+
+				if (autoFocus) {
+					$('#'+elementID).focus();
+				}
+			};
 
 			zss_editor.setTitlePlaceholder = function(placeholder) {
 				setPlaceholder('zss_editor_title', placeholder);
