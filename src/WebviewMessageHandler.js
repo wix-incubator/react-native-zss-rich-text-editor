@@ -139,13 +139,16 @@ export const InjectedMessageHandler = `
           break;
         case '${actions.focusInputField}':
           zss_editor.focusInputField(action.data);
+          break;        
+        case '${actions.blurInputField}':
+          zss_editor.blurInputField(action.data);
           break;
         case '${actions.setTitleFocusHandler}':
           zss_editor.setTitleFocusHandler();
           break;
         case '${actions.setContentFocusHandler}':
           zss_editor.setContentFocusHandler();
-          break;
+          break; 
         case '${actions.getSelectedText}':
           var selectedText = getSelection().toString();
           WebViewBridge.send(JSON.stringify({type: '${messages.SELECTED_TEXT_RESPONSE}', data: selectedText}));
