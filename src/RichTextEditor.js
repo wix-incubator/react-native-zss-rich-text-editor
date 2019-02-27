@@ -198,6 +198,11 @@ export default class RichTextEditor extends Component {
         case messages.CONTENT_FOCUSED:
           this.contentFocusHandler && this.contentFocusHandler();
           break;
+        case messages.INPUT_FIELD_FOCUSED:
+          let specialKey = message.data;
+          let focusFieldName = 'inputFieldFocusHandler_' + specialKey;
+          this[focusFieldName] && this[focusFieldName]();
+          break;
         case messages.SELECTION_CHANGE: {
           const items = message.data.items;
           this.state.selectionChangeListeners.map((listener) => {
@@ -641,6 +646,10 @@ export default class RichTextEditor extends Component {
 
   focusInputField(fieldKey) {
       this._sendAction(actions.focusInputField, fieldKey);
+  } 
+  
+  blurInputField(fieldKey) {
+      this._sendAction(actions.blurInputField, fieldKey);
   }
 
   async getSelectedText() {
@@ -669,6 +678,10 @@ export default class RichTextEditor extends Component {
   setContentFocusHandler(callbackHandler) {
     this.contentFocusHandler = callbackHandler;
     this._sendAction(actions.setContentFocusHandler);
+  }
+
+  setInputFieldFocusHandler(fieldKey, callbackHandler){
+    this['inputFieldFocusHandler_'+fieldKey] = callbackHandler;
   }
 
   addSelectedTextChangeListener(listener) {
