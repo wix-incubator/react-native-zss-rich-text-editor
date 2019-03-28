@@ -451,7 +451,7 @@ export default class RichTextEditor extends Component {
 
       this.pendingTitleHtml = setTimeout(() => {
         if (this.titleReject) {
-        this.titleReject('timeout')
+          this.titleReject('timeout')
       }
   }, 5000);
   });
@@ -465,7 +465,7 @@ export default class RichTextEditor extends Component {
 
       this.pendingTitleText = setTimeout(() => {
         if (this.titleTextReject) {
-        this.titleTextReject('timeout');
+          this.titleTextReject('timeout');
       }
   }, 5000);
   });
@@ -479,7 +479,7 @@ export default class RichTextEditor extends Component {
 
       this.pendingContentHtml = setTimeout(() => {
         if (this.contentReject) {
-        this.contentReject('timeout')
+          this.contentReject('timeout')
       }
   }, 5000);
   });
@@ -493,7 +493,7 @@ export default class RichTextEditor extends Component {
 
       this.pendingSelectedText = setTimeout(() => {
         if (this.selectedTextReject) {
-        this.selectedTextReject('timeout')
+          this.selectedTextReject('timeout')
       }
   }, 5000);
   });
