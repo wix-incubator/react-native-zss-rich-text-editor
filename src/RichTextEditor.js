@@ -446,13 +446,13 @@ export default class RichTextEditor extends Component {
   async getTitleHtml() {
     return new Promise((resolve, reject) => {
       this.titleResolve = resolve;
-    this.titleReject = reject;
-    this._sendAction(actions.getTitleHtml);
+      this.titleReject = reject;
+      this._sendAction(actions.getTitleHtml);
 
-    this.pendingTitleHtml = setTimeout(() => {
-      if (this.titleReject) {
-      this.titleReject('timeout')
-    }
+      this.pendingTitleHtml = setTimeout(() => {
+        if (this.titleReject) {
+        this.titleReject('timeout')
+      }
   }, 5000);
   });
   }
@@ -460,13 +460,13 @@ export default class RichTextEditor extends Component {
   async getTitleText() {
     return new Promise((resolve, reject) => {
       this.titleTextResolve = resolve;
-    this.titleTextReject = reject;
-    this._sendAction(actions.getTitleText);
+      this.titleTextReject = reject;
+      this._sendAction(actions.getTitleText);
 
-    this.pendingTitleText = setTimeout(() => {
-      if (this.titleTextReject) {
-      this.titleTextReject('timeout');
-    }
+      this.pendingTitleText = setTimeout(() => {
+        if (this.titleTextReject) {
+        this.titleTextReject('timeout');
+      }
   }, 5000);
   });
   }
@@ -474,13 +474,13 @@ export default class RichTextEditor extends Component {
   async getContentHtml() {
     return new Promise((resolve, reject) => {
       this.contentResolve = resolve;
-    this.contentReject = reject;
-    this._sendAction(actions.getContentHtml);
+      this.contentReject = reject;
+      this._sendAction(actions.getContentHtml);
 
-    this.pendingContentHtml = setTimeout(() => {
-      if (this.contentReject) {
-      this.contentReject('timeout')
-    }
+      this.pendingContentHtml = setTimeout(() => {
+        if (this.contentReject) {
+        this.contentReject('timeout')
+      }
   }, 5000);
   });
   }
@@ -488,13 +488,13 @@ export default class RichTextEditor extends Component {
   async getSelectedText() {
     return new Promise((resolve, reject) => {
       this.selectedTextResolve = resolve;
-    this.selectedTextReject = reject;
-    this._sendAction(actions.getSelectedText);
+      this.selectedTextReject = reject;
+      this._sendAction(actions.getSelectedText);
 
-    this.pendingSelectedText = setTimeout(() => {
-      if (this.selectedTextReject) {
-      this.selectedTextReject('timeout')
-    }
+      this.pendingSelectedText = setTimeout(() => {
+        if (this.selectedTextReject) {
+        this.selectedTextReject('timeout')
+      }
   }, 5000);
   });
   }
