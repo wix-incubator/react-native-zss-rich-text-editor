@@ -24,7 +24,8 @@ export default class RichTextEditor extends Component {
     hiddenTitle: PropTypes.bool,
     enableOnChange: PropTypes.bool,
     footerHeight: PropTypes.number,
-    contentInset: PropTypes.object
+    contentInset: PropTypes.object,
+    enableHeightAdjust: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -74,7 +75,7 @@ export default class RichTextEditor extends Component {
     if (this.state.keyboardHeight === newKeyboardHeight) {
       return;
     }
-    if (newKeyboardHeight) {
+    if (newKeyboardHeight && this.props.enableHeightAdjust) {
       this.setEditorAvailableHeightBasedOnKeyboardHeight(newKeyboardHeight);
     }
     this.setState({keyboardHeight: newKeyboardHeight});
