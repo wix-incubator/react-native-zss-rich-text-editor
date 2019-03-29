@@ -70,7 +70,6 @@ export default class RichTextEditor extends Component {
   }
 
   _onKeyboardWillShow(event) {
-    console.log('!!!!', event);
     const newKeyboardHeight = event.endCoordinates.height;
     if (this.state.keyboardHeight === newKeyboardHeight) {
       return;
@@ -164,7 +163,9 @@ export default class RichTextEditor extends Component {
           this.showLinkDialog(title, url);
           break;
         case messages.LOG:
-          console.log('FROM ZSS', message.data);
+          if (this.props.logger) {
+            this.props.logger.log(JSON.stringify(message.data));
+          }
           break;
         case messages.SCROLL:
           this.webviewBridge.setNativeProps({contentOffset: {y: message.data}});
@@ -196,7 +197,9 @@ export default class RichTextEditor extends Component {
         }
       }
     } catch(e) {
-      //alert('NON JSON MESSAGE');
+      if (this.props.onError) {
+        this.props.onError(e.message);
+      }
     }
   }
 
