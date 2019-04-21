@@ -1724,6 +1724,15 @@
 			zss_editor.blurContentEditor = function() {
 				$('#zss_editor_content').blur();
 			}
+			
+			zss_editor.blurInputField = function(key) {
+				if(key) {
+					let input = $(`#zss_editor_input_field_${key}`)[0];
+					if (input) {
+						input.blur();
+					}
+				}
+			}
 
 			zss_editor.setCustomCSS = function(customCSS) {
 
