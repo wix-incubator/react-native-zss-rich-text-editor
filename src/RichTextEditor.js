@@ -334,8 +334,7 @@ export default class RichTextEditor extends Component {
         console.error('webRef not defined... from WKWebView');
         return;
       }
-      debugger;
-      this.webRef.injectScript(run);
+      this.webRef.injectJavaScript(run);
     }, 500);
   }
   webviewBridge = {
