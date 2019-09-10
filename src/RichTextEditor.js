@@ -326,7 +326,7 @@ export default class RichTextEditor extends Component {
     let jsonString = JSON.stringify({type: action, data});
     jsonString = this.escapeJSONString(jsonString);
     const run = `
-        window.WebViewBridge.onMessage("${json}");
+        window.WebViewBridge.onMessage("${jsonString}");
         true;
       `;
     setTimeout(() => {
