@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import WebViewBridge from 'react-native-webview-bridge-updated';
+import {WebView} from 'react-native-webview';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
 import {actions, messages} from './const';
 import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, PixelRatio, Keyboard, Dimensions} from 'react-native';
@@ -167,7 +167,7 @@ export default class RichTextEditor extends Component {
           console.log('FROM ZSS', message.data);
           break;
         case messages.SCROLL:
-          this.webviewBridge.setNativeProps({contentOffset: {y: message.data}});
+          // this.webviewBridge.setNativeProps({contentOffset: {y: message.data}});
           break;
         case messages.TITLE_FOCUSED:
           this.titleFocusHandler && this.titleFocusHandler();
@@ -294,12 +294,12 @@ export default class RichTextEditor extends Component {
     const pageSource = PlatformIOS ? require('./editor.html') : { uri: 'file:///android_asset/editor.html' };
     return (
       <View style={{flex: 1}}>
-        <WebViewBridge
+        <WebView
           {...this.props}
           hideKeyboardAccessoryView={true}
           keyboardDisplayRequiresUserAction={false}
-          ref={(r) => {this.webviewBridge = r}}
-          onBridgeMessage={(message) => this.onBridgeMessage(message)}
+          ref={(r) => {this.webRef = r}}
+          onMessage={(e) => this.onBridgeMessage(e.nativeEvent.data)}
           injectedJavaScript={injectScript}
           source={pageSource}
           onLoad={() => this.init()}
@@ -325,8 +325,21 @@ export default class RichTextEditor extends Component {
   _sendAction(action, data) {
     let jsonString = JSON.stringify({type: action, data});
     jsonString = this.escapeJSONString(jsonString);
-    if (this.webviewBridge && this.webviewBridge.sendToBridge) {
-      this.webviewBridge.sendToBridge(jsonString);
+    const run = `
+        window.WebViewBridge.onMessage("${json}");
+        true;
+      `;
+    setTimeout(() => {
+      if (!this.webRef) {
+        console.error('webRef not defined... from WKWebView');
+        return;
+      }
+      this.webRef.injectScript(run);
+    }, 500);
+  }
+  webviewBridge = {
+    sendToBridge: json => {
+      
     }
   }
 

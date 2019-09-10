@@ -1,8 +1,8 @@
 import {actions, messages} from './const';
 
+
 export const InjectedMessageHandler = `
-  if (WebViewBridge) {
-    WebViewBridge.onMessage = function (message) {
+    var onMessage = function (message) {
 
       const action = JSON.parse(message);
 
@@ -117,15 +117,15 @@ export const InjectedMessageHandler = `
           break;
         case '${actions.getTitleHtml}':
           var html = zss_editor.getTitleHTML();
-          WebViewBridge.send(JSON.stringify({type: '${messages.TITLE_HTML_RESPONSE}', data: html}));
+          window.ReactNativeWebView.postMessage(JSON.stringify({type: '${messages.TITLE_HTML_RESPONSE}', data: html}));
           break;
         case '${actions.getTitleText}':
           var html = zss_editor.getTitleText();
-          WebViewBridge.send(JSON.stringify({type: '${messages.TITLE_TEXT_RESPONSE}', data: html}));
+          window.ReactNativeWebView.postMessage(JSON.stringify({type: '${messages.TITLE_TEXT_RESPONSE}', data: html}));
           break;
         case '${actions.getContentHtml}':
           var html = zss_editor.getContentHTML();
-          WebViewBridge.send(JSON.stringify({type: '${messages.CONTENT_HTML_RESPONSE}', data: html}));
+          window.ReactNativeWebView.postMessage(JSON.stringify({type: '${messages.CONTENT_HTML_RESPONSE}', data: html}));
           break;
         case '${actions.setTitleFocusHandler}':
           zss_editor.setTitleFocusHandler();
@@ -135,7 +135,7 @@ export const InjectedMessageHandler = `
           break;
         case '${actions.getSelectedText}':
           var selectedText = getSelection().toString();
-          WebViewBridge.send(JSON.stringify({type: '${messages.SELECTED_TEXT_RESPONSE}', data: selectedText}));
+          window.ReactNativeWebView.postMessage(JSON.stringify({type: '${messages.SELECTED_TEXT_RESPONSE}', data: selectedText}));
           break;
         case '${actions.focusContent}':
           zss_editor.focusContent();
@@ -172,5 +172,8 @@ export const InjectedMessageHandler = `
           break;
       }
     };
-  }
+    window.WebViewBridge = window.WebViewBridge || {
+      onMessage
+    };
+    
 `;
