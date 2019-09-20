@@ -1065,8 +1065,10 @@
 				var selection = window.getSelection();
 				selection.removeAllRanges();
 				var range = document.createRange();
-				range.setStart(zss_editor.currentSelection.startContainer, zss_editor.currentSelection.startOffset);
-				range.setEnd(zss_editor.currentSelection.endContainer, zss_editor.currentSelection.endOffset);
+				if (zss_editor.currentSelection) {
+                  range.setStart(zss_editor.currentSelection.startContainer, zss_editor.currentSelection.startOffset);
+                  range.setEnd(zss_editor.currentSelection.endContainer, zss_editor.currentSelection.endOffset);
+                }
 				selection.addRange(range);
 			}
 
