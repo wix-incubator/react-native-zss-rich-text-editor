@@ -307,7 +307,7 @@ export default class RichTextEditor extends Component {
           injectedJavaScript={injectScript}
           source={pageSource}
           onLoad={() => this.init()}
-          originWhitelist={['*']}
+          originWhitelist={['file://', 'http://']}
         />
         {this._renderLinkModal()}
       </View>
