@@ -121,17 +121,18 @@ export default class RichTextToolbar extends Component {
         this._defaultRenderAction(action, selected);
   }
 
-  render() {
-    return (
-      <View
-          style={[{height: 50, backgroundColor: '#D3D3D3', alignItems: 'center',flexDirection:'row'}, this.props.style]}
-      >
-        <FlatList
-          data={this.state.dataSet}
-          numColumns={this.state.actions.length}
-          renderItem={(item) => this._renderAction(item.item.action, item.item.selected)}
+   render() {
+     return (
+       <View
+           style={[{height: 50, backgroundColor: '#D3D3D3', alignItems: 'center',flexDirection:'row'}, this.props.style]}
+       >
+          <FlatList
+            horizontal
+            data={this.state.dataSet}
+            renderItem={(item) => this._renderAction(item.item.action, item.item.selected)}
+            ListFooterComponent={this.props.footerView}
         />
-          {this.props.fixedRight &&this.props.fixedRight()}
+          {this.props.fixedRight && this.props.fixedRight()}
       </View>
     );
   }
