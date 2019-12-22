@@ -1,6 +1,6 @@
 # React Native Rich Text Editor with react-native-webview
 
-> Read [original repo](https://github.com/wix/react-native-zss-rich-text-editor) first
+> Visit [original repo](https://github.com/wix/react-native-zss-rich-text-editor) first
 
 ## Inspirations
 
