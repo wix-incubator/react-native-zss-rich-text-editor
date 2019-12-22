@@ -16,6 +16,10 @@ For now, the original library has problems of using two deprecated modules, List
   * In `editor.html`, replace `WebViewBridge.send` with `ReactNativeWebView.postMessage`
 * Added `./newExample`. You should `$ cd newExample; yarn; cd ios; pod install; cd ..; react-native run-ios;`.
 
+## How to use it
+
+* `$ yarn add https://github.com/jb-/react-native-zss-rich-text-editor`
+
 ## Limitations
 
 * Tested on RN 0.61.5, iOS only.
