@@ -9,10 +9,10 @@
   "main": "index.js",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "react-native-webview-bridge-updated": "^1.0.0"
+    "react-native-webview": "^8.0.1"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": ">=0.31.0"
+    "react-native": ">=0.61.0"
   }
 }
