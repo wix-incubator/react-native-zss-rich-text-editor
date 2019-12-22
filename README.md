@@ -14,6 +14,7 @@ For now, the original library has problems of using two deprecated modules, List
 * Replaced react-native-webview-bridge-updated with react-native-webview
   * Instead of injecting `MessageHandler` into webpage(WebViewBridge) and sending message through `sendToBridge`, I directly inject `zss_editor`'s function calls through `injectJavaScript`. To achieve that, I fixed `WebViewMessageHandler.js` to be mapper function, translating functions of `RichTextEditor` to those of `zss_editor`.
   * In `editor.html`, replace `WebViewBridge.send` with `ReactNativeWebView.postMessage`
+* Added `./newExample`. You should `$ cd newExample; yarn; cd ios; pod install; cd ..; react-native run-ios;`.
 
 ## Limitations
 
