@@ -45,3 +45,5 @@ yarn.lock
 *.log
 
 example/android/app/src/main/assets/editor.html
+
+.vscode/
