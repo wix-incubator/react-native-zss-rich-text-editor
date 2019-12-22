@@ -19,6 +19,8 @@ For now, the original library has problems of using two deprecated modules, List
 ## How to use it
 
 * `$ yarn add https://github.com/jb-/react-native-zss-rich-text-editor`
+* `$ yarn add react-native-webview` (I'm not sure why I have to do this)
+* `$ cd ios; pod install;`
 
 ## Limitations
 
