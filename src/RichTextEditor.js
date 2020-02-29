@@ -344,6 +344,7 @@ export default class RichTextEditor extends Component {
     return string
       .replace(/[\\]/g, '\\\\')
       .replace(/[\"]/g, '\\\"')
+      .replace(/[\’]/g, '\'')
       .replace(/[\']/g, '\\\'')
       .replace(/[\/]/g, '\\/')
       .replace(/[\b]/g, '\\b')
@@ -355,7 +356,7 @@ export default class RichTextEditor extends Component {
 
   _sendAction(action, data) {
     let jsonString = JSON.stringify({type: action, data});
-    jsonString = this.btoa(jsonString)//this.escapeJSONString(jsonString);
+    jsonString = this.btoa(jsonString.replace(/[\’]/g, ''));
     this.webviewBridge.sendToBridge(jsonString);
   }
 
@@ -669,8 +670,8 @@ export default class RichTextEditor extends Component {
 
   focusInputField(fieldKey) {
       this._sendAction(actions.focusInputField, fieldKey);
-  } 
-  
+  }
+
   blurInputField(fieldKey) {
       this._sendAction(actions.blurInputField, fieldKey);
   }
