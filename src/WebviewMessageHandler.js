@@ -4,7 +4,7 @@ export const InjectedMessageHandler = `
   if (WebViewBridge) {
     WebViewBridge.onMessage = function (message) {
 
-      const action = JSON.parse(atob(message));
+      const action = JSON.parse(message);
 
       switch(action.type) {
         case '${actions.enableOnChange}':
