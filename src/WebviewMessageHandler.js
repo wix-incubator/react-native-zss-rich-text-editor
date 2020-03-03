@@ -2,9 +2,38 @@ import {actions, messages} from './const';
 
 export const InjectedMessageHandler = `
   if (WebViewBridge) {
-    WebViewBridge.onMessage = function (message) {
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+    const hbAtob = function(input){
+        let i = 0;
+        let bc = 0;
+        let bs = 0;
+        let buffer;
+        let output = '';
 
-      const action = JSON.parse(atob(message));
+        const str = input.replace(/=+$/, '');
+
+        if (str.length % 4 === 1) {
+          throw new Error(
+            "'RNFirebase.utils.atob' failed: The string to be decoded is not correctly encoded."
+          );
+        }
+
+        for (
+          bc = 0, bs = 0, i = 0;
+          (buffer = str.charAt(i++));
+          ~buffer && ((bs = bc % 4 ? bs * 64 + buffer : buffer), bc++ % 4)
+            ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
+            : 0
+        ) {
+          buffer = CHARS.indexOf(buffer);
+        }
+
+        return output;
+      };
+  
+    WebViewBridge.onMessage = function (message) {
+      
+      const action = JSON.parse(hbAtob(message));
 
       switch(action.type) {
         case '${actions.enableOnChange}':
