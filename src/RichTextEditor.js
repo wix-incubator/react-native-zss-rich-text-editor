@@ -356,7 +356,7 @@ export default class RichTextEditor extends Component {
 
   _sendAction(action, data) {
     let jsonString = JSON.stringify({type: action, data});
-    jsonString = this.btoa(jsonString.replace(/[\’]/g, "&apos;").replace(/'/g, "&apos;"));
+    jsonString = this.btoa(jsonString.replace(/[\’]/g, ''));
     this.webviewBridge.sendToBridge(jsonString);
   }
 
