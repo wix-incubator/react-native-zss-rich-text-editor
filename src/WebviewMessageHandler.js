@@ -30,10 +30,9 @@ export const InjectedMessageHandler = `
 
         return output;
       };
-  
+
     WebViewBridge.onMessage = function (message) {
-      
-      const action = JSON.parse(hbAtob(message));
+      const action = JSON.parse(decodeURIComponent(escape(hbAtob(message))));
 
       switch(action.type) {
         case '${actions.enableOnChange}':
