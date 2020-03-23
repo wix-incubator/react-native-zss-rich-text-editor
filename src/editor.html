@@ -1106,7 +1106,10 @@
 				if (zss_editor.platform =='ios') {
 					var sel = window.getSelection();
 					// Next line is comented to prevent deselecting selection. It looks like work but if there are any issues will appear then uconmment it as well as code above.
-					//sel.collapseToStart();
+					if(sel.rangeCount === 0){
+						return undefined
+					}
+
 					var range = sel.getRangeAt(0);
 					var span = document.createElement('span');// something happening here preventing selection of elements
 					range.collapse(false);
@@ -1142,6 +1145,10 @@
 
 			zss_editor.calculateEditorHeightWithCaretPosition = function() {
 				var caretYPosition = zss_editor.getCaretYPosition();
+				if(!caretYPosition){
+					window.scrollTo(0, 0);
+
+				}
 				var lineHeight = 20;
 				var halfLineHeight = lineHeight/2;
 				var offsetY = window.document.body.scrollTop;
@@ -1638,7 +1645,6 @@
 
 				// Use jQuery to figure out those that are not supported
 				if (typeof(e) != "undefined") {
-
 					// The target element
 					var s = zss_editor.getSelectedNode();
 					var t = $(s);
@@ -1646,18 +1652,18 @@
 
 					// Background Color
 					var bgColor = t.css('backgroundColor');
-					if (bgColor.length != 0 && bgColor != 'rgba(0, 0, 0, 0)' && bgColor != 'rgb(0, 0, 0)' && bgColor != 'transparent') {
+					if (bgColor && bgColor.length != 0 && bgColor != 'rgba(0, 0, 0, 0)' && bgColor != 'rgb(0, 0, 0)' && bgColor != 'transparent') {
 						items.push('backgroundColor');
 					}
 					// Text Color
 					var textColor = t.css('color');
-					if (textColor.length != 0 && textColor != 'rgba(0, 0, 0, 0)' && textColor != 'rgb(0, 0, 0)' && textColor != 'transparent') {
+					if (textColor && textColor.length != 0 && textColor != 'rgba(0, 0, 0, 0)' && textColor != 'rgb(0, 0, 0)' && textColor != 'transparent') {
 						items.push('textColor');
 					}
 
 					//Fonts
 					var font = t.css('font-family');
-					if (font.length != 0 && font != 'Arial, Helvetica, sans-serif') {
+					if (font&& font.length != 0 && font != 'Arial, Helvetica, sans-serif') {
 						items.push('fonts');
 					}
 
@@ -1724,7 +1730,7 @@
 			zss_editor.blurContentEditor = function() {
 				$('#zss_editor_content').blur();
 			}
-			
+
 			zss_editor.blurInputField = function(key) {
 				if(key) {
 					let input = $(`#zss_editor_input_field_${key}`)[0];
@@ -1852,7 +1858,7 @@
 				line-height: 31px;
 				color: #2d4150;
 			}
-	
+
 			#zss_editor_title {
 				padding-left: 10px;
 				padding-right: 10px;
