@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import WebViewBridge from 'react-native-webview-bridge';
-import {InjectedMessageHandler} from './WebviewMessageHandler';
-import {actions, messages} from './const';
-import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, PixelRatio, Keyboard, Dimensions} from 'react-native';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import WebViewBridge from "react-native-webview-bridge";
+import { InjectedMessageHandler } from "./WebviewMessageHandler";
+import { actions, messages } from "./const";
+import { Dimensions, Keyboard, Platform, View } from "react-native";
 
 const injectScript = `
   (function () {
@@ -42,7 +42,6 @@ export default class RichTextEditor extends Component {
     this.state = {
       selectionChangeListeners: [],
       onChange: [],
-      showLinkDialog: false,
       linkInitialUrl: '',
       linkTitle: '',
       linkUrl: '',
@@ -228,97 +227,7 @@ export default class RichTextEditor extends Component {
     }
   }
 
-  _renderLinkModal() {
-    return (
-        <Modal
-            animationType={"fade"}
-            transparent
-            visible={this.state.showLinkDialog}
-            onRequestClose={() => this.setState({showLinkDialog: false})}
-        >
-          <View style={styles.modal}>
-            <View style={[styles.innerModal, {marginBottom: PlatformIOS ? this.state.keyboardHeight : 0}]}>
-              <Text style={styles.inputTitle}>Title</Text>
-              <View style={styles.inputWrapper}>
-                <TextInput
-                    underlineColorAndroid={'#47505e'}
-                    style={styles.input}
-                    onChangeText={(text) => this.setState({linkTitle: text})}
-                    value={this.state.linkTitle}
-                />
-              </View>
-              <Text style={[styles.inputTitle ,{marginTop: 10}]}>URL</Text>
-              <View style={styles.inputWrapper}>
-                <TextInput
-                    underlineColorAndroid={'#47505e'}
-                    style={styles.input}
-                    onChangeText={(text) => this.setState({linkUrl: text})}
-                    value={this.state.linkUrl}
-                    keyboardType="url"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                />
-              </View>
-              {PlatformIOS && <View style={styles.lineSeparator}/>}
-              {this._renderModalButtons()}
-            </View>
-          </View>
-        </Modal>
-    );
-  }
 
-  _hideModal() {
-    this.props.onHideModal && this.props.onHideModal();
-    this.setState({
-      showLinkDialog: false,
-      linkInitialUrl: '',
-      linkTitle: '',
-      linkUrl: ''
-    })
-  }
-
-  _renderModalButtons() {
-    const insertUpdateDisabled = this.state.linkTitle.trim().length <= 0 || this.state.linkUrl.trim().length <= 0;
-    const containerPlatformStyle = PlatformIOS ? {justifyContent: 'space-between'} : {paddingTop: 15};
-    const buttonPlatformStyle = PlatformIOS ? {flex: 1, height: 45, justifyContent: 'center'} : {};
-    return (
-      <View style={[{alignSelf: 'stretch', flexDirection: 'row'}, containerPlatformStyle]}>
-        {!PlatformIOS && <View style={{flex: 1}}/>}
-        <TouchableOpacity
-            onPress={() => this._hideModal()}
-            style={buttonPlatformStyle}
-        >
-          <Text style={[styles.button, {paddingRight: 10}]}>
-            {this._upperCaseButtonTextIfNeeded('Cancel')}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-            onPress={() => {
-              if (this._linkIsNew()) {
-                this.insertLink(this.state.linkUrl, this.state.linkTitle);
-              } else {
-                this.updateLink(this.state.linkUrl, this.state.linkTitle);
-              }
-              this._hideModal();
-            }}
-            disabled={insertUpdateDisabled}
-            style={buttonPlatformStyle}
-        >
-          <Text style={[styles.button, {opacity: insertUpdateDisabled ? 0.5 : 1}]}>
-            {this._upperCaseButtonTextIfNeeded(this._linkIsNew() ? 'Insert' : 'Update')}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  _linkIsNew() {
-    return !this.state.linkInitialUrl;
-  }
-
-  _upperCaseButtonTextIfNeeded(buttonText) {
-    return PlatformIOS ? buttonText : buttonText.toUpperCase();
-  }
 
   render() {
     //in release build, external html files in Android can't be required, so they must be placed in the assets folder and accessed via uri
@@ -335,7 +244,6 @@ export default class RichTextEditor extends Component {
           source={pageSource}
           onLoad={() => this.init()}
         />
-        {this._renderLinkModal()}
       </View>
     );
   }
@@ -387,13 +295,16 @@ export default class RichTextEditor extends Component {
   //-------------------------------------------------------------------------------
   //--------------- Public API
 
-  showLinkDialog(optionalTitle = '', optionalUrl = '') {
-    this.setState({
-      linkInitialUrl: optionalUrl,
-      linkTitle: optionalTitle,
-      linkUrl: optionalUrl,
-      showLinkDialog: true
-    });
+  showLinkDialog(optionalTitle = "", optionalUrl = "") {
+    if (this.props.showModal) {
+      this.props.showModal(
+          optionalTitle,
+          optionalUrl,
+          (title, url) => {
+            this.insertLink(title, url);
+          }
+      );
+    }
   }
 
   focusTitle() {
@@ -713,47 +624,3 @@ export default class RichTextEditor extends Component {
     this._selectedTextChangeListeners.push(listener);
   }
 }
-
-const styles = StyleSheet.create({
-  modal: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
-  },
-  innerModal: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    paddingTop: 20,
-    paddingBottom: PlatformIOS ? 0 : 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-    alignSelf: 'stretch',
-    margin: 40,
-    borderRadius: PlatformIOS ? 8 : 2
-  },
-  button: {
-    fontSize: 16,
-    color: '#4a4a4a',
-    textAlign: 'center'
-  },
-  inputWrapper: {
-    marginTop: 5,
-    marginBottom: 10,
-    borderBottomColor: '#4a4a4a',
-    borderBottomWidth: PlatformIOS ? 1 / PixelRatio.get() : 0
-  },
-  inputTitle: {
-    color: '#4a4a4a'
-  },
-  input: {
-    height: PlatformIOS ? 20 : 40,
-    paddingTop: 0
-  },
-  lineSeparator: {
-    height: 1 / PixelRatio.get(),
-    backgroundColor: '#d5d5d5',
-    marginLeft: -20,
-    marginRight: -20,
-    marginTop: 20
-  }
-});
