@@ -215,8 +215,11 @@ export default class RichTextEditor extends Component {
           break;
         }
         case messages.SELECTED_TEXT_CHANGED: {
+
           const selectedText = message.data;
+
           this._selectedTextChangeListeners.forEach((listener) => {
+
             listener(selectedText);
           });
           break;
@@ -300,8 +303,8 @@ export default class RichTextEditor extends Component {
       this.props.showModal(
           optionalTitle,
           optionalUrl,
-          (title, url) => {
-            this.insertLink(title, url);
+          (url, title) => {
+            this.insertLink(url, title);
           }
       );
     }
