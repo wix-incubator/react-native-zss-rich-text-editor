@@ -130,6 +130,9 @@ export default class RichTextToolbar extends Component {
             horizontal
             data={this.state.dataSet}
             renderItem={(item) => this._renderAction(item.item.action, item.item.selected)}
+            ListHeaderComponent={()=>{
+              return this.props.headerView()
+            }}
             ListFooterComponent={this.props.footerView}
         />
           {this.props.fixedRight && this.props.fixedRight()}
