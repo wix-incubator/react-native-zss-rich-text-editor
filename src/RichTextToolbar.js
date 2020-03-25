@@ -50,7 +50,7 @@ export default class RichTextToolbar extends Component {
     };
   }
 
-  componentDidReceiveProps(newProps) {
+  componentWillReceiveProps(newProps) {
     const actions = newProps.actions ? newProps.actions : defaultActions;
     this.setState({
       actions,
@@ -121,6 +121,10 @@ export default class RichTextToolbar extends Component {
         this._defaultRenderAction(action, selected);
   }
 
+  _keyExtractor=(item, index)=>{
+    return item + index;
+  }
+
    render() {
      return (
        <View
@@ -128,6 +132,7 @@ export default class RichTextToolbar extends Component {
        >
           <FlatList
             horizontal
+            keyExtractor={this._keyExtractor}
             data={this.state.dataSet}
             renderItem={(item) => this._renderAction(item.item.action, item.item.selected)}
             ListHeaderComponent={()=>{
