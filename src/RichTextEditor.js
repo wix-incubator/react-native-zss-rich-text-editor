@@ -334,18 +334,22 @@ export default class RichTextEditor extends Component {
         window.WebViewBridge.onMessage("${jsonString}");
         true;
       `;
-    setTimeout(() => {
+
+    // try to send action for 5 seconds
+    let retriesRemaining = 50;
+    const sendToWebRef = setTimeout(() => {
+      console.log('trying to send action: tries: ' + 51 - retriesRemaining);
       if (!this.webRef) {
         console.warn('webRef not defined... from WKWebView');
+        retriesRemaining -= 1;
+        if (retriesRemaining <= 0) {
+          clearInterval(sendToWebRef);
+        }
         return;
       }
       this.webRef.injectJavaScript(run);
-    }, 500);
-  }
-  webviewBridge = {
-    sendToBridge: json => {
-      
-    }
+      clearInterval(sendToWebRef);
+    }, 100);
   }
 
   //-------------------------------------------------------------------------------
