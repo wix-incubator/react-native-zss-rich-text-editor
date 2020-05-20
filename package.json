@@ -13,6 +13,6 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "0.62.3"
+    "react-native": "0.62.4"
   }
 }
