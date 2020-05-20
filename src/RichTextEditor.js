@@ -69,7 +69,7 @@ export default class RichTextEditor extends Component {
 
   componentWillUnmount() {
     if (this.keyboardEventListeners) {
-       this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
+      this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
     }
   }
 
@@ -93,9 +93,12 @@ export default class RichTextEditor extends Component {
     const {top = 0, bottom = 0} = this.props.contentInset;
     const {marginTop = 0, marginBottom = 0} = this.props.style;
     const spacing = marginTop + marginBottom + top + bottom;
+    const zibi = Dimensions.get('window').height- spacing -keyboardHeight
 
-    const editorAvailableHeight = Dimensions.get('window').height - keyboardHeight*2// - spacing;
-    this.setEditorHeight(editorAvailableHeight);
+    const editorAvailableHeight = Dimensions.get('window').height - keyboardHeight*2 - spacing;
+    console.log('xzx original', editorAvailableHeight)
+    console.log('xzx elad ', zibi)
+    // this.setEditorHeight(zibi);
   }
 
   onBridgeMessage(str){
@@ -174,10 +177,10 @@ export default class RichTextEditor extends Component {
           this.props.editorInitializedCallback && this.props.editorInitializedCallback();
 
           break;
-       case messages.TOP_REACHED:
+        case messages.TOP_REACHED:
           this.thresholdHandler && this.thresholdHandler({top:true})
           break;
-       case messages.BOTTOM_REACHED:
+        case messages.BOTTOM_REACHED:
           this.thresholdHandler && this.thresholdHandler({bottom:true})
           break;
         case messages.LINK_TOUCHED:
@@ -236,33 +239,33 @@ export default class RichTextEditor extends Component {
     //in release build, external html files in Android can't be required, so they must be placed in the assets folder and accessed via uri
     const pageSource = PlatformIOS ? require('./editor.html') : { uri: 'file:///android_asset/editor.html' };
     return (
-      <View style={{flex: 1}}>
-        <WebViewBridge
-          {...this.props}
-          hideKeyboardAccessoryView={true}
-          keyboardDisplayRequiresUserAction={false}
-          ref={(r) => {this.webviewBridge = r}}
-          onBridgeMessage={(message) => this.onBridgeMessage(message)}
-          injectedJavaScript={injectScript}
-          source={pageSource}
-          onLoad={() => this.init()}
-        />
-      </View>
+        <View style={{flex: 1}}>
+          <WebViewBridge
+              {...this.props}
+              hideKeyboardAccessoryView={true}
+              keyboardDisplayRequiresUserAction={false}
+              ref={(r) => {this.webviewBridge = r}}
+              onBridgeMessage={(message) => this.onBridgeMessage(message)}
+              injectedJavaScript={injectScript}
+              source={pageSource}
+              onLoad={() => this.init()}
+          />
+        </View>
     );
   }
 
   escapeJSONString = function(string) {
     return string
-      .replace(/[\\]/g, '\\\\')
-      .replace(/[\"]/g, '\\\"')
-      .replace(/[\’]/g, '\'')
-      .replace(/[\']/g, '\\\'')
-      .replace(/[\/]/g, '\\/')
-      .replace(/[\b]/g, '\\b')
-      .replace(/[\f]/g, '\\f')
-      .replace(/[\n]/g, '\\n')
-      .replace(/[\r]/g, '\\r')
-      .replace(/[\t]/g, '\\t');
+        .replace(/[\\]/g, '\\\\')
+        .replace(/[\"]/g, '\\\"')
+        .replace(/[\’]/g, '\'')
+        .replace(/[\']/g, '\\\'')
+        .replace(/[\/]/g, '\\/')
+        .replace(/[\b]/g, '\\b')
+        .replace(/[\f]/g, '\\f')
+        .replace(/[\n]/g, '\\n')
+        .replace(/[\r]/g, '\\r')
+        .replace(/[\t]/g, '\\t');
   };
 
   _sendAction(action, data) {
@@ -475,16 +478,16 @@ export default class RichTextEditor extends Component {
     this._sendAction(actions.setTitlePlaceholder, placeholder);
   }
 
-    setInputFields(inputFields) {
-      if (inputFields && Array.isArray(inputFields)) {
-        if (PlatformIOS) {
-          inputFields.reverse(); //iOS reverses the provided order
-        }
-        for (let i = 0; i < inputFields.length; i++) {
-          this._sendAction(actions.insertInputField, inputFields[i]);
-        }
+  setInputFields(inputFields) {
+    if (inputFields && Array.isArray(inputFields)) {
+      if (PlatformIOS) {
+        inputFields.reverse(); //iOS reverses the provided order
+      }
+      for (let i = 0; i < inputFields.length; i++) {
+        this._sendAction(actions.insertInputField, inputFields[i]);
       }
     }
+  }
 
   setContentPlaceholder(placeholder) {
     this._sendAction(actions.setContentPlaceholder, placeholder);
@@ -565,30 +568,30 @@ export default class RichTextEditor extends Component {
   }
 
   async getInputFieldText(fieldKey) {
-      return new Promise((resolve, reject) => {
-          this.inputFieldResolves[fieldKey] = resolve;
-          this.inputFieldRejects[fieldKey] = reject;
-          this.inputFieldTimers[fieldKey] = reject;
-          this._sendAction(actions.getInputFieldText, fieldKey);
+    return new Promise((resolve, reject) => {
+      this.inputFieldResolves[fieldKey] = resolve;
+      this.inputFieldRejects[fieldKey] = reject;
+      this.inputFieldTimers[fieldKey] = reject;
+      this._sendAction(actions.getInputFieldText, fieldKey);
 
-          this.inputFieldTimers[fieldKey] = setTimeout(() => {
-              if (this.inputFieldRejects[fieldKey]) {
-                  this.inputFieldRejects[fieldKey]('timeout')
-              }
-          }, 5000);
-      });
+      this.inputFieldTimers[fieldKey] = setTimeout(() => {
+        if (this.inputFieldRejects[fieldKey]) {
+          this.inputFieldRejects[fieldKey]('timeout')
+        }
+      }, 5000);
+    });
   }
 
   setInputFieldText(fieldKey, text) {
-      this._sendAction(actions.setInputFieldText, {key: fieldKey, text});
+    this._sendAction(actions.setInputFieldText, {key: fieldKey, text});
   }
 
   focusInputField(fieldKey) {
-      this._sendAction(actions.focusInputField, fieldKey);
+    this._sendAction(actions.focusInputField, fieldKey);
   }
 
   blurInputField(fieldKey) {
-      this._sendAction(actions.blurInputField, fieldKey);
+    this._sendAction(actions.blurInputField, fieldKey);
   }
 
   async getSelectedText() {
