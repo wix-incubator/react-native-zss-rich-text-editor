@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import {ListView, View, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {FlatList, View, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {actions} from './const';
 import PropTypes from 'prop-types';
 
@@ -48,7 +49,7 @@ export default class RichTextToolbar extends Component {
       editor: undefined,
       selectedItems: [],
       actions,
-      ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.getRows(actions, []))
+      dataSet: this.getRows(actions, [])
     };
   }
 
@@ -70,7 +71,7 @@ export default class RichTextToolbar extends Component {
     if (selectedItems !== this.state.selectedItems) {
       this.setState({
         selectedItems,
-        ds: this.state.ds.cloneWithRows(this.getRows(this.state.actions, selectedItems))
+        dataSet: this.getRows(this.state.actions, selectedItems)
       });
     }
   }
@@ -133,7 +134,11 @@ export default class RichTextToolbar extends Component {
     }
     return (
       <View style={[style, this.props.style]}>
-        {rows.map(row => this._renderAction(row.action, row.selected))}
+        <FlatList
+          data={this.state.dataSet}
+          numColumns={this.state.actions.length}
+          renderItem={(item) => this._renderAction(item.item.action, item.item.selected)}
+        />
       </View>
     )
 

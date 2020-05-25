@@ -4,16 +4,15 @@
     "type": "git",
     "url": "https://github.com/wix/react-native-zss-rich-text-editor.git"
   },
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "React Native Wrapper for ZSSRichTextEditor",
   "main": "index.js",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "prop-types": "^15.6.0",
-    "react-native-webview-bridge-updated": "Hylozoic/react-native-webview-bridge#62f520e"
+    "react-native-webview": "^8.0.1"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": ">=0.31.0"
+    "react-native": ">=0.61.0"
   }
 }
