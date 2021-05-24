@@ -102,16 +102,16 @@ export default class RichTextToolbar extends Component {
   _defaultRenderAction(action, selected) {
     const icon = this._getButtonIcon(action);
     return (
-      <TouchableOpacity
-          key={action}
-          style={[
-            {height: 50, width: 50, justifyContent: 'center'},
-            selected ? this._getButtonSelectedStyle() : this._getButtonUnselectedStyle()
-          ]}
-          onPress={() => this._onPress(action)}
-      >
-        {icon ? <Image source={icon} style={{tintColor: selected ? this.props.selectedIconTint : this.props.iconTint}}/> : null}
-      </TouchableOpacity>
+        <TouchableOpacity
+            key={action}
+            style={[
+              {height: 50, width: 50, justifyContent: 'center'},
+              selected ? this._getButtonSelectedStyle() : this._getButtonUnselectedStyle()
+            ]}
+            onPress={() => this._onPress(action)}
+        >
+          {icon ? <Image source={icon} style={{tintColor: selected ? this.props.selectedIconTint : this.props.iconTint}}/> : null}
+        </TouchableOpacity>
     );
   }
 
@@ -125,23 +125,23 @@ export default class RichTextToolbar extends Component {
     return item + index;
   }
 
-   render() {
-     return (
-       <View
-           style={[{height: 50, backgroundColor: '#D3D3D3', alignItems: 'center',flexDirection:'row'}, this.props.style]}
-       >
+  render() {
+    return (
+        <View
+            style={[{height: 50, backgroundColor: '#D3D3D3', alignItems: 'center',flexDirection:'row'}, this.props.style]}
+        >
           <FlatList
-            horizontal
-            keyExtractor={this._keyExtractor}
-            data={this.state.dataSet}
-            renderItem={(item) => this._renderAction(item.item.action, item.item.selected)}
-            ListHeaderComponent={()=>{
-              return this.props.headerView && this.props.headerView() || undefined
-            }}
-            ListFooterComponent={this.props.footerView}
-        />
+              horizontal
+              keyExtractor={this._keyExtractor}
+              data={this.state.dataSet}
+              renderItem={(item) => this._renderAction(item.item.action, item.item.selected)}
+              ListHeaderComponent={()=>{
+                return this.props.headerView && this.props.headerView() || undefined
+              }}
+              ListFooterComponent={this.props.footerView}
+          />
           {this.props.fixedRight && this.props.fixedRight()}
-      </View>
+        </View>
     );
   }
 
@@ -187,7 +187,6 @@ export default class RichTextToolbar extends Component {
         if(this.props.onPressAddImage) {
           this.props.onPressAddImage();
         }
-        break;
         break;
     }
   }

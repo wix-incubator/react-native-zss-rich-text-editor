@@ -1049,8 +1049,13 @@
 			}
 		}
 
+
+		zss_editor.addRecipient=function (){
+			WebViewBridge.send(JSON.stringify({type: 'ADD_RECIPIENT'}))
+		}
+
 		zss_editor.insertInputField = function(data) {
-			let {label, value, editable, placeholder, onFocus, autoFocus,key} = data;
+			let {label, value, editable, placeholder, onFocus, autoFocus, key} = data;
 
 			let ul = getOrCreateInputFieldsList();
 			let hasItems = ul.children("li").length > 0;
@@ -1072,7 +1077,7 @@
 			inputElStr += '>';
 			let li = $('<li class="zss_editor_field_li">' +
 					'<label class="zss_editor_field_label">' + label + '</label>'+
-					inputElStr + '</li>');
+					inputElStr +  (editable?"":'<button class="cssCircle plusSign" onclick="zss_editor.addRecipient()">&#43;</button>') +  '</li>');
 			if (hasItems) {
 				li.addClass('zss_editor_field_separator');
 			}
@@ -1091,6 +1096,7 @@
 				$('#'+elementID).focus();
 			}
 		};
+
 
 		zss_editor.setTitlePlaceholder = function(placeholder) {
 			setPlaceholder('zss_editor_title', placeholder);
@@ -1941,6 +1947,49 @@
 
 		li.zss_editor_field_separator {
 			/*border-top: 1px solid #EEEFF1;*/
+		}
+
+		.cssCircle {
+			-webkit-border-radius: 999px;
+			-moz-border-radius: 999px;
+			border-radius: 999px;
+			border:0;
+			behavior: url(PIE.htc);
+
+			width: 24px;
+			height: 24px;
+			padding: 0px;
+
+			background: #18C7C9;
+			/*border: 1px solid #003580;*/
+			color: white;
+			text-align: center;
+			-webkit-transition: background 0.2s linear;
+			-moz-transition: background 0.2s linear;
+			-ms-transition: background 0.2s linear;
+			-o-transition: background 0.2s linear;
+			transition: background 0.2s linear;
+			transition: color 0.2s linear;
+
+			/*font: 13px Arial, sans-serif*/
+		}
+		/*.cssCircle:hover {*/
+		/*	background: #3F69A0 ;*/
+		/*	!*cursor: pointer;*!*/
+		/*}*/
+		.cssCircle:active {
+			background: #3F69A0 ;
+			/*cursor: pointer;*/
+		}
+
+		.cssCircle :focus {
+			outline: none;
+		}
+
+		.plusSign {
+			font-weight: bold;
+			font-size: 18px;
+			line-height: 1.1em;
 		}
 
 		.zss_editor_field_label {

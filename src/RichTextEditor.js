@@ -227,6 +227,9 @@ export default class RichTextEditor extends Component {
           });
           break;
         }
+        case messages.ADD_RECIPIENT:{
+          this.props.addRecipient && this.props.addRecipient();
+        }
       }
     } catch(e) {
       //alert('NON JSON MESSAGE');
