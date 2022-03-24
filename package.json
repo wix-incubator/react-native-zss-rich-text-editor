@@ -4,7 +4,7 @@
     "type": "git",
     "url": "https://github.com/HoneyBook/react-native-zss-rich-text-editor.git"
   },
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "React Native Wrapper for ZSSRichTextEditor",
   "main": "index.js",
   "license": "SEE LICENSE IN LICENSE",
@@ -13,6 +13,6 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "0.64.1"
+    "react-native": "0.66.4"
   }
 }
