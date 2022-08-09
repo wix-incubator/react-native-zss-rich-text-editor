@@ -1055,7 +1055,6 @@
 		}
 
 		zss_editor.cancelScheduledSend=function (){
-			console.log('here!');
 			WebViewBridge.send(JSON.stringify({type: 'CANCEL_SCHEDULE_SEND'}))
 		}
 
@@ -1774,6 +1773,11 @@
 
 		zss_editor.blurContentEditor = function() {
 			$('#zss_editor_content').blur();
+		}
+
+		zss_editor.removeElementByClass = function(className) {
+			const elementToBeRemoved = $(`.${className}`)[0];
+			elementToBeRemoved.parentNode.removeChild(elementToBeRemoved);
 		}
 
 		zss_editor.blurInputField = function(key) {

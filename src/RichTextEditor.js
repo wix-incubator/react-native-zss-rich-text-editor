@@ -89,6 +89,7 @@ export default class RichTextEditor extends Component {
     this.setState({keyboardHeight: 0});
   }
 
+  // todo: remove this function, it does nothing
   setEditorAvailableHeightBasedOnKeyboardHeight(keyboardHeight) {
     const {top = 0, bottom = 0} = this.props.contentInset;
     const {marginTop = 0, marginBottom = 0} = this.props.style;
