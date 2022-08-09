@@ -1054,8 +1054,13 @@
 			WebViewBridge.send(JSON.stringify({type: 'ADD_RECIPIENT'}))
 		}
 
+		zss_editor.cancelScheduledSend=function (){
+			console.log('here!');
+			WebViewBridge.send(JSON.stringify({type: 'CANCEL_SCHEDULE_SEND'}))
+		}
+
 		zss_editor.insertInputField = function(data) {
-			let {label, value, editable, placeholder, onFocus, autoFocus, key} = data;
+			let {label, value, editable, placeholder, onFocus, autoFocus, key, scheduleDate } = data;
 
 			let ul = getOrCreateInputFieldsList();
 			let hasItems = ul.children("li").length > 0;
@@ -1075,13 +1080,33 @@
 				inputElStr += 'readonly';
 			}
 			inputElStr += '>';
-			let li = $('<li class="zss_editor_field_li">' +
-					'<label class="zss_editor_field_label">' + label + '</label>'+
-					inputElStr +  (editable?"":'<button class="cssCircle plusSign" onclick="zss_editor.addRecipient()">&#43;</button>') +  '</li>');
-			if (hasItems) {
-				li.addClass('zss_editor_field_separator');
+			if (key === "schedule_send_field") {
+				if (scheduleDate) {
+					let scheduleLi = $('<li class="zss_editor_field_li schedule_wrapper"> ' +
+							'<div class="schedule_date_wrapper">' +
+							'<img class="clock_icon"' +
+							' src="https://res.cloudinary.com/honeybook/image/upload/v1658929714/system_web/svg_icons/clock-forward-16.svg" alt="clock"/>' +
+							'<span class="scheduled_text"> SCHEDULED </span>' +
+							'<span class="scheduled_date">' + scheduleDate +  '</span>' +
+							'</div>' +
+							'<div class="trash_wrapper">' +
+							'<img src="https://res.cloudinary.com/honeybook/image/upload/v1659966072/system_web/svg_icons/trash-24.svg" class="trash_icon" onclick="zss_editor.cancelScheduledSend()" />' +
+							'</div>' +
+							+ '</li>');
+					ul.append(scheduleLi);
+				} else {
+					return;
+				}
+
+			} else {
+				let li = $('<li class="zss_editor_field_li">' +
+						'<label class="zss_editor_field_label">' + label + '</label>'+
+						inputElStr +  (editable?"":'<button class="cssCircle plusSign" onclick="zss_editor.addRecipient()">&#43;</button>') +  '</li>');
+				if (hasItems) {
+					li.addClass('zss_editor_field_separator');
+				}
+				ul.append(li);
 			}
-			ul.append(li);
 
 			whenPastingInsertAsPlainText(elementID);
 
@@ -1947,6 +1972,43 @@
 
 		li.zss_editor_field_separator {
 			/*border-top: 1px solid #EEEFF1;*/
+		}
+
+		.schedule_wrapper {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.trash_icon {
+			filter: invert(55%) sepia(8%) saturate(393%) hue-rotate(180deg) brightness(86%) contrast(85%);
+			width: 24px;
+			height: 24px;
+		}
+
+		.clock_icon {
+			filter: invert(22%) sepia(21%) saturate(453%) hue-rotate(176deg) brightness(88%) contrast(85%);
+			margin-left: 0;
+			margin-right: 8px;
+			align-self: center;
+		}
+		.schedule_date_wrapper {
+			flex-direction: row;
+			display: flex;
+			align-items: baseline;
+		}
+
+		.scheduled_text {
+			color: #24272B;
+			font-size: 14px;
+			font-weight: 600;
+		}
+
+		.scheduled_date {
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 22px;
+			color: #24272B;
+			margin-left: 8px;
 		}
 
 		.cssCircle {
