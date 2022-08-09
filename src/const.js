@@ -10,6 +10,7 @@ export const actions = {
   getContentHtml: 'GET_CONTENT_HTML',
   getInputFieldText: 'GET_INPUT_FIELD_TEXT',
   setInputFieldText: 'SET_INPUT_FIELD_TEXT',
+  deleteScheduleSend: 'DELETE_SCHEDULE_SEND',
   focusInputField: 'FOCUS_INPUT_FIELD',
   blurInputField: 'BLUR_INPUT_FIELD',
   getSelectedText: 'GET_SELECTED_TEXT',

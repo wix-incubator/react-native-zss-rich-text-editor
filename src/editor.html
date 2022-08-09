@@ -1775,9 +1775,13 @@
 			$('#zss_editor_content').blur();
 		}
 
+		zss_editor.deleteScheduleSend = function() {
+			this.removeElementByClass('schedule_wrapper');
+		}
+
 		zss_editor.removeElementByClass = function(className) {
-			const elementToBeRemoved = $(`.${className}`)[0];
-			elementToBeRemoved.parentNode.removeChild(elementToBeRemoved);
+					const elementToBeRemoved = $(`.${className}`)[0];
+					elementToBeRemoved.parentNode.removeChild(elementToBeRemoved);
 		}
 
 		zss_editor.blurInputField = function(key) {

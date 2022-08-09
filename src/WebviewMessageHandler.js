@@ -168,6 +168,9 @@ export const InjectedMessageHandler = `
         case '${actions.setInputFieldText}':
           zss_editor.setInputFieldText(action.data);
           break;
+        case '${actions.deleteScheduleSend}':
+          zss_editor.deleteScheduleSend();
+          break;
         case '${actions.focusInputField}':
           zss_editor.focusInputField(action.data);
           break;        
