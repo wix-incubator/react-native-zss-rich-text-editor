@@ -1687,6 +1687,13 @@
 				$(this).addClass('zs_active');
 			});
 
+			$('.trash_icon').bind('touchstart', function(e) {
+				$(this).addClass('trash_icon_active');
+			});
+			$('.trash_icon').bind('touchend', function(e) {
+				$(this).removeClass('trash_icon_active');
+			});
+
 			// Use jQuery to figure out those that are not supported
 			if (typeof(e) != "undefined") {
 				// The target element
@@ -1780,8 +1787,8 @@
 		}
 
 		zss_editor.removeElementByClass = function(className) {
-					const elementToBeRemoved = $(`.${className}`)[0];
-					elementToBeRemoved.parentNode.removeChild(elementToBeRemoved);
+			const elementToBeRemoved = $(`.${className}`)[0];
+			elementToBeRemoved.parentNode.removeChild(elementToBeRemoved);
 		}
 
 		zss_editor.blurInputField = function(key) {
@@ -1991,6 +1998,13 @@
 			filter: invert(55%) sepia(8%) saturate(393%) hue-rotate(180deg) brightness(86%) contrast(85%);
 			width: 24px;
 			height: 24px;
+			margin-right: 4px;
+			transition: 0.3s;
+		}
+
+		.trash_icon_active {
+			transition: 0.3s;
+			filter: brightness(100%);
 		}
 
 		.clock_icon {
