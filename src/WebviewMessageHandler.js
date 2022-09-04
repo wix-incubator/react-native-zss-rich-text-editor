@@ -165,6 +165,9 @@ export const InjectedMessageHandler = `
           var text = zss_editor.getInputFieldText(action.data);
           WebViewBridge.send(JSON.stringify({type: '${messages.INPUT_FIELD_TEXT_RESPONSE}', data: text, key: action.data}));
           break;
+        case '${actions.setScheduleSendDate}':
+          var data = zss_editor.setScheduleSendDate(action.data);
+          break;
         case '${actions.setInputFieldText}':
           zss_editor.setInputFieldText(action.data);
           break;

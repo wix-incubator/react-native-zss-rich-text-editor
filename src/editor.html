@@ -1786,6 +1786,16 @@
 			this.removeElementByClass('schedule_wrapper');
 		}
 
+		zss_editor.setScheduleSendDate = function(data) {
+			let { scheduleDate} = data;
+			let dateSpan = $('.scheduled_date')[0];
+			if (!dateSpan){
+				// create the schedule from scratch
+				zss_editor.insertInputField(data)
+			}
+			dateSpan.innerText = scheduleDate;
+		}
+
 		zss_editor.removeElementByClass = function(className) {
 			const elementToBeRemoved = $(`.${className}`)[0];
 			elementToBeRemoved.parentNode.removeChild(elementToBeRemoved);

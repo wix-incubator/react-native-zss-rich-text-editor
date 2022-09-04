@@ -573,6 +573,10 @@ export default class RichTextEditor extends Component {
     });
   }
 
+  async setScheduleSendDate(scheduleObj) {
+    this._sendAction(actions.setScheduleSendDate, scheduleObj);
+  }
+
   async getInputFieldText(fieldKey) {
     return new Promise((resolve, reject) => {
       this.inputFieldResolves[fieldKey] = resolve;

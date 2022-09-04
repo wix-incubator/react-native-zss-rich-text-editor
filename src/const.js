@@ -9,6 +9,7 @@ export const actions = {
   showTitle: 'SHOW_TITLE',
   getContentHtml: 'GET_CONTENT_HTML',
   getInputFieldText: 'GET_INPUT_FIELD_TEXT',
+  setScheduleSendDate: 'SET_SCHEDULE_SEND_DATE',
   setInputFieldText: 'SET_INPUT_FIELD_TEXT',
   deleteScheduleSend: 'DELETE_SCHEDULE_SEND',
   focusInputField: 'FOCUS_INPUT_FIELD',
