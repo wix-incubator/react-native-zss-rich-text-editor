@@ -1054,12 +1054,12 @@
 			WebViewBridge.send(JSON.stringify({type: 'ADD_RECIPIENT'}))
 		}
 
-		zss_editor.cancelScheduledSend=function (e){
-			e.stopPropagation();
+		zss_editor.cancelScheduledSend=function (event){
+			event.stopPropagation();
 			WebViewBridge.send(JSON.stringify({type: 'CANCEL_SCHEDULE_SEND'}))
 		}
 
-		zss_editor.openScheduledSendMenu=function (e){
+		zss_editor.openScheduledSendMenu=function (){
 			WebViewBridge.send(JSON.stringify({type: 'OPEN_SCHEDULE_MENU'}))
 		}
 
@@ -1086,15 +1086,15 @@
 			inputElStr += '>';
 			if (key === "schedule_send_field") {
 				if (scheduleDate) {
-					let scheduleLi = $('<li class="zss_editor_field_li schedule_wrapper"> ' +
-							'<div onclick="zss_editor.cancelScheduledSend()"> class="schedule_date_wrapper"' +
+					let scheduleLi = $('<li class="zss_editor_field_li schedule_wrapper" onclick="zss_editor.openScheduledSendMenu()"> ' +
+							'<div class="schedule_date_wrapper">' +
 							'<img class="clock_icon"' +
 							' src="https://res.cloudinary.com/honeybook/image/upload/v1658929714/system_web/svg_icons/clock-forward-16.svg" alt="clock"/>' +
 							'<span class="scheduled_text"> SCHEDULED </span>' +
 							'<span class="scheduled_date">' + scheduleDate +  '</span>' +
 							'</div>' +
 							'<div class="trash_wrapper">' +
-							'<img src="https://res.cloudinary.com/honeybook/image/upload/v1659966072/system_web/svg_icons/trash-24.svg" class="trash_icon" onclick="zss_editor.cancelScheduledSend(e)" />' +
+							'<img src="https://res.cloudinary.com/honeybook/image/upload/v1659966072/system_web/svg_icons/trash-24.svg" class="trash_icon" onclick="zss_editor.cancelScheduledSend(event)" />' +
 							'</div>' +
 							+ '</li>');
 					ul.prepend(scheduleLi);

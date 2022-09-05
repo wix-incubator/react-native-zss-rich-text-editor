@@ -237,7 +237,7 @@ export default class RichTextEditor extends Component {
         }
 
         case messages.OPEN_SCHEDULE_MENU:{
-          this.props.openScheduledSendMenu && this.props.openScheduledSendMenu();
+          this.props.openScheduleEmail && this.props.openScheduleEmail();
           break;
         }
       }
