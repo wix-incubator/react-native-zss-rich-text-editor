@@ -235,6 +235,11 @@ export default class RichTextEditor extends Component {
           this.props.cancelScheduleSend && this.props.cancelScheduleSend();
           break;
         }
+
+        case messages.OPEN_SCHEDULE_MENU:{
+          this.props.openScheduledSendMenu && this.props.openScheduledSendMenu();
+          break;
+        }
       }
     } catch(e) {
       //alert('NON JSON MESSAGE');
