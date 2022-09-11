@@ -2,9 +2,37 @@ import {actions, messages} from './const';
 
 export const InjectedMessageHandler = `
   if (WebViewBridge) {
-    WebViewBridge.onMessage = function (message) {
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+    const hbAtob = function(input){
+        let i = 0;
+        let bc = 0;
+        let bs = 0;
+        let buffer;
+        let output = '';
 
-      const action = JSON.parse(message);
+        const str = input.replace(/=+$/, '');
+
+        if (str.length % 4 === 1) {
+          throw new Error(
+            "'RNFirebase.utils.atob' failed: The string to be decoded is not correctly encoded."
+          );
+        }
+
+        for (
+          bc = 0, bs = 0, i = 0;
+          (buffer = str.charAt(i++));
+          ~buffer && ((bs = bc % 4 ? bs * 64 + buffer : buffer), bc++ % 4)
+            ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
+            : 0
+        ) {
+          buffer = CHARS.indexOf(buffer);
+        }
+
+        return output;
+      };
+
+    WebViewBridge.onMessage = function (message) {
+      const action = JSON.parse(decodeURIComponent(escape(hbAtob(message))));
 
       switch(action.type) {
         case '${actions.enableOnChange}':
@@ -109,11 +137,17 @@ export const InjectedMessageHandler = `
         case '${actions.setOutdent}':
           zss_editor.setOutdent();
           break;
+        case '${actions.insertInputField}':
+          zss_editor.insertInputField(action.data);
+          break;
         case '${actions.setTitlePlaceholder}':
           zss_editor.setTitlePlaceholder(action.data);
           break;
         case '${actions.setContentPlaceholder}':
           zss_editor.setContentPlaceholder(action.data);
+          break;
+        case '${actions.addRecipient}':
+          WebViewBridge.send(JSON.stringify({type: '${messages.ADD_RECIPIENT}'}));
           break;
         case '${actions.getTitleHtml}':
           var html = zss_editor.getTitleHTML();
@@ -127,12 +161,31 @@ export const InjectedMessageHandler = `
           var html = zss_editor.getContentHTML();
           WebViewBridge.send(JSON.stringify({type: '${messages.CONTENT_HTML_RESPONSE}', data: html}));
           break;
+        case '${actions.getInputFieldText}':
+          var text = zss_editor.getInputFieldText(action.data);
+          WebViewBridge.send(JSON.stringify({type: '${messages.INPUT_FIELD_TEXT_RESPONSE}', data: text, key: action.data}));
+          break;
+        case '${actions.setScheduleSendDate}':
+          var data = zss_editor.setScheduleSendDate(action.data);
+          break;
+        case '${actions.setInputFieldText}':
+          zss_editor.setInputFieldText(action.data);
+          break;
+        case '${actions.deleteScheduleSend}':
+          zss_editor.deleteScheduleSend();
+          break;
+        case '${actions.focusInputField}':
+          zss_editor.focusInputField(action.data);
+          break;        
+        case '${actions.blurInputField}':
+          zss_editor.blurInputField(action.data);
+          break;
         case '${actions.setTitleFocusHandler}':
           zss_editor.setTitleFocusHandler();
           break;
         case '${actions.setContentFocusHandler}':
           zss_editor.setContentFocusHandler();
-          break;
+          break; 
         case '${actions.getSelectedText}':
           var selectedText = getSelection().toString();
           WebViewBridge.send(JSON.stringify({type: '${messages.SELECTED_TEXT_RESPONSE}', data: selectedText}));

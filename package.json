@@ -2,17 +2,17 @@
   "name": "react-native-zss-rich-text-editor",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wix/react-native-zss-rich-text-editor.git"
+    "url": "https://github.com/HoneyBook/react-native-zss-rich-text-editor.git"
   },
-  "version": "1.1.0",
+  "version": "1.2.10",
   "description": "React Native Wrapper for ZSSRichTextEditor",
   "main": "index.js",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "react-native-webview-bridge-updated": "^1.0.0"
+    "react-native-webview-bridge": "github:HoneyBook/react-native-webview-bridge.git"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": ">=0.31.0"
+    "react-native": "0.66.4"
   }
 }
